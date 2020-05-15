@@ -2,6 +2,7 @@ package Analizadores.Lienzos;
 
 import Objetos.Atributo;
 import Objetos.ColorP;
+import Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ action code {:
                         if(color.getHex()!=null){
                             listErrores.add("Ya existe un valor asignado, atributo Hexadecimal en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                         }else{
-                            color.setRed((Integer) atributo.getValor());
+                            color.setRed(Integer.parseInt(atributo.getValor().toString()));
                         }
                     }
                     break;
@@ -32,7 +33,7 @@ action code {:
                         if(color.getHex()!=null){
                             listErrores.add("Ya existe un valor asignado, atributo Hexadecimal, error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                         }else{
-                            color.setBlue((Integer) atributo.getValor());
+                            color.setBlue(Integer.parseInt(atributo.getValor().toString()));
                         }
                     }
                     break;
@@ -44,7 +45,7 @@ action code {:
                         if(color.getHex()!=null){
                             listErrores.add("Ya existe un valor asignado, atributo Hexadecimal error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                         }else{
-                            color.setGreen((Integer) atributo.getValor());
+                            color.setGreen(Integer.parseInt(atributo.getValor().toString()));
                         }
                     }
                     break;
@@ -96,7 +97,7 @@ action code {:
                     if(lienzoTemp.getCuadros()!=(-1)){
                         listErrores.add("Ya existe un valor asignado, atributo cuadros repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        lienzoTemp.setCuadros((Integer) atributo.getValor());
+                        lienzoTemp.setCuadros(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -104,7 +105,7 @@ action code {:
                     if(lienzoTemp.getdX()!=(-1)){
                         listErrores.add("Ya existe un valor asignado, atributo Dimension_x repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        lienzoTemp.setdX((Integer) atributo.getValor());
+                        lienzoTemp.setdX(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -112,7 +113,7 @@ action code {:
                     if(lienzoTemp.getdY()!=(-1)){
                         listErrores.add("Ya existe un valor asignado, atributo Dimension_y repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        lienzoTemp.setdY((Integer) atributo.getValor());
+                        lienzoTemp.setdY(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -188,8 +189,8 @@ parser code {:
             String message = "";
             StringBuilder m = new StringBuilder("Error:");
             String cadena = s.value.toString();
-            int linea = (s.left+1);
-            int columna = (s.right+1);
+            int linea = (((Token)s.value).getLinea());
+            int columna = (((Token)s.value).getColumna());
             switch(s.toString()){
             }
             listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
@@ -199,10 +200,9 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner). */
 terminal Token         PR_LIENZOS, LLAVE_A, LLAVE_C, ASIGNACION, PR_NOMBRE, PR_TIPO, COMA, PR_FONDO, PR_TAMANO, PR_CUADRO, PR_DX, PR_DY, PR_RED;
-terminal Token         PR_GREEN, PR_BLUE, PR_HEX, COMILLA, FIN_LINEA;
-
-terminal String        ID, HEX, EXTENSION;
-terminal int           ENTERO;
+terminal Token         PR_GREEN, PR_BLUE, PR_HEX, COMILLA;
+terminal Token         ID, HEX, EXTENSION;
+terminal Token         ENTERO;
 
 non terminal List<Lienzo>               S, strLienzos;
 non terminal Lienzo                     inicioLienzo;
@@ -241,7 +241,7 @@ strLienzos ::=      strLienzos:listLienzos COMA inicioLienzo:lienzo {:
 inicioLienzo ::=    ID:id ASIGNACION LLAVE_A strLienzo:listAtributos LLAVE_C{:
                             Lienzo lienzo = new Lienzo();
                             inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
-                            lienzo.setId(id);
+                            lienzo.setId(id.getLexema());
                             lienzo.setLineaT(cur_token.left);
                             lienzo.setColumnaT(cur_token.right);
                             RESULT = lienzo;
@@ -271,33 +271,33 @@ paramFondo ::=      paramFondo:listAtributos COMA paramFondoSolo:atributo {:
                     ;
 
 paramFondoSolo ::=  PR_RED ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Red", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Red", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     |PR_BLUE ASIGNACION ENTERO:valor{:
-                            Atributo atributo = new Atributo("Blue", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Blue", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     |PR_GREEN ASIGNACION ENTERO:valor{:
-                            Atributo atributo = new Atributo("Green", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Green", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     |PR_HEX ASIGNACION HEX:valor{:
-                            Atributo atributo = new Atributo("Hexadecimal", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     ;
                   
 paramTamanoSolo::=  PR_CUADRO ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Pixeles", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Pixeles", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     |PR_DX ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Dimension_x", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Dimension_x", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     |PR_DY ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Dimension_y", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Dimension_y", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         :}
                     ;
@@ -315,12 +315,12 @@ paramTamano::=      paramTamano:listAtributos COMA paramTamanoSolo:atributo {:
   
 paramLienzo ::=     PR_NOMBRE ASIGNACION COMILLA ID:id COMILLA{:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Id", id, cur_token.left+1, cur_token.right+1));
+                            atributos.add(new Atributo("Id", id.getLexema(), cur_token.left+1, cur_token.right+1));
                             RESULT = atributos;
                         :}
                     |PR_TIPO ASIGNACION COMILLA EXTENSION:extension COMILLA{:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Extension", extension, cur_token.left+1, cur_token.right+1));
+                            atributos.add(new Atributo("Tipo", extension.getLexema(), cur_token.left+1, cur_token.right+1));
                             RESULT = atributos;
                         :}
                     |PR_FONDO ASIGNACION LLAVE_A paramFondo:listAtributosFondo LLAVE_C{:

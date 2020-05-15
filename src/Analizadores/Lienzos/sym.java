@@ -9,18 +9,17 @@ package Analizadores.Lienzos;
 public class sym {
   /* terminals */
   public static final int PR_LIENZOS = 2;
-  public static final int FIN_LINEA = 19;
   public static final int PR_BLUE = 16;
   public static final int PR_FONDO = 9;
   public static final int PR_CUADRO = 11;
   public static final int PR_TIPO = 7;
   public static final int PR_DY = 13;
-  public static final int ID = 20;
+  public static final int ID = 19;
   public static final int PR_DX = 12;
-  public static final int HEX = 21;
+  public static final int HEX = 20;
   public static final int COMA = 8;
   public static final int ASIGNACION = 5;
-  public static final int EXTENSION = 22;
+  public static final int EXTENSION = 21;
   public static final int EOF = 0;
   public static final int COMILLA = 18;
   public static final int error = 1;
@@ -28,7 +27,7 @@ public class sym {
   public static final int LLAVE_C = 4;
   public static final int LLAVE_A = 3;
   public static final int PR_RED = 14;
-  public static final int ENTERO = 23;
+  public static final int ENTERO = 22;
   public static final int PR_HEX = 17;
   public static final int PR_TAMANO = 10;
   public static final int PR_NOMBRE = 6;
@@ -52,7 +51,6 @@ public class sym {
   "PR_BLUE",
   "PR_HEX",
   "COMILLA",
-  "FIN_LINEA",
   "ID",
   "HEX",
   "EXTENSION",

@@ -7,6 +7,7 @@ package Analizadores.Lienzos;
 
 import Objetos.Atributo;
 import Objetos.ColorP;
+import Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,26 +56,26 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
     "\000\110\000\006\003\004\005\006\001\002\000\004\005" +
     "\112\001\002\000\004\002\111\001\002\000\004\004\007" +
     "\001\002\000\004\007\010\001\002\000\004\005\011\001" +
-    "\002\000\004\026\013\001\002\000\006\006\106\012\105" +
+    "\002\000\004\025\013\001\002\000\006\006\106\012\105" +
     "\001\002\000\004\007\015\001\002\000\006\006\ufffd\012" +
     "\ufffd\001\002\000\004\005\016\001\002\000\014\003\020" +
     "\010\022\011\025\013\021\014\024\001\002\000\006\006" +
     "\103\012\102\001\002\000\004\012\101\001\002\000\004" +
     "\007\056\001\002\000\004\007\052\001\002\000\006\006" +
     "\ufffa\012\ufffa\001\002\000\004\007\032\001\002\000\004" +
-    "\007\026\001\002\000\004\024\027\001\002\000\004\030" +
+    "\007\026\001\002\000\004\024\027\001\002\000\004\027" +
     "\030\001\002\000\004\024\031\001\002\000\006\006\uffed" +
     "\012\uffed\001\002\000\004\005\033\001\002\000\010\015" +
     "\035\016\034\017\040\001\002\000\004\007\050\001\002" +
     "\000\004\007\046\001\002\000\006\006\uffef\012\uffef\001" +
     "\002\000\006\006\044\012\043\001\002\000\004\007\041" +
-    "\001\002\000\004\031\042\001\002\000\006\006\ufff1\012" +
+    "\001\002\000\004\030\042\001\002\000\006\006\ufff1\012" +
     "\ufff1\001\002\000\010\015\035\016\034\017\040\001\002" +
     "\000\006\006\uffeb\012\uffeb\001\002\000\006\006\ufff0\012" +
-    "\ufff0\001\002\000\004\031\047\001\002\000\006\006\ufff3" +
-    "\012\ufff3\001\002\000\004\031\051\001\002\000\006\006" +
+    "\ufff0\001\002\000\004\030\047\001\002\000\006\006\ufff3" +
+    "\012\ufff3\001\002\000\004\030\051\001\002\000\006\006" +
     "\ufff2\012\ufff2\001\002\000\004\024\053\001\002\000\004" +
-    "\026\054\001\002\000\004\024\055\001\002\000\006\006" +
+    "\025\054\001\002\000\004\024\055\001\002\000\006\006" +
     "\uffee\012\uffee\001\002\000\004\005\057\001\002\000\012" +
     "\020\061\021\063\022\062\023\060\001\002\000\004\007" +
     "\077\001\002\000\004\007\075\001\002\000\004\007\073" +
@@ -82,14 +83,14 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
     "\066\001\002\000\006\006\ufff8\012\ufff8\001\002\000\012" +
     "\020\061\021\063\022\062\023\060\001\002\000\006\006" +
     "\uffec\012\uffec\001\002\000\006\006\ufff9\012\ufff9\001\002" +
-    "\000\004\031\072\001\002\000\006\006\ufff5\012\ufff5\001" +
-    "\002\000\004\031\074\001\002\000\006\006\ufff6\012\ufff6" +
-    "\001\002\000\004\031\076\001\002\000\006\006\ufff7\012" +
-    "\ufff7\001\002\000\004\027\100\001\002\000\006\006\ufff4" +
+    "\000\004\030\072\001\002\000\006\006\ufff5\012\ufff5\001" +
+    "\002\000\004\030\074\001\002\000\006\006\ufff6\012\ufff6" +
+    "\001\002\000\004\030\076\001\002\000\006\006\ufff7\012" +
+    "\ufff7\001\002\000\004\026\100\001\002\000\006\006\ufff4" +
     "\012\ufff4\001\002\000\006\006\uffea\012\uffea\001\002\000" +
     "\014\003\020\010\022\011\025\013\021\014\024\001\002" +
     "\000\006\006\ufffc\012\ufffc\001\002\000\006\006\ufffb\012" +
-    "\ufffb\001\002\000\004\026\013\001\002\000\004\006\107" +
+    "\ufffb\001\002\000\004\025\013\001\002\000\004\006\107" +
     "\001\002\000\004\002\000\001\002\000\006\006\ufffe\012" +
     "\ufffe\001\002\000\004\002\001\001\002\000\004\002\uffff" +
     "\001\002" });
@@ -187,8 +188,8 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
             String message = "";
             StringBuilder m = new StringBuilder("Error:");
             String cadena = s.value.toString();
-            int linea = (s.left+1);
-            int columna = (s.right+1);
+            int linea = (((Token)s.value).getLinea());
+            int columna = (((Token)s.value).getColumna());
             switch(s.toString()){
             }
             listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
@@ -212,7 +213,7 @@ class CUP$ParserLienzo$actions {
                         if(color.getHex()!=null){
                             listErrores.add("Ya existe un valor asignado, atributo Hexadecimal en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                         }else{
-                            color.setRed((Integer) atributo.getValor());
+                            color.setRed(Integer.parseInt(atributo.getValor().toString()));
                         }
                     }
                     break;
@@ -224,7 +225,7 @@ class CUP$ParserLienzo$actions {
                         if(color.getHex()!=null){
                             listErrores.add("Ya existe un valor asignado, atributo Hexadecimal, error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                         }else{
-                            color.setBlue((Integer) atributo.getValor());
+                            color.setBlue(Integer.parseInt(atributo.getValor().toString()));
                         }
                     }
                     break;
@@ -236,7 +237,7 @@ class CUP$ParserLienzo$actions {
                         if(color.getHex()!=null){
                             listErrores.add("Ya existe un valor asignado, atributo Hexadecimal error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                         }else{
-                            color.setGreen((Integer) atributo.getValor());
+                            color.setGreen(Integer.parseInt(atributo.getValor().toString()));
                         }
                     }
                     break;
@@ -288,7 +289,7 @@ class CUP$ParserLienzo$actions {
                     if(lienzoTemp.getCuadros()!=(-1)){
                         listErrores.add("Ya existe un valor asignado, atributo cuadros repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        lienzoTemp.setCuadros((Integer) atributo.getValor());
+                        lienzoTemp.setCuadros(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -296,7 +297,7 @@ class CUP$ParserLienzo$actions {
                     if(lienzoTemp.getdX()!=(-1)){
                         listErrores.add("Ya existe un valor asignado, atributo Dimension_x repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        lienzoTemp.setdX((Integer) atributo.getValor());
+                        lienzoTemp.setdX(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -304,7 +305,7 @@ class CUP$ParserLienzo$actions {
                     if(lienzoTemp.getdY()!=(-1)){
                         listErrores.add("Ya existe un valor asignado, atributo Dimension_y repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        lienzoTemp.setdY((Integer) atributo.getValor());
+                        lienzoTemp.setdY(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -460,14 +461,14 @@ class CUP$ParserLienzo$actions {
               Lienzo RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).value;
+		Token id = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).value;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
 		int listAtributosright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
 		List<Atributo> listAtributos = (List<Atributo>)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
 		
                             Lienzo lienzo = new Lienzo();
                             inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
-                            lienzo.setId(id);
+                            lienzo.setId(id.getLexema());
                             lienzo.setLineaT(cur_token.left);
                             lienzo.setColumnaT(cur_token.right);
                             RESULT = lienzo;
@@ -550,9 +551,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		int valor = (int)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Red", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Red", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -565,9 +566,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		int valor = (int)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Blue", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Blue", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -580,9 +581,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		int valor = (int)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Green", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Green", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -595,9 +596,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		String valor = (String)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Hexadecimal", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -610,9 +611,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		int valor = (int)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Pixeles", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Pixeles", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramTamanoSolo",8, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -625,9 +626,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		int valor = (int)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Dimension_x", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Dimension_x", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramTamanoSolo",8, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -640,9 +641,9 @@ class CUP$ParserLienzo$actions {
               Atributo RESULT =null;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
-		int valor = (int)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Dimension_y", valor, cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Dimension_y", valor.getLexema(), cur_token.left+1, cur_token.right+1);
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramTamanoSolo",8, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -689,10 +690,10 @@ class CUP$ParserLienzo$actions {
               List<Atributo> RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
+		Token id = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
 		
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Id", id, cur_token.left+1, cur_token.right+1));
+                            atributos.add(new Atributo("Id", id.getLexema(), cur_token.left+1, cur_token.right+1));
                             RESULT = atributos;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramLienzo",6, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -705,10 +706,10 @@ class CUP$ParserLienzo$actions {
               List<Atributo> RESULT =null;
 		int extensionleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
 		int extensionright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
-		String extension = (String)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
+		Token extension = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
 		
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Extension", extension, cur_token.left+1, cur_token.right+1));
+                            atributos.add(new Atributo("Tipo", extension.getLexema(), cur_token.left+1, cur_token.right+1));
                             RESULT = atributos;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramLienzo",6, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
