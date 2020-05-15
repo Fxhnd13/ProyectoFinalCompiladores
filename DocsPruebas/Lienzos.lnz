@@ -1,1 +1,31 @@
-Esta es una prueba de lienzos alv
+{
+    LIENZOS:{
+   	 lienzoId1:{
+   		 nombre:"lienzo 1",
+   		 tipo:"png",
+   		 Fondo:{
+   			 Red: 25,
+   			 Blue: 89,
+   			 Green: 45
+   		 },
+   		 tamaño:{
+   			 cuadro: 50,
+   			 dimension_x: 12,
+                                    dimension_y: 10
+   		 }
+   	 },
+   otroLienzo:{
+   		 tipo:"gif",
+   		 tamaño:{
+   			 cuadro: 100,
+   			 dimension_x: 12,
+                                    dimension_y: 12
+   		 },
+   		 nombre:"lienzo 2",
+   		 Fondo:{
+   			 HEX: #AB254C
+   		 }
+   	 }
+    }
+}
+

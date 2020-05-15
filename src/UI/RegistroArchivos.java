@@ -45,7 +45,7 @@ public class RegistroArchivos {
                     FileReader f = new FileReader(archivo);
                     BufferedReader b = new BufferedReader(f);
                     while((cadena = b.readLine())!=null) {
-                        contenido += cadena;
+                        contenido += cadena+"\n";
                     }
                     tab = new InputTab(archivo.getName().substring(0, archivo.getName().length()-4), archivo);
                     tab.getTextArea().setText(contenido);
@@ -79,7 +79,7 @@ public class RegistroArchivos {
             PrintWriter pw = null;
             try
             {
-                fichero = new FileWriter(archivo);
+                fichero = new FileWriter(tab.getOrigin());
                 pw = new PrintWriter(fichero);
 
                 pw.print(tab.getText());

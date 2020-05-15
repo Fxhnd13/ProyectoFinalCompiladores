@@ -5,10 +5,15 @@
  */
 package UI;
 
+import Analizadores.Lienzos.LexerLienzo;
+import Analizadores.Lienzos.ParserLienzo;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -50,6 +55,7 @@ public class Editor extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,9 +124,22 @@ public class Editor extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem6);
 
+        jMenuItem8.setText("jMenuItem8");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem8);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Analizar");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -208,6 +227,29 @@ public class Editor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        addLienzoTab();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        try {
+            int index = PanelArchivos.getSelectedIndex();
+            String texto = ((InputTab) PanelArchivos.getComponentAt(index)).getTextArea().getText();
+            LexerLienzo lexer = new LexerLienzo(new StringReader(texto));
+            ParserLienzo parser = new ParserLienzo(lexer);
+            parser.parse();
+            if(parser.getErrores().isEmpty()){
+                System.out.println("No hubo ningun error");
+            }else{
+                for (String error : parser.getErrores()) {
+                    System.out.println(error);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenu2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -249,6 +291,11 @@ public class Editor extends javax.swing.JFrame {
             if(((InputTab)component).getExtension().equals(extension)) valor = true;
         }
         return valor;
+    }
+    
+    private void addLienzoTab(){
+        PanelLienzo lienzo = new PanelLienzo();
+        this.PanelArchivos.addTab("lienzo",lienzo);
     }
     
     private void addTab(String extension){
@@ -326,5 +373,6 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
 }
