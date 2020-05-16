@@ -12,14 +12,23 @@ package Objetos;
 public class Token {
  
     private String lexema;
-    private int linea, columna;
+    private int linea, columna, tipo;
     
-    public Token(String lexema, int linea, int columna){
+    public Token(String lexema, int linea, int columna, int tipo){
         this.lexema = lexema; 
         this.linea = linea;
         this.columna = columna;
+        this.tipo = tipo;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    
     public String getLexema() {
         return lexema;
     }

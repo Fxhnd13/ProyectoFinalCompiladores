@@ -7,11 +7,14 @@ package UI;
 
 import Analizadores.Lienzos.LexerLienzo;
 import Analizadores.Lienzos.ParserLienzo;
+import Objetos.Lienzo;
+import Objetos.Token;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.StringReader;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -42,6 +45,13 @@ public class Editor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        DialogoReporteAnalisis = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextAreaReporteLexico = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TextAreaReporteSintactico = new javax.swing.JTextArea();
         PanelArchivos = new javax.swing.JTabbedPane();
         jLabel1 = new javax.swing.JLabel();
         InformacionLabel = new javax.swing.JLabel();
@@ -57,6 +67,72 @@ public class Editor extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+
+        DialogoReporteAnalisis.setSize(new java.awt.Dimension(1250, 450));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Analisis Lexico"));
+
+        TextAreaReporteLexico.setColumns(20);
+        TextAreaReporteLexico.setRows(5);
+        jScrollPane1.setViewportView(TextAreaReporteLexico);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Analisis Sintactico"));
+
+        TextAreaReporteSintactico.setColumns(20);
+        TextAreaReporteSintactico.setRows(5);
+        jScrollPane2.setViewportView(TextAreaReporteSintactico);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout DialogoReporteAnalisisLayout = new javax.swing.GroupLayout(DialogoReporteAnalisis.getContentPane());
+        DialogoReporteAnalisis.getContentPane().setLayout(DialogoReporteAnalisisLayout);
+        DialogoReporteAnalisisLayout.setHorizontalGroup(
+            DialogoReporteAnalisisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogoReporteAnalisisLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        DialogoReporteAnalisisLayout.setVerticalGroup(
+            DialogoReporteAnalisisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DialogoReporteAnalisisLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(DialogoReporteAnalisisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -153,8 +229,8 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(InformacionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(435, Short.MAX_VALUE))
+                .addComponent(InformacionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,14 +313,25 @@ public class Editor extends javax.swing.JFrame {
             String texto = ((InputTab) PanelArchivos.getComponentAt(index)).getTextArea().getText();
             LexerLienzo lexer = new LexerLienzo(new StringReader(texto));
             ParserLienzo parser = new ParserLienzo(lexer);
-            parser.parse();
-            if(parser.getErrores().isEmpty()){
-                System.out.println("No hubo ningun error");
-            }else{
-                for (String error : parser.getErrores()) {
-                    System.out.println(error);
-                }
+            List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
+            String reporteFinal = "";
+            for (Lienzo lienzo : lienzos) {
+                reporteFinal+=("Se creo un lienzo con ("+lienzo.getExtension()+","+lienzo.getId()+","+lienzo.getIdSalida()+","+lienzo.getFondo()+"\n");
             }
+            String reporteErrores = "";
+            for (String error : parser.getErrores()) {
+                reporteErrores+=(error+"\n");
+            }
+            String tokens = "";
+            for (Token token : lexer.getTokensList()) {
+                tokens+=("Token tipo "+token.getTipo()+"|lexema: "+token.getLexema()+"|linea: "+token.getLinea()+"|Columna: "+token.getColumna()+"\n");
+            }
+            
+            TextAreaReporteLexico.setText(tokens);
+            String finalSintactico = reporteFinal + "\n**********************ERRORES**********************\n"+reporteErrores;
+            TextAreaReporteSintactico.setText(finalSintactico);
+            DialogoReporteAnalisis.setVisible(true);
+            
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -304,7 +391,8 @@ public class Editor extends javax.swing.JFrame {
             newTab = new InputTab("Pestaña de " +extension);//si no se cargo un archivo, este sera el nombre predeterminado
         }else{//si entra aqui es porque se cargo un archivo
             newTab = RegistroArchivos.cargarArchivo();//cargamos el archivo en el tab
-            extension = newTab.getOrigin().getAbsolutePath().substring(newTab.getOrigin().getAbsolutePath().length()-3, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
+            int posicionPunto = newTab.getOrigin().getAbsolutePath().lastIndexOf(".")+1;
+            extension = newTab.getOrigin().getAbsolutePath().substring(posicionPunto, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
         }
         if(newTab != null){
             newTab.setExtension(extension);
@@ -359,8 +447,11 @@ public class Editor extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog DialogoReporteAnalisis;
     private javax.swing.JLabel InformacionLabel;
     private javax.swing.JTabbedPane PanelArchivos;
+    private javax.swing.JTextArea TextAreaReporteLexico;
+    private javax.swing.JTextArea TextAreaReporteSintactico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -374,5 +465,10 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

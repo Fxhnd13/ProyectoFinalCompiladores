@@ -350,20 +350,25 @@ public class LexerLienzo implements java_cup.runtime.Scanner {
 
   /* user code: */
     private List<String> errorsList;
+    private List<Token> tokens;
 
     private Symbol symbol(int type) {
         String lexeme = yytext();
-        System.out.printf("Token tipo %d, lexeme %s, en linea %d, columna %d\n", type, lexeme == null ? "" : lexeme, yyline + 1, yycolumn + 1);
-        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1));
+        tokens.add(new Token(lexeme, yyline+1, yycolumn+1, type));
+        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1, type));
     }
 
     private Symbol symbol(int type, String lexeme) {
-        System.out.printf("Token tipo %d, lexeme %s, en linea %d, columna %d\n", type, lexeme == null ? "" : lexeme, yyline + 1, yycolumn + 1);
-        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1));
+        tokens.add(new Token(lexeme, yyline+1, yycolumn+1, type));
+        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1, type));
     }
 
     private void error(String lexeme) {
         errorsList.add("Se encontro un caracter/simbolo desconocido en la linea: "+yyline+", columna: "+yycolumn+" con el simbolo "+lexeme);
+    }
+
+    public List<Token> getTokensList(){
+        return tokens;
     }
 
     public List<String> getErrorsList() {
@@ -377,7 +382,8 @@ public class LexerLienzo implements java_cup.runtime.Scanner {
    * @param   in  the java.io.Reader to read input from.
    */
   public LexerLienzo(java.io.Reader in) {
-      errorsList = new ArrayList<>();
+      tokens = new ArrayList<>();
+    errorsList = new ArrayList<>();
     this.zzReader = in;
   }
 

@@ -38,14 +38,15 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\030\000\002\002\004\000\002\002\011\000\002\002" +
-    "\004\000\002\003\005\000\002\003\003\000\002\004\007" +
-    "\000\002\005\005\000\002\005\003\000\002\006\005\000" +
-    "\002\006\003\000\002\011\005\000\002\011\005\000\002" +
-    "\011\005\000\002\011\005\000\002\012\005\000\002\012" +
-    "\005\000\002\012\005\000\002\007\005\000\002\007\003" +
+    "\000\032\000\002\002\004\000\002\002\011\000\002\003" +
+    "\005\000\002\003\003\000\002\004\007\000\002\005\005" +
+    "\000\002\005\003\000\002\006\005\000\002\006\003\000" +
+    "\002\011\005\000\002\011\005\000\002\011\005\000\002" +
+    "\011\005\000\002\012\005\000\002\012\005\000\002\012" +
+    "\005\000\002\007\005\000\002\007\003\000\002\010\007" +
     "\000\002\010\007\000\002\010\007\000\002\010\007\000" +
-    "\002\010\007\000\002\010\004" });
+    "\002\013\004\000\002\013\003\000\002\014\003\000\002" +
+    "\014\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -53,47 +54,48 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\110\000\006\003\004\005\006\001\002\000\004\005" +
-    "\112\001\002\000\004\002\111\001\002\000\004\004\007" +
-    "\001\002\000\004\007\010\001\002\000\004\005\011\001" +
-    "\002\000\004\025\013\001\002\000\006\006\106\012\105" +
-    "\001\002\000\004\007\015\001\002\000\006\006\ufffd\012" +
-    "\ufffd\001\002\000\004\005\016\001\002\000\014\003\020" +
-    "\010\022\011\025\013\021\014\024\001\002\000\006\006" +
-    "\103\012\102\001\002\000\004\012\101\001\002\000\004" +
-    "\007\056\001\002\000\004\007\052\001\002\000\006\006" +
-    "\ufffa\012\ufffa\001\002\000\004\007\032\001\002\000\004" +
-    "\007\026\001\002\000\004\024\027\001\002\000\004\027" +
-    "\030\001\002\000\004\024\031\001\002\000\006\006\uffed" +
-    "\012\uffed\001\002\000\004\005\033\001\002\000\010\015" +
-    "\035\016\034\017\040\001\002\000\004\007\050\001\002" +
-    "\000\004\007\046\001\002\000\006\006\uffef\012\uffef\001" +
-    "\002\000\006\006\044\012\043\001\002\000\004\007\041" +
-    "\001\002\000\004\030\042\001\002\000\006\006\ufff1\012" +
-    "\ufff1\001\002\000\010\015\035\016\034\017\040\001\002" +
-    "\000\006\006\uffeb\012\uffeb\001\002\000\006\006\ufff0\012" +
-    "\ufff0\001\002\000\004\030\047\001\002\000\006\006\ufff3" +
-    "\012\ufff3\001\002\000\004\030\051\001\002\000\006\006" +
-    "\ufff2\012\ufff2\001\002\000\004\024\053\001\002\000\004" +
-    "\025\054\001\002\000\004\024\055\001\002\000\006\006" +
-    "\uffee\012\uffee\001\002\000\004\005\057\001\002\000\012" +
-    "\020\061\021\063\022\062\023\060\001\002\000\004\007" +
-    "\077\001\002\000\004\007\075\001\002\000\004\007\073" +
-    "\001\002\000\004\007\071\001\002\000\006\006\067\012" +
-    "\066\001\002\000\006\006\ufff8\012\ufff8\001\002\000\012" +
-    "\020\061\021\063\022\062\023\060\001\002\000\006\006" +
-    "\uffec\012\uffec\001\002\000\006\006\ufff9\012\ufff9\001\002" +
-    "\000\004\030\072\001\002\000\006\006\ufff5\012\ufff5\001" +
-    "\002\000\004\030\074\001\002\000\006\006\ufff6\012\ufff6" +
-    "\001\002\000\004\030\076\001\002\000\006\006\ufff7\012" +
-    "\ufff7\001\002\000\004\026\100\001\002\000\006\006\ufff4" +
-    "\012\ufff4\001\002\000\006\006\uffea\012\uffea\001\002\000" +
-    "\014\003\020\010\022\011\025\013\021\014\024\001\002" +
-    "\000\006\006\ufffc\012\ufffc\001\002\000\006\006\ufffb\012" +
-    "\ufffb\001\002\000\004\025\013\001\002\000\004\006\107" +
-    "\001\002\000\004\002\000\001\002\000\006\006\ufffe\012" +
-    "\ufffe\001\002\000\004\002\001\001\002\000\004\002\uffff" +
-    "\001\002" });
+    "\000\110\000\004\005\005\001\002\000\004\002\112\001" +
+    "\002\000\004\004\006\001\002\000\004\007\007\001\002" +
+    "\000\004\005\010\001\002\000\004\025\011\001\002\000" +
+    "\004\007\020\001\002\000\006\006\015\012\014\001\002" +
+    "\000\006\006\ufffe\012\ufffe\001\002\000\004\025\011\001" +
+    "\002\000\004\006\016\001\002\000\004\002\000\001\002" +
+    "\000\006\006\uffff\012\uffff\001\002\000\004\005\021\001" +
+    "\002\000\012\010\024\011\027\013\023\014\026\001\002" +
+    "\000\006\006\110\012\107\001\002\000\004\007\064\001" +
+    "\002\000\004\007\054\001\002\000\006\006\ufffb\012\ufffb" +
+    "\001\002\000\004\007\034\001\002\000\004\007\030\001" +
+    "\002\000\004\024\031\001\002\000\004\027\032\001\002" +
+    "\000\004\024\033\001\002\000\006\006\uffee\012\uffee\001" +
+    "\002\000\004\005\035\001\002\000\010\015\037\016\036" +
+    "\017\041\001\002\000\004\007\052\001\002\000\004\007" +
+    "\050\001\002\000\006\006\ufff0\012\ufff0\001\002\000\004" +
+    "\007\046\001\002\000\006\006\044\012\043\001\002\000" +
+    "\010\015\037\016\036\017\041\001\002\000\006\006\uffec" +
+    "\012\uffec\001\002\000\006\006\ufff1\012\ufff1\001\002\000" +
+    "\004\030\047\001\002\000\006\006\ufff2\012\ufff2\001\002" +
+    "\000\004\030\051\001\002\000\006\006\ufff4\012\ufff4\001" +
+    "\002\000\004\030\053\001\002\000\006\006\ufff3\012\ufff3" +
+    "\001\002\000\004\024\055\001\002\000\006\025\056\030" +
+    "\061\001\002\000\010\024\uffe8\025\uffe8\030\uffe8\001\002" +
+    "\000\010\024\uffea\025\uffea\030\uffea\001\002\000\010\024" +
+    "\063\025\056\030\061\001\002\000\010\024\uffe9\025\uffe9" +
+    "\030\uffe9\001\002\000\010\024\uffeb\025\uffeb\030\uffeb\001" +
+    "\002\000\006\006\uffef\012\uffef\001\002\000\004\005\065" +
+    "\001\002\000\012\020\067\021\070\022\072\023\066\001" +
+    "\002\000\004\007\105\001\002\000\004\007\103\001\002" +
+    "\000\004\007\101\001\002\000\006\006\077\012\076\001" +
+    "\002\000\004\007\074\001\002\000\006\006\ufff9\012\ufff9" +
+    "\001\002\000\004\030\075\001\002\000\006\006\ufff7\012" +
+    "\ufff7\001\002\000\012\020\067\021\070\022\072\023\066" +
+    "\001\002\000\006\006\uffed\012\uffed\001\002\000\006\006" +
+    "\ufffa\012\ufffa\001\002\000\004\030\102\001\002\000\006" +
+    "\006\ufff6\012\ufff6\001\002\000\004\030\104\001\002\000" +
+    "\006\006\ufff8\012\ufff8\001\002\000\004\026\106\001\002" +
+    "\000\006\006\ufff5\012\ufff5\001\002\000\012\010\024\011" +
+    "\027\013\023\014\026\001\002\000\006\006\ufffd\012\ufffd" +
+    "\001\002\000\006\006\ufffc\012\ufffc\001\002\000\004\002" +
+    "\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -101,31 +103,31 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\110\000\004\002\004\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\006\003\011\004\013\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\006\005\016\010\022\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\000\110\000\004\002\003\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
+    "\003\011\004\012\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\004\004\016\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\006\007\036\012\035\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\012\044\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\001\000\006\005\021\010\024\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\006\006\063\011\064\001\001\000\002\001\001\000\002" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\011\067\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\001\000\006\007\041\012\037\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\010\103\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\004\107\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001" });
+    "\002\001\001\000\004\012\044\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\006\013\057\014\056\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\014\061" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\006\006\070\011\072\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\004\011\077\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\004\010\110\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -187,12 +189,12 @@ public class ParserLienzo extends java_cup.runtime.lr_parser {
         public void syntax_error(Symbol s){
             String message = "";
             StringBuilder m = new StringBuilder("Error:");
-            String cadena = s.value.toString();
+            String cadena = ((Token)s.value).getLexema();
             int linea = (((Token)s.value).getLinea());
             int columna = (((Token)s.value).getColumna());
             switch(s.toString()){
             }
-            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: <falta implementar>");
         }
         
 
@@ -349,8 +351,10 @@ class CUP$ParserLienzo$actions {
 
     private boolean existeLienzo(Lienzo lienzo, List<Lienzo> lienzos){
         boolean valor = false;
-        for(Lienzo lienzoT : lienzos){
-            if(lienzo.getId().equals(lienzoT.getId())) valor = true;
+        if(lienzos != null){
+            for(Lienzo lienzoT : lienzos){
+                if(lienzo.getId().equals(lienzoT.getId())) valor = true;
+            }
         }
         return valor;
     }
@@ -405,16 +409,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // S ::= error LLAVE_A 
-            {
-              List<Lienzo> RESULT =null;
-
-              CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
-            }
-          return CUP$ParserLienzo$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // strLienzos ::= strLienzos COMA inicioLienzo 
+          case 2: // strLienzos ::= strLienzos COMA inicioLienzo 
             {
               List<Lienzo> RESULT =null;
 		int listLienzosleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
@@ -436,7 +431,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // strLienzos ::= inicioLienzo 
+          case 3: // strLienzos ::= inicioLienzo 
             {
               List<Lienzo> RESULT =null;
 		int lienzoleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
@@ -444,10 +439,8 @@ class CUP$ParserLienzo$actions {
 		Lienzo lienzo = (Lienzo)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
                             ArrayList<Lienzo> listLienzos = new ArrayList<Lienzo>();
-                            if(!existeLienzo(lienzo, listLienzos)){
-                                if(isValido(lienzo)){
-                                    listLienzos.add(lienzo);
-                                }
+                            if(isValido(lienzo)){
+                                listLienzos.add(lienzo);
                             }
                             RESULT = listLienzos;
                         
@@ -456,7 +449,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // inicioLienzo ::= ID ASIGNACION LLAVE_A strLienzo LLAVE_C 
+          case 4: // inicioLienzo ::= ID ASIGNACION LLAVE_A strLienzo LLAVE_C 
             {
               Lienzo RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).left;
@@ -469,8 +462,8 @@ class CUP$ParserLienzo$actions {
                             Lienzo lienzo = new Lienzo();
                             inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
                             lienzo.setId(id.getLexema());
-                            lienzo.setLineaT(cur_token.left);
-                            lienzo.setColumnaT(cur_token.right);
+                            lienzo.setLineaT(id.getLinea());
+                            lienzo.setColumnaT(id.getColumna());
                             RESULT = lienzo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("inicioLienzo",2, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -478,7 +471,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // strLienzo ::= strLienzo COMA paramLienzo 
+          case 5: // strLienzo ::= strLienzo COMA paramLienzo 
             {
               List<Atributo> RESULT =null;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
@@ -498,7 +491,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // strLienzo ::= paramLienzo 
+          case 6: // strLienzo ::= paramLienzo 
             {
               List<Atributo> RESULT =null;
 		int listAtributosDerechaleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
@@ -512,7 +505,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // paramFondo ::= paramFondo COMA paramFondoSolo 
+          case 7: // paramFondo ::= paramFondo COMA paramFondoSolo 
             {
               List<Atributo> RESULT =null;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
@@ -530,7 +523,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // paramFondo ::= paramFondoSolo 
+          case 8: // paramFondo ::= paramFondoSolo 
             {
               List<Atributo> RESULT =null;
 		int atributoleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
@@ -546,14 +539,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // paramFondoSolo ::= PR_RED ASIGNACION ENTERO 
+          case 9: // paramFondoSolo ::= PR_RED ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Red", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Red", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -561,14 +557,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // paramFondoSolo ::= PR_BLUE ASIGNACION ENTERO 
+          case 10: // paramFondoSolo ::= PR_BLUE ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Blue", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Blue", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -576,14 +575,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // paramFondoSolo ::= PR_GREEN ASIGNACION ENTERO 
+          case 11: // paramFondoSolo ::= PR_GREEN ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Green", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Green", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -591,14 +593,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // paramFondoSolo ::= PR_HEX ASIGNACION HEX 
+          case 12: // paramFondoSolo ::= PR_HEX ASIGNACION HEX 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramFondoSolo",7, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -606,14 +611,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // paramTamanoSolo ::= PR_CUADRO ASIGNACION ENTERO 
+          case 13: // paramTamanoSolo ::= PR_CUADRO ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Pixeles", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Pixeles", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramTamanoSolo",8, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -621,14 +629,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // paramTamanoSolo ::= PR_DX ASIGNACION ENTERO 
+          case 14: // paramTamanoSolo ::= PR_DX ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Dimension_x", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Dimension_x", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramTamanoSolo",8, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -636,14 +647,17 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // paramTamanoSolo ::= PR_DY ASIGNACION ENTERO 
+          case 15: // paramTamanoSolo ::= PR_DY ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).value;
 		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
 		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
 		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
 		
-                            Atributo atributo = new Atributo("Dimension_y", valor.getLexema(), cur_token.left+1, cur_token.right+1);
+                            Atributo atributo = new Atributo("Dimension_y", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
                             RESULT = atributo;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramTamanoSolo",8, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -651,7 +665,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // paramTamano ::= paramTamano COMA paramTamanoSolo 
+          case 16: // paramTamano ::= paramTamano COMA paramTamanoSolo 
             {
               List<Atributo> RESULT =null;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-2)).left;
@@ -669,7 +683,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // paramTamano ::= paramTamanoSolo 
+          case 17: // paramTamano ::= paramTamanoSolo 
             {
               List<Atributo> RESULT =null;
 		int atributoleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
@@ -685,15 +699,23 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // paramLienzo ::= PR_NOMBRE ASIGNACION COMILLA ID COMILLA 
+          case 18: // paramLienzo ::= PR_NOMBRE ASIGNACION COMILLA strSalida COMILLA 
             {
               List<Atributo> RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
-		Token id = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).value;
+		int listNombreleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
+		int listNombreright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
+		List<String> listNombre = (List<String>)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
 		
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Id", id.getLexema(), cur_token.left+1, cur_token.right+1));
+                            String idFinal = "";
+                            for(int i = 0; i < listNombre.size(); i++){
+                                idFinal+=listNombre.get(i);
+                                if((i+1) < listNombre.size()) idFinal+=" ";
+                            }
+                            atributos.add(new Atributo("Id", idFinal, dcl.getLinea(), dcl.getColumna()));
                             RESULT = atributos;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramLienzo",6, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -701,15 +723,18 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // paramLienzo ::= PR_TIPO ASIGNACION COMILLA EXTENSION COMILLA 
+          case 19: // paramLienzo ::= PR_TIPO ASIGNACION COMILLA EXTENSION COMILLA 
             {
               List<Atributo> RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).value;
 		int extensionleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
 		int extensionright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
 		Token extension = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
 		
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Tipo", extension.getLexema(), cur_token.left+1, cur_token.right+1));
+                            atributos.add(new Atributo("Tipo", extension.getLexema(), dcl.getLinea(), dcl.getColumna()));
                             RESULT = atributos;
                         
               CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramLienzo",6, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
@@ -717,9 +742,12 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // paramLienzo ::= PR_FONDO ASIGNACION LLAVE_A paramFondo LLAVE_C 
+          case 20: // paramLienzo ::= PR_FONDO ASIGNACION LLAVE_A paramFondo LLAVE_C 
             {
               List<Atributo> RESULT =null;
+		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).left;
+		int dclright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).right;
+		Token dcl = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-4)).value;
 		int listAtributosFondoleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
 		int listAtributosFondoright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
 		List<Atributo> listAtributosFondo = (List<Atributo>)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
@@ -728,7 +756,7 @@ class CUP$ParserLienzo$actions {
                             inicializarColor(color, listAtributosFondo);
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
                             if(isValido(color)){
-                                atributos.add(new Atributo("Fondo", color, cur_token.left+1, cur_token.right+1));
+                                atributos.add(new Atributo("Fondo", color, dcl.getLinea(), dcl.getColumna()));
                             }
                             RESULT = atributos;
                         
@@ -737,7 +765,7 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // paramLienzo ::= PR_TAMANO ASIGNACION LLAVE_A paramTamano LLAVE_C 
+          case 21: // paramLienzo ::= PR_TAMANO ASIGNACION LLAVE_A paramTamano LLAVE_C 
             {
               List<Atributo> RESULT =null;
 		int listAtributosTamanoleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
@@ -751,11 +779,60 @@ class CUP$ParserLienzo$actions {
           return CUP$ParserLienzo$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // paramLienzo ::= error COMA 
+          case 22: // strSalida ::= strSalida paramSalidaSolo 
             {
-              List<Atributo> RESULT =null;
+              List<String> RESULT =null;
+		int listSalidaleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).left;
+		int listSalidaright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).right;
+		List<String> listSalida = (List<String>)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)).value;
+		int parametroleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
+		int parametroright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
+		String parametro = (String)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		
+                            listSalida.add(parametro);
+                            RESULT = listSalida;
+                        
+              CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("strSalida",9, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
+            }
+          return CUP$ParserLienzo$result;
 
-              CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramLienzo",6, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.elementAt(CUP$ParserLienzo$top-1)), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 23: // strSalida ::= paramSalidaSolo 
+            {
+              List<String> RESULT =null;
+		int parametroleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
+		int parametroright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
+		String parametro = (String)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		
+                            ArrayList<String> listSalida = new ArrayList<String>();
+                            listSalida.add(parametro);
+                            RESULT = listSalida;
+                        
+              CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("strSalida",9, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
+            }
+          return CUP$ParserLienzo$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 24: // paramSalidaSolo ::= ENTERO 
+            {
+              String RESULT =null;
+		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
+		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		 RESULT = valor.getLexema(); 
+              CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramSalidaSolo",10, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
+            }
+          return CUP$ParserLienzo$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 25: // paramSalidaSolo ::= ID 
+            {
+              String RESULT =null;
+		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).left;
+		int valorright = ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()).right;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserLienzo$stack.peek()).value;
+		 RESULT = valor.getLexema(); 
+              CUP$ParserLienzo$result = parser.getSymbolFactory().newSymbol("paramSalidaSolo",10, ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserLienzo$stack.peek()), RESULT);
             }
           return CUP$ParserLienzo$result;
 

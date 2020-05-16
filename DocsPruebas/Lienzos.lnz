@@ -1,7 +1,7 @@
 {
     LIENZOS:{
    	 lienzoId1:{
-   		 nombre:"lienzo 1",
+   		 nombre:"lienzo1",
    		 tipo:"png",
    		 Fondo:{
    			 Red: 25,
@@ -21,7 +21,7 @@
    			 dimension_x: 12,
                                     dimension_y: 12
    		 },
-   		 nombre:"lienzo 2",
+   		 nombre:"lienzo2",
    		 Fondo:{
    			 HEX: #AB254C
    		 }
