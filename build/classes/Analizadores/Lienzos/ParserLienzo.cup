@@ -218,142 +218,176 @@ non terminal String                     paramSalidaSolo;
 start with S;
 
 S ::=               LLAVE_A PR_LIENZOS ASIGNACION LLAVE_A strLienzos:listLienzos LLAVE_C LLAVE_C {:
+                        if(listLienzos == null) listLienzos = new ArrayList<Lienzo>();
                         RESULT = listLienzos;
                     :}
                     ;
 
 strLienzos ::=      strLienzos:listLienzos COMA inicioLienzo:lienzo {:
-                            if(!existeLienzo(lienzo, listLienzos)){
-                                if(isValido(lienzo)){
-                                    listLienzos.add(lienzo);
+                            if(listLienzos == null) listLienzos = new ArrayList<Lienzo>();
+                            if(lienzo != null){
+                                if(!existeLienzo(lienzo, listLienzos)){
+                                    if(isValido(lienzo)){
+                                        listLienzos.add(lienzo);
+                                    }
                                 }
                             }
                             RESULT = listLienzos;
                         :}
                     |inicioLienzo:lienzo {:
                             ArrayList<Lienzo> listLienzos = new ArrayList<Lienzo>();
-                            if(isValido(lienzo)){
-                                listLienzos.add(lienzo);
+                            if(lienzo != null){
+                                if(isValido(lienzo)){
+                                    listLienzos.add(lienzo);
+                                }
                             }
                             RESULT = listLienzos;
                         :}
                     ;
 
-inicioLienzo ::=    ID:id ASIGNACION LLAVE_A strLienzo:listAtributos LLAVE_C{:
+inicioLienzo ::=    ID:id ASIGNACION LLAVE_A strLienzo:listAtributos LLAVE_C {:
                             Lienzo lienzo = new Lienzo();
-                            inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
-                            lienzo.setId(id.getLexema());
-                            lienzo.setLineaT(id.getLinea());
-                            lienzo.setColumnaT(id.getColumna());
+                            if(listAtributos != null) inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
+                            if(id != null){
+                                lienzo.setId(id.getLexema());
+                                lienzo.setLineaT(id.getLinea());
+                                lienzo.setColumnaT(id.getColumna());
+                            }
                             RESULT = lienzo;
                         :}
                     ;
 
 strLienzo ::=       strLienzo:listAtributos COMA paramLienzo:listAtributosDerecha {:
-                            for(Atributo atributo : listAtributosDerecha){
-                                listAtributos.add(atributo);
+                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                            if(listAtributosDerecha != null){
+                                for(Atributo atributo : listAtributosDerecha){
+                                    listAtributos.add(atributo);
+                                }
                             }
                             RESULT = listAtributos;
                         :}
                     |paramLienzo:listAtributosDerecha {:
+                            if(listAtributosDerecha == null) listAtributosDerecha = new ArrayList<Atributo>();
                             RESULT = listAtributosDerecha;
                         :}
                     ;
 
 paramFondo ::=      paramFondo:listAtributos COMA paramFondoSolo:atributo {:
-                            listAtributos.add(atributo);
+                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                            if(atributo != null) listAtributos.add(atributo);
                             RESULT = listAtributos;
                         :}
                     |paramFondoSolo:atributo {:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(atributo);
+                            if(atributo != null) atributos.add(atributo);
                             RESULT = atributos;
                         :}
                     ;
 
 paramFondoSolo ::=  PR_RED:dcl ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Red", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Red", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     |PR_BLUE:dcl ASIGNACION ENTERO:valor{:
-                            Atributo atributo = new Atributo("Blue", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Blue", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     |PR_GREEN:dcl ASIGNACION ENTERO:valor{:
-                            Atributo atributo = new Atributo("Green", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Green", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     |PR_HEX:dcl ASIGNACION HEX:valor{:
-                            Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     ;
                   
 paramTamanoSolo::=  PR_CUADRO:dcl ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Pixeles", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Pixeles", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     |PR_DX:dcl ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Dimension_x", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Dimension_x", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     |PR_DY:dcl ASIGNACION ENTERO:valor {:
-                            Atributo atributo = new Atributo("Dimension_y", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
-                            RESULT = atributo;
+                            if(dcl != null && valor != null){
+                                Atributo atributo = new Atributo("Dimension_y", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                RESULT = atributo;
+                            }
                         :}
                     ;
 
 paramTamano::=      paramTamano:listAtributos COMA paramTamanoSolo:atributo {:
-                            listAtributos.add(atributo);
+                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                            if(atributo != null) listAtributos.add(atributo);
                             RESULT = listAtributos;
                         :}
                     |paramTamanoSolo:atributo {:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(atributo);
+                            if(atributo != null) atributos.add(atributo);
                             RESULT = atributos;
                         :}
                     ;
   
 paramLienzo ::=     PR_NOMBRE:dcl ASIGNACION COMILLA strSalida:listNombre COMILLA{:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            String idFinal = "";
-                            for(int i = 0; i < listNombre.size(); i++){
-                                idFinal+=listNombre.get(i);
-                                if((i+1) < listNombre.size()) idFinal+=" ";
+                            if(listNombre != null){
+                                String idFinal = "";
+                                for(int i = 0; i < listNombre.size(); i++){
+                                    idFinal+=listNombre.get(i);
+                                    if((i+1) < listNombre.size()) idFinal+=" ";
+                                }
+                                if(dcl != null) atributos.add(new Atributo("Id", idFinal, dcl.getLinea(), dcl.getColumna()));
                             }
-                            atributos.add(new Atributo("Id", idFinal, dcl.getLinea(), dcl.getColumna()));
                             RESULT = atributos;
                         :}
                     |PR_TIPO:dcl ASIGNACION COMILLA EXTENSION:extension COMILLA{:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            atributos.add(new Atributo("Tipo", extension.getLexema(), dcl.getLinea(), dcl.getColumna()));
+                            if(dcl != null) atributos.add(new Atributo("Tipo", extension.getLexema(), dcl.getLinea(), dcl.getColumna()));
                             RESULT = atributos;
                         :}
                     |PR_FONDO:dcl ASIGNACION LLAVE_A paramFondo:listAtributosFondo LLAVE_C{:
                             ColorP color = new ColorP();
-                            inicializarColor(color, listAtributosFondo);
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            if(isValido(color)){
-                                atributos.add(new Atributo("Fondo", color, dcl.getLinea(), dcl.getColumna()));
+                            if(listAtributosFondo != null){
+                                inicializarColor(color, listAtributosFondo);
+                                if(isValido(color)){
+                                    if(dcl != null) atributos.add(new Atributo("Fondo", color, dcl.getLinea(), dcl.getColumna()));
+                                }
                             }
                             RESULT = atributos;
                         :}
                     |PR_TAMANO ASIGNACION LLAVE_A paramTamano:listAtributosTamano LLAVE_C {:
+                            if(listAtributosTamano == null) listAtributosTamano = new ArrayList<Atributo>();
                             RESULT = listAtributosTamano;
                         :}
                     ;
 
 strSalida ::=       strSalida:listSalida paramSalidaSolo:parametro {:
-                            listSalida.add(parametro);
+                            if(listSalida == null) listSalida = new ArrayList<String>();
+                            if(parametro != null) listSalida.add(parametro);
                             RESULT = listSalida;
                         :}
                     |paramSalidaSolo:parametro{:
                             ArrayList<String> listSalida = new ArrayList<String>();
-                            listSalida.add(parametro);
+                            if(parametro != null) listSalida.add(parametro);
                             RESULT = listSalida;
                         :}
                     ;
 
-paramSalidaSolo ::=  ENTERO:valor {: RESULT = valor.getLexema(); :}
-                    |ID:valor   {: RESULT = valor.getLexema(); :}
+paramSalidaSolo ::=  ENTERO:valor {: if(valor != null) RESULT = valor.getLexema(); :}
+                    |ID:valor   {: if(valor != null) RESULT = valor.getLexema(); :}
                     ;

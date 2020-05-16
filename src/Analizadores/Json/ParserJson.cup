@@ -1,0 +1,54 @@
+package Analizadores.Json;
+
+import Objetos.Atributo;
+import java.util.ArrayList;
+import java.util.List;
+import java_cup.runtime.Symbol;
+import java_cup.runtime.XMLElement;
+
+/* Terminals (tokens returned by the scanner). */
+terminal Token         VALOR, ID, COMA, LLAVE_A, LLAVE_C, ASIGNACION
+
+non terminal List<Atributo>                 Asigs, param;
+non termianl Atributo                       Asig;
+
+/* The grammar */
+
+start with S;
+
+S ::=               LLAVE_A Asigs:atributo {:
+                            if(atributo == null) atributo = new ArrayList<Atributo>();
+                            RESULT = atributo;
+                        :}
+                    ;
+
+Asigs ::=           Asig:atributo AsigsPrima:listAtributos {:
+                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                            if(atributo != null) listAtributos.add(atributo);
+                            RESULT = listAtributos;
+                        :}
+                    ;
+
+AsigsPrima ::=      COMA Asigs {:
+                            
+                        :}
+                    |LLAVE_C
+                    ;
+                    
+Asig ::=            ID:valor ASIGNACION param:listAtributos {:
+                            Atributo atributo = new Atributo();
+                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                            if(valor != null){
+                                if(listAtributos.size()>1){
+                                    atributo.setValor(listAtributos);
+                                    atributo.setTipo(valor.getLexema());
+                                }else{
+                                    if(!listAtributos.isEmpty()) atributo.setValor(listAtributos.get(0));
+                                    atributo.setTipo(valor.getLexema());
+                                }
+                            }
+                        :}
+                    ;
+
+param ::=           VALOR 
+                    |LLAVE_A Asigs

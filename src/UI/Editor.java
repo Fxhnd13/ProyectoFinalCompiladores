@@ -313,10 +313,12 @@ public class Editor extends javax.swing.JFrame {
             String texto = ((InputTab) PanelArchivos.getComponentAt(index)).getTextArea().getText();
             LexerLienzo lexer = new LexerLienzo(new StringReader(texto));
             ParserLienzo parser = new ParserLienzo(lexer);
-            List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
             String reporteFinal = "";
-            for (Lienzo lienzo : lienzos) {
-                reporteFinal+=("Se creo un lienzo con ("+lienzo.getExtension()+","+lienzo.getId()+","+lienzo.getIdSalida()+","+lienzo.getFondo()+"\n");
+            List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
+            if(lienzos != null){
+                for (Lienzo lienzo : lienzos) {
+                    reporteFinal+=("Se creo un lienzo con ("+lienzo.getExtension()+","+lienzo.getId()+","+lienzo.getIdSalida()+","+lienzo.getFondo()+"\n");
+                }
             }
             String reporteErrores = "";
             for (String error : parser.getErrores()) {
@@ -326,12 +328,11 @@ public class Editor extends javax.swing.JFrame {
             for (Token token : lexer.getTokensList()) {
                 tokens+=("Token tipo "+token.getTipo()+"|lexema: "+token.getLexema()+"|linea: "+token.getLinea()+"|Columna: "+token.getColumna()+"\n");
             }
-            
+
             TextAreaReporteLexico.setText(tokens);
             String finalSintactico = reporteFinal + "\n**********************ERRORES**********************\n"+reporteErrores;
             TextAreaReporteSintactico.setText(finalSintactico);
             DialogoReporteAnalisis.setVisible(true);
-            
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
