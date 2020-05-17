@@ -15,6 +15,8 @@ public class Atributo {
     int linea, columna;
     Object valor;
     
+    public Atributo(){}
+    
     public Atributo(String tipo, Object valor, int linea, int columna){
         this.tipo = tipo;
         this.valor = valor;

@@ -1,0 +1,233 @@
+package Analizadores.Tiempos;
+
+import Objetos.Atributo;
+import Objetos.Tiempo;
+import Objetos.Imagen;
+import Objetos.Token;
+import Objetos.Lienzo;
+import java.util.ArrayList;
+import java.util.List;
+import java_cup.runtime.Symbol;
+import java_cup.runtime.XMLElement;
+
+action code {:
+
+    private void inicializarTiempo(Tiempo tiempo, List<Atributo> atributos){
+        for(Atributo atributo : atributos){
+            switch(atributo.getTipo()){
+                case "inicio":{
+                    if(tiempo.getIdInicio() != null){
+                        listErrores.add("Ya existe un valor asignado, atributo inicio repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        tiempo.setIdInicio((String) atributo.getValor());
+                    }
+                    break;
+                }
+                case "fin":{
+                    if(tiempo.getIdFin() != null){
+                        listErrores.add("Ya existe un valor asignado, atributo fin repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        tiempo.setIdFin((String) atributo.getValor());
+                    }
+                    break;
+                }
+                case "imagenes":{
+                    if(!tiempo.getImagenes().isEmpty()){
+                        listErrores.add("Ya existe un valor asignado, atributo imagenes repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        tiempo.setImagenes((List<Imagen>)atributo.getValor());
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private void inicializarImagen(Imagen imagen, List<Atributo> atributos){
+        for(Atributo atributo : atributos){
+            switch(atributo.getTipo()){
+                case "id":{
+                    if(imagen.getId() != null){
+                        listErrores.add("Ya existe un valor asignado, atributo id repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        imagen.setId((String) atributo.getValor());
+                    }
+                    break;
+                }
+                case "duracion":{
+                    if(imagen.getDuracion() != (-1)){
+                        listErrores.add("Ya existe un valor asignado, atributo duracion repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        imagen.setDuracion(Integer.parseInt((String) atributo.getValor()));
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private Lienzo getLienzoPorId(String id){
+        Lienzo lienzo = null;
+        for(Lienzo temp : listLienzos){
+            if(temp.getId().equals(id)) lienzo = temp;
+        }
+        return lienzo;
+    }
+
+:}
+
+parser code {:
+        
+        private List<String> listErrores = new ArrayList<String>();
+        private List<Lienzo> listLienzos = new ArrayList<Lienzo>();
+
+        public List<String> getErrores(){
+            return listErrores;
+        }
+        
+        public List<Lienzo> getLienzos(){
+            return listLienzos;
+        }
+
+        public ParserTiempos(LexerTiempos lex, List<Lienzo> lienzos) { 
+            super(lex);   
+            listLienzos = lienzos;
+            listErrores = lex.getErrorsList();
+	}
+
+        public void unrecovered_syntax_error(Symbol cur_token){
+            System.err.println("Couldn't repair and continue parse "+cur_token.value);
+        }
+
+        public void syntax_error(Symbol s){
+            String message = "";
+            StringBuilder m = new StringBuilder("Error:");
+            String cadena = ((Token)s.value).getLexema();
+            int linea = (((Token)s.value).getLinea());
+            int columna = (((Token)s.value).getColumna());
+            switch(s.toString()){
+            }
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: <falta implementar>");
+        }
+        
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal Token              PR_INICIO, PR_FIN, PR_IMAGENES, PR_ID, PR_DURACION, PR_TIEMPOS, ENTERO, ID, COMA, LLAVE_A, LLAVE_C, CORCHETE_A, CORCHETE_C, ASIGNACION, COMILLA;
+
+non terminal                S, strTiempos, inicioTiemposLienzo;
+non terminal List<Atributo> strTiempo, paramsImagen;
+non terminal Atributo       paramTiempo, paramImagen;
+non terminal Imagen         strImagen;
+non terminal List<Imagen>   listImagenes;
+
+/* The grammar */
+
+start with S;
+
+S::=                                LLAVE_A PR_TIEMPOS ASIGNACION LLAVE_A strTiempos LLAVE_C LLAVE_C
+                                    ;
+
+strTiempos::=                       strTiempos COMA inicioTiemposLienzo
+                                    |inicioTiemposLienzo
+                                    ;
+
+inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listAtributos LLAVE_C {:
+                                            Tiempo tiempo = new Tiempo();
+                                            if(listAtributos != null){
+                                                inicializarTiempo(tiempo, listAtributos);
+                                                if(getLienzoPorId(lienzo.getLexema()) != null){
+                                                    getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                }       
+                                            }
+                                        :}
+                                    ;
+
+strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atributo{:
+                                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                                            if(atributo != null) listAtributos.add(atributo);
+                                            RESULT = listAtributos;
+                                        :}
+                                    |paramTiempo:atributo {:
+                                            ArrayList<Atributo> atributos = new ArrayList<Atributo>();
+                                            if(atributo != null) atributos.add(atributo);
+                                            RESULT = atributos;
+                                        :}
+                                    ;
+
+paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMILLA{:
+                                            if(id != null){
+                                                if(dcl != null){
+                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    RESULT = atributo;
+                                                }
+                                            }    
+                                        :}
+                                    |PR_FIN:dcl ASIGNACION COMILLA ID:id COMILLA {:
+                                            if(id != null){
+                                                if(dcl != null){
+                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    RESULT = atributo;
+                                                }
+                                            }    
+                                        :}
+                                    |PR_IMAGENES:dcl ASIGNACION CORCHETE_A listImagenes:imagenes CORCHETE_C {:
+                                            if(imagenes != null){
+                                                if(dcl != null){
+                                                    Atributo atributo = new Atributo(dcl.getLexema(), imagenes, dcl.getLinea(), dcl.getColumna());
+                                                    RESULT = atributo;
+                                                }
+                                            }    
+                                        :}
+                                    ;
+
+listImagenes::=                     listImagenes:imagenes COMA strImagen:imagen {:
+                                            if(imagenes == null) imagenes = new ArrayList<Imagen>();
+                                            if(imagen != null) imagenes.add(imagen);
+                                            RESULT = imagenes;
+                                        :}    
+                                    |strImagen:imagen {:
+                                            ArrayList<Imagen> imagenes = new ArrayList<Imagen>();
+                                            if(imagen != null) imagenes.add(imagen);
+                                            RESULT = imagenes;
+                                        :}
+                                    ;
+
+strImagen::=                        LLAVE_A paramsImagen:listAtributos LLAVE_C {:
+                                            if(listAtributos != null){
+                                                Imagen imagen = new Imagen();
+                                                inicializarImagen(imagen, listAtributos);
+                                                RESULT = imagen;
+                                            }
+                                        :}
+                                    ;
+
+paramsImagen::=                     paramsImagen:listAtributos COMA paramImagen:atributo {:
+                                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                                            if(atributo != null) listAtributos.add(atributo);
+                                            RESULT = listAtributos;
+                                        :}
+                                    |paramImagen:atributo {:
+                                            ArrayList<Atributo> listAtributos = new ArrayList<Atributo>();
+                                            if(atributo != null) listAtributos.add(atributo);
+                                            RESULT = listAtributos;
+                                        :}
+                                    ;
+
+paramImagen::=                      PR_ID:dcl ASIGNACION COMILLA ID:id COMILLA {:
+                                            if(id != null){
+                                                if(dcl != null){
+                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    RESULT = atributo;
+                                                }
+                                            }
+                                        :}
+                                    |PR_DURACION:dcl ASIGNACION ENTERO:id {:
+                                            if(id != null){
+                                                if(dcl != null){
+                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    RESULT = atributo;
+                                                }
+                                            }
+                                        :}
+                                    ;

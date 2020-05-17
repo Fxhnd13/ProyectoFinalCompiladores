@@ -15,7 +15,7 @@ public class ColorP{
     
     Color color = null;
     int red = -1, blue=-1, green=-1;
-    String hex = null;
+    String hex = null, id = null;
     
     public void CargarColorP(){
         if(this.hex == null){
@@ -28,6 +28,14 @@ public class ColorP{
         }
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public Color getColor() {
         return color;
     }

@@ -1,6 +1,6 @@
-package Analizadores.Json;
+package Analizadores.Colores;
 
-import static Analizadores.Json.sym.*;
+import static Analizadores.Colores.sym.*;
 import Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java_cup.runtime.Symbol;
 
 %%
 
-%class LexerJson
+%class LexerColores
 %public
 %cup
 %line
@@ -66,11 +66,17 @@ Hexadecimal = #[0-9a-fA-F0]{6}
 /* reglas lexicas */
 <YYINITIAL> {
 
+    /* Reserved words */
+    "Red"                           {   return symbol(PR_RED);              }
+    "Blue"                          {   return symbol(PR_BLUE); }
+    "Green"                         {   return symbol(PR_GREEN); }
+    "COLORES"                       {   return symbol(PR_COLORES);}
+    "HEX"                           {   return symbol(PR_HEX);}
+
     {LineTerminator}                {   /*return symbol(FIN_LINEA);*/               }
-    {IntegerLiteral}                {   return symbol(VALOR, yytext());        }
-    {Hexadecimal}                   {   return symbol(VALOR, yytext());           }
+    {IntegerLiteral}                {   return symbol(ENTERO, yytext());        }
+    {Hexadecimal}                   {   return symbol(HEX, yytext());           }
     ({L})({L}|{Digito}|"_")*        {   return symbol(ID, yytext());            }
-    ("\"")({L}|{Digito}|(" ")|("_"))*("\"") {   return symbol(VALOR, yytext()); }
     ","                             {   return symbol(COMA);                  }
     "{"                             {   return symbol(LLAVE_A);}
     "}"                             {   return symbol(LLAVE_C);}

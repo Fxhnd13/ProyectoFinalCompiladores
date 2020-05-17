@@ -5,8 +5,11 @@
  */
 package UI;
 
+import Analizadores.Json.LexerJson;
+import Analizadores.Json.ParserJson;
 import Analizadores.Lienzos.LexerLienzo;
 import Analizadores.Lienzos.ParserLienzo;
+import Objetos.Atributo;
 import Objetos.Lienzo;
 import Objetos.Token;
 import java.awt.Component;
@@ -311,9 +314,16 @@ public class Editor extends javax.swing.JFrame {
         try {
             int index = PanelArchivos.getSelectedIndex();
             String texto = ((InputTab) PanelArchivos.getComponentAt(index)).getTextArea().getText();
+//            LexerJson lexer = new LexerJson(new StringReader(texto));
+//            ParserJson parser = new ParserJson(lexer);
+//            List<Atributo> atributos = (List<Atributo>) parser.parse().value;
+//            for (Atributo atributo : atributos) {
+//                escribirAtributo(atributo);
+//                System.out.println("}");
+//            }
+            String reporteFinal = "";
             LexerLienzo lexer = new LexerLienzo(new StringReader(texto));
             ParserLienzo parser = new ParserLienzo(lexer);
-            String reporteFinal = "";
             List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
             if(lienzos != null){
                 for (Lienzo lienzo : lienzos) {
@@ -472,4 +482,17 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
+//    private void escribirAtributo(Atributo atributo) {
+//        try{
+//            List<Atributo> atributos = (List<Atributo>) atributo.getValor();
+//            System.out.println(atributo.getTipo()+": {");
+//            for (Atributo temp : atributos) {
+//                escribirAtributo(temp);
+//            }
+//            System.out.println("}");
+//        }catch(Exception e){
+//            System.out.println(atributo.getTipo()+"|||"+atributo.getValor());
+//        }
+//    }
 }

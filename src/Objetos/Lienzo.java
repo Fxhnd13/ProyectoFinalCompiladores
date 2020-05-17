@@ -18,11 +18,10 @@ public class Lienzo {
     ColorP fondo = null;
     int cuadros=-1, dX=-1, dY=-1, lineaT, columnaT;
     List<ColorP> colores;
-    List<Tiempo> tiempos;
+    Tiempo tiempos = null;
 
     public Lienzo(){
         colores = new ArrayList<>();
-        tiempos = new ArrayList<>();
     }
     
     public String getId() {
@@ -89,11 +88,11 @@ public class Lienzo {
         this.colores = colores;
     }
 
-    public List<Tiempo> getTiempos() {
+    public Tiempo getTiempos() {
         return tiempos;
     }
 
-    public void setTiempos(List<Tiempo> tiempos) {
+    public void setTiempos(Tiempo tiempos) {
         this.tiempos = tiempos;
     }
 

@@ -14,34 +14,34 @@ import java.util.List;
  */
 public class Tiempo {
     
-    Imagen idInicio = null, idFin=null;
+    String idInicio = null, idFin=null;
     List<Imagen> imagenes;
 
     public Tiempo(){
         this.imagenes = new ArrayList<>();
     }
-    
-    public Imagen getIdInicio() {
+
+    public String getIdInicio() {
         return idInicio;
     }
 
-    public void setIdInicio(Imagen idInicio) {
+    public void setIdInicio(String idInicio) {
         this.idInicio = idInicio;
     }
 
-    public Imagen getIdFin() {
+    public String getIdFin() {
         return idFin;
     }
 
-    public void setIdFin(Imagen idFin) {
+    public void setIdFin(String idFin) {
         this.idFin = idFin;
     }
-
+    
     public List<Imagen> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(ArrayList<Imagen> imagenes) {
+    public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
     }
     

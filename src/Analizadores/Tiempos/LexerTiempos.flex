@@ -1,6 +1,6 @@
-package Analizadores.Json;
+package Analizadores.Tiempos;
 
-import static Analizadores.Json.sym.*;
+import static Analizadores.Tiempos.sym.*;
 import Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java_cup.runtime.Symbol;
 
 %%
 
-%class LexerJson
+%class LexerTiempos
 %public
 %cup
 %line
@@ -24,9 +24,6 @@ L = [a-zA-Z]
 /* integer literals */
 Digito = [0-9]
 IntegerLiteral = 0 | [1-9][0-9]*
-
-/* hexa literal */
-Hexadecimal = #[0-9a-fA-F0]{6}
 
 %{
     private List<String> errorsList;
@@ -66,15 +63,24 @@ Hexadecimal = #[0-9a-fA-F0]{6}
 /* reglas lexicas */
 <YYINITIAL> {
 
+    /* Reserved words */
+    "inicio"                        {   return symbol(PR_INICIO); }
+    "fin"                           {   return symbol(PR_FIN);  }
+    "imagenes"                      {   return symbol(PR_IMAGENES); }
+    "id"                            {   return symbol(PR_ID);   }
+    "duracion"                      {   return symbol(PR_DURACION); }
+    "TIEMPOS"                       {   return symbol(PR_TIEMPOS);}
+
     {LineTerminator}                {   /*return symbol(FIN_LINEA);*/               }
-    {IntegerLiteral}                {   return symbol(VALOR, yytext());        }
-    {Hexadecimal}                   {   return symbol(VALOR, yytext());           }
+    {IntegerLiteral}                {   return symbol(ENTERO, yytext());        }
     ({L})({L}|{Digito}|"_")*        {   return symbol(ID, yytext());            }
-    ("\"")({L}|{Digito}|(" ")|("_"))*("\"") {   return symbol(VALOR, yytext()); }
     ","                             {   return symbol(COMA);                  }
     "{"                             {   return symbol(LLAVE_A);}
     "}"                             {   return symbol(LLAVE_C);}
     ":"                             {   return symbol(ASIGNACION);              }
+    "["                             {   return symbol(CORCHETE_A);  }
+    "]"                             {   return symbol(CORCHETE_C);  }
+    "\""                            {   return symbol(COMILLA);}
 
     {WhiteSpace} 	{   /*return symbol(WHITESPACE); */  }
 

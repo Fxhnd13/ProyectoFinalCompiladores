@@ -15,6 +15,27 @@ tipos de cada produccion para ParserLienzo{
 
 tipos de cada produccion para ParserColores{
 
-	
+	S	::		<none>
+	listadoLienzos ::	<none>
+	strColoresLienzo ::	<none> agrega al lienzo el listado de colores
+	strColores ::		List<ColorP>
+	inicioColor ::		ColorP
+	paramsColor ::		List<Atributo>
+	paramColor ::		Atributo	
 
 }
+
+tipos de cada produccion para ParserTiempos{
+
+	S ::			<none>
+	strTiempos ::		<none>
+	inicioTiemposLienzos ::	<none> agrega al lienzo los tiempos
+	strTiempo ::		List<Atributo>
+	paramTiempo ::		Atributo
+	listImagenes ::		List<Imagen>
+	strImagen ::		Imagen
+	paramsImagen ::		List<Atributo>
+	paramImagen ::		Atributo
+
+}
+	

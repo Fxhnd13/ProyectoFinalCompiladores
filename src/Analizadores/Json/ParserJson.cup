@@ -1,16 +1,51 @@
 package Analizadores.Json;
 
 import Objetos.Atributo;
+import Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.Symbol;
 import java_cup.runtime.XMLElement;
 
-/* Terminals (tokens returned by the scanner). */
-terminal Token         VALOR, ID, COMA, LLAVE_A, LLAVE_C, ASIGNACION
+parser code {:
+        
+        private List<String> listErrores = new ArrayList<String>();
 
-non terminal List<Atributo>                 Asigs, param;
-non termianl Atributo                       Asig;
+        public List<String> getErrores(){
+            return listErrores;
+        }
+        
+        public ParserJson(LexerJson lex) { 
+            super(lex);   
+            listErrores = lex.getErrorsList();
+	}
+        
+        public void setAccion(String tipo, String mensaje, String accion){
+            System.out.println(tipo+"         "+mensaje);
+        }
+
+        public void unrecovered_syntax_error(Symbol cur_token){
+            System.err.println("Couldn't repair and continue parse "+cur_token.value);
+        }
+
+        public void syntax_error(Symbol s){
+            String message = "";
+            StringBuilder m = new StringBuilder("Error:");
+            String cadena = ((Token)s.value).getLexema();
+            int linea = (((Token)s.value).getLinea());
+            int columna = (((Token)s.value).getColumna());
+            switch(s.toString()){
+            }
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: <falta implementar>");
+        }
+        
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal Token         VALOR, ID, COMA, LLAVE_A, LLAVE_C, ASIGNACION;
+
+non terminal List<Atributo>                 S, Asigs, AsigsPrima;
+non terminal Atributo                       Asig, param;
 
 /* The grammar */
 
@@ -29,26 +64,37 @@ Asigs ::=           Asig:atributo AsigsPrima:listAtributos {:
                         :}
                     ;
 
-AsigsPrima ::=      COMA Asigs {:
-                            
+AsigsPrima ::=      COMA Asigs:listAtributos {:
+                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                            RESULT = listAtributos;
                         :}
                     |LLAVE_C
+                    |error LLAVE_C
+                    |error COMA Asigs
                     ;
                     
-Asig ::=            ID:valor ASIGNACION param:listAtributos {:
-                            Atributo atributo = new Atributo();
-                            if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
-                            if(valor != null){
-                                if(listAtributos.size()>1){
-                                    atributo.setValor(listAtributos);
+Asig ::=            ID:valor ASIGNACION param:atributo {:
+                            if(atributo != null){
+                                if(atributo.getValor() != null) {
                                     atributo.setTipo(valor.getLexema());
                                 }else{
-                                    if(!listAtributos.isEmpty()) atributo.setValor(listAtributos.get(0));
-                                    atributo.setTipo(valor.getLexema());
+                                    atributo = null;
                                 }
                             }
+                            RESULT = atributo;
                         :}
+                    |error COMA Asigs
+                    |error LLAVE_C
                     ;
 
-param ::=           VALOR 
-                    |LLAVE_A Asigs
+param ::=           VALOR:valor {:
+                            Atributo atributo = new Atributo();
+                            atributo.setValor(valor.getLexema());
+                            RESULT = atributo;
+                        :}
+                    |LLAVE_A Asigs:listAtributos {:
+                            Atributo atributo = new Atributo();
+                            atributo.setValor(listAtributos);
+                            RESULT = atributo;
+                        :}
+                    ;

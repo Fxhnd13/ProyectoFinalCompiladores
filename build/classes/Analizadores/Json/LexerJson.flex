@@ -8,7 +8,7 @@ import java_cup.runtime.Symbol;
 
 %%
 
-%class LexerLienzo
+%class LexerJson
 %public
 %cup
 %line

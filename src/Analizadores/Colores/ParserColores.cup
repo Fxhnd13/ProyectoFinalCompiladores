@@ -1,0 +1,212 @@
+package Analizadores.Colores;
+
+import Objetos.Atributo;
+import Objetos.ColorP;
+import Objetos.Token;
+import Objetos.Lienzo;
+import java.util.ArrayList;
+import java.util.List;
+import java_cup.runtime.Symbol;
+import java_cup.runtime.XMLElement;
+
+action code {:
+    
+    private void inicializarColor(ColorP color, List<Atributo> atributos){
+        for(Atributo atributo : atributos){
+            switch(atributo.getTipo()){
+                case "Red":{
+                    if(color.getRed()!=(-1)){
+                        listErrores.add("Ya existe un valor asignado, atributo Red repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        if(color.getHex()!=null){
+                            listErrores.add("Ya existe un valor asignado, atributo Hexadecimal en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                        }else{
+                            color.setRed(Integer.parseInt(atributo.getValor().toString()));
+                        }
+                    }
+                    break;
+                }
+                case "Blue":{
+                    if(color.getBlue()!=(-1)){
+                         listErrores.add("Ya existe un valor asignado, atributo Blue repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        if(color.getHex()!=null){
+                            listErrores.add("Ya existe un valor asignado, atributo Hexadecimal, error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                        }else{
+                            color.setBlue(Integer.parseInt(atributo.getValor().toString()));
+                        }
+                    }
+                    break;
+                }
+                case "Green":{
+                    if(color.getGreen()!=(-1)){
+                        listErrores.add("Ya existe un valor asignado, atributo Green repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        if(color.getHex()!=null){
+                            listErrores.add("Ya existe un valor asignado, atributo Hexadecimal error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                        }else{
+                            color.setGreen(Integer.parseInt(atributo.getValor().toString()));
+                        }
+                    }
+                    break;
+                }
+                case "Hexadecimal":{
+                    if(color.getHex()!=null){
+                        listErrores.add("Ya existe un valor asignado, atributo Hex repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                    }else{
+                        if(color.getRed()!=(-1)||color.getBlue()!=(-1)||color.getGreen()!=(-1)){
+                            listErrores.add("Ya existe un valor asignado, atributo RGB error en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
+                        }else{
+                            color.setHex((String) atributo.getValor());
+                        }
+                    }
+                    break;  
+                }
+            }
+        }
+    }
+    
+    private boolean isValido(ColorP color){
+        boolean valor = true;
+        if(color.getHex()==null){
+            if(color.getRed()==(-1)||color.getBlue()==(-1)||color.getGreen()==(-1)) valor = false;
+        }
+        return valor;
+    }
+
+    private Lienzo getLienzoPorId(String id){
+        Lienzo lienzo = null;
+        for(Lienzo temp : listLienzos){
+            if(temp.getId().equals(id)) lienzo = temp;
+        }
+        return lienzo;
+    }
+
+:}
+
+parser code {:
+        
+        private List<String> listErrores = new ArrayList<String>();
+        private List<Lienzo> listLienzos = new ArrayList<Lienzo>();
+
+        public List<String> getErrores(){
+            return listErrores;
+        }
+        
+        public List<Lienzo> getLienzos(){
+            return listLienzos;
+        }
+
+        public ParserColores(LexerColores lex, List<Lienzo> lienzos) { 
+            super(lex);   
+            listLienzos = lienzos;
+            listErrores = lex.getErrorsList();
+	}
+
+        public void unrecovered_syntax_error(Symbol cur_token){
+            System.err.println("Couldn't repair and continue parse "+cur_token.value);
+        }
+
+        public void syntax_error(Symbol s){
+            String message = "";
+            StringBuilder m = new StringBuilder("Error:");
+            String cadena = ((Token)s.value).getLexema();
+            int linea = (((Token)s.value).getLinea());
+            int columna = (((Token)s.value).getColumna());
+            switch(s.toString()){
+            }
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: <falta implementar>");
+        }
+        
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal Token              PR_RED, PR_BLUE, PR_GREEN, PR_HEX, PR_COLORES, ENTERO, HEX, ID, COMA, LLAVE_A, LLAVE_C, ASIGNACION;
+
+non terminal                S, listadoLienzos, strColoresLienzo;
+non terminal List<ColorP>   strColores;
+non terminal ColorP         inicioColor;
+non terminal List<Atributo> paramsColor;
+non terminal Atributo       paramColor;
+
+
+/* The grammar */
+
+start with S;
+
+S ::=                       LLAVE_A PR_COLORES ASIGNACION LLAVE_A listadoLienzos LLAVE_C LLAVE_C ;
+
+listadoLienzos ::=          listadoLienzos COMA strColoresLienzo
+                            |strColoresLienzo
+                            ;
+
+strColoresLienzo ::=        ID:idLienzo ASIGNACION LLAVE_A strColores:listColores LLAVE_C {:
+                                    if(idLienzo != null){   
+                                        if(listColores != null){
+                                            getLienzoPorId(idLienzo.getLexema()).setColores(listColores);
+                                        }
+                                    }
+                                :}
+                            ;
+
+strColores ::=              strColores:listColores COMA inicioColor:color {:
+                                    if(listColores == null) listColores = new ArrayList<ColorP>();
+                                    if(color != null) listColores.add(color);
+                                    RESULT = listColores;
+                                :}
+                            |inicioColor:color {:
+                                    ArrayList<ColorP> colores = new ArrayList<ColorP>();
+                                    if(color != null) colores.add(color);
+                                    RESULT = colores;
+                                :}
+                            ;
+
+inicioColor ::=             ID:idColor ASIGNACION LLAVE_A paramsColor:listAtributos LLAVE_C {:
+                                    ColorP color = new ColorP();
+                                    if(idColor != null){
+                                        color.setId(idColor.getLexema());
+                                        if(listAtributos != null) inicializarColor(color, listAtributos);
+                                    }
+                                    if(isValido(color)){
+                                        RESULT = color;
+                                    }
+                                :}
+                            ;
+
+paramsColor ::=             paramsColor:listAtributos COMA paramColor:atributo {:
+                                    if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
+                                    if(atributo != null) listAtributos.add(atributo);
+                                    RESULT = listAtributos;
+                                :}
+                            |paramColor:atributo {:
+                                    ArrayList<Atributo> listAtributos = new ArrayList<Atributo>();
+                                    if(atributo != null) listAtributos.add(atributo);
+                                    RESULT = listAtributos;
+                                :}
+                            ;
+
+paramColor ::=              PR_RED:dcl ASIGNACION ENTERO:valor {:
+                                    if(dcl != null && valor != null){
+                                        Atributo atributo = new Atributo("Red", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                        RESULT = atributo;
+                                    }
+                                :}
+                            |PR_BLUE:dcl ASIGNACION ENTERO:valor{:
+                                    if(dcl != null && valor != null){
+                                        Atributo atributo = new Atributo("Blue", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                        RESULT = atributo;
+                                    }
+                                :}
+                            |PR_GREEN:dcl ASIGNACION ENTERO:valor{:
+                                    if(dcl != null && valor != null){
+                                        Atributo atributo = new Atributo("Green", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                        RESULT = atributo;
+                                    }
+                                :}
+                            |PR_HEX:dcl ASIGNACION HEX:valor{:
+                                    if(dcl != null && valor != null){
+                                        Atributo atributo = new Atributo("Hexadecimal", valor.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                        RESULT = atributo;
+                                    }
+                                :}
+                            ;
