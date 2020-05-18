@@ -164,7 +164,7 @@ public class ParserTiempos extends java_cup.runtime.lr_parser {
 	}
 
         public void unrecovered_syntax_error(Symbol cur_token){
-            System.err.println("Couldn't repair and continue parse "+cur_token.value);
+            System.err.println("Couldn't repair and continue parse "+((Token)cur_token.value).getLexema());
         }
 
         public void syntax_error(Symbol s){
@@ -232,7 +232,7 @@ class CUP$ParserTiempos$actions {
                     if(imagen.getDuracion() != (-1)){
                         listErrores.add("Ya existe un valor asignado, atributo duracion repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        imagen.setDuracion(Integer.parseInt((String) atributo.getValor()));
+                        imagen.setDuracion(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -382,7 +382,7 @@ class CUP$ParserTiempos$actions {
 		
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("inicio", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }    
@@ -404,7 +404,7 @@ class CUP$ParserTiempos$actions {
 		
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("fin", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }    
@@ -426,7 +426,7 @@ class CUP$ParserTiempos$actions {
 		
                                             if(imagenes != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), imagenes, dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("imagenes", imagenes, dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }    
@@ -536,7 +536,7 @@ class CUP$ParserTiempos$actions {
 		
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("id", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }
@@ -558,7 +558,7 @@ class CUP$ParserTiempos$actions {
 		
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("duracion", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }

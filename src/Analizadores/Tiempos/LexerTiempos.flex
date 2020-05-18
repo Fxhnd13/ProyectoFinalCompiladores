@@ -19,7 +19,7 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = [ \t\f]+
 
 /* identifiers */
-L = [a-zA-Z]
+L = [a-zA-Z_]
 
 /* integer literals */
 Digito = [0-9]
@@ -73,7 +73,7 @@ IntegerLiteral = 0 | [1-9][0-9]*
 
     {LineTerminator}                {   /*return symbol(FIN_LINEA);*/               }
     {IntegerLiteral}                {   return symbol(ENTERO, yytext());        }
-    ({L})({L}|{Digito}|"_")*        {   return symbol(ID, yytext());            }
+    ({L}|("\_"))({L}|{Digito}|("\_"))*        {   return symbol(ID, yytext());            }
     ","                             {   return symbol(COMA);                  }
     "{"                             {   return symbol(LLAVE_A);}
     "}"                             {   return symbol(LLAVE_C);}

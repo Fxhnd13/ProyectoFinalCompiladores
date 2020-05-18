@@ -84,7 +84,7 @@ Hexadecimal = #[0-9a-fA-F0]{6}
     {LineTerminator}                {   /*return symbol(FIN_LINEA);*/               }
     {IntegerLiteral}                {   return symbol(ENTERO, yytext());        }
     {Hexadecimal}                   {   return symbol(HEX, yytext());           }
-    ({L})({L}|{Digito}|"_")*        {   return symbol(ID, yytext());            }
+    ({L}|("\_"))({L}|{Digito}|("\_"))*        {   return symbol(ID, yytext());            }
     ","                             {   return symbol(COMA);                  }
     "{"                             {   return symbol(LLAVE_A);}
     "}"                             {   return symbol(LLAVE_C);}

@@ -44,5 +44,10 @@ public class Tiempo {
     public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
     }
+
+    @Override
+    public String toString() {
+        return "\n    Tiempo{" + "\n      idInicio=" + idInicio + ", \n      idFin=" + idFin + ", \n      imagenes=" + imagenes + "\n    }";
+    }
     
 }

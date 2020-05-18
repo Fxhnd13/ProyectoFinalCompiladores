@@ -75,5 +75,10 @@ public class ColorP{
     public void setHex(String hex) {
         this.hex = hex;
     }
+
+    @Override
+    public String toString() {
+        return "\n    ColorP{" + "\n      color=" + color + ", \n      red=" + red + ", \n      blue=" + blue + ", \n      green=" + green + ", \n      hex=" + hex + ", \n      id=" + id + "\n    }";
+    }
     
 }

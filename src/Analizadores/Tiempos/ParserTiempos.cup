@@ -58,7 +58,7 @@ action code {:
                     if(imagen.getDuracion() != (-1)){
                         listErrores.add("Ya existe un valor asignado, atributo duracion repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        imagen.setDuracion(Integer.parseInt((String) atributo.getValor()));
+                        imagen.setDuracion(Integer.parseInt(atributo.getValor().toString()));
                     }
                     break;
                 }
@@ -96,7 +96,7 @@ parser code {:
 	}
 
         public void unrecovered_syntax_error(Symbol cur_token){
-            System.err.println("Couldn't repair and continue parse "+cur_token.value);
+            System.err.println("Couldn't repair and continue parse "+((Token)cur_token.value).getLexema());
         }
 
         public void syntax_error(Symbol s){
@@ -115,11 +115,11 @@ parser code {:
 /* Terminals (tokens returned by the scanner). */
 terminal Token              PR_INICIO, PR_FIN, PR_IMAGENES, PR_ID, PR_DURACION, PR_TIEMPOS, ENTERO, ID, COMA, LLAVE_A, LLAVE_C, CORCHETE_A, CORCHETE_C, ASIGNACION, COMILLA;
 
-non terminal                S, strTiempos, inicioTiemposLienzo;
-non terminal List<Atributo> strTiempo, paramsImagen;
-non terminal Atributo       paramTiempo, paramImagen;
-non terminal Imagen         strImagen;
-non terminal List<Imagen>   listImagenes;
+non terminal                    S, strTiempos, inicioTiemposLienzo;
+non terminal List<Atributo>     strTiempo, paramsImagen;
+non terminal Atributo           paramTiempo, paramImagen;
+non terminal Imagen             strImagen;
+non terminal List<Imagen>       listImagenes;
 
 /* The grammar */
 
@@ -143,7 +143,7 @@ inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listA
                                         :}
                                     ;
 
-strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atributo{:
+strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atributo {:
                                             if(listAtributos == null) listAtributos = new ArrayList<Atributo>();
                                             if(atributo != null) listAtributos.add(atributo);
                                             RESULT = listAtributos;
@@ -155,10 +155,10 @@ strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atr
                                         :}
                                     ;
 
-paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMILLA{:
+paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMILLA {:
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("inicio", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }    
@@ -166,7 +166,7 @@ paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMIL
                                     |PR_FIN:dcl ASIGNACION COMILLA ID:id COMILLA {:
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("fin", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }    
@@ -174,7 +174,7 @@ paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMIL
                                     |PR_IMAGENES:dcl ASIGNACION CORCHETE_A listImagenes:imagenes CORCHETE_C {:
                                             if(imagenes != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), imagenes, dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("imagenes", imagenes, dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }    
@@ -217,7 +217,7 @@ paramsImagen::=                     paramsImagen:listAtributos COMA paramImagen:
 paramImagen::=                      PR_ID:dcl ASIGNACION COMILLA ID:id COMILLA {:
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("id", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }
@@ -225,7 +225,7 @@ paramImagen::=                      PR_ID:dcl ASIGNACION COMILLA ID:id COMILLA {
                                     |PR_DURACION:dcl ASIGNACION ENTERO:id {:
                                             if(id != null){
                                                 if(dcl != null){
-                                                    Atributo atributo = new Atributo(dcl.getLexema(), id.getLexema(), dcl.getLinea(), dcl.getColumna());
+                                                    Atributo atributo = new Atributo("duracion", id.getLexema(), dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
                                             }

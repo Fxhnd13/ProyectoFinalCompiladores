@@ -5,10 +5,14 @@
  */
 package UI;
 
+import Analizadores.Colores.LexerColores;
+import Analizadores.Colores.ParserColores;
 import Analizadores.Json.LexerJson;
 import Analizadores.Json.ParserJson;
 import Analizadores.Lienzos.LexerLienzo;
 import Analizadores.Lienzos.ParserLienzo;
+import Analizadores.Tiempos.LexerTiempos;
+import Analizadores.Tiempos.ParserTiempos;
 import Objetos.Atributo;
 import Objetos.Lienzo;
 import Objetos.Token;
@@ -68,8 +72,8 @@ public class Editor extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
 
         DialogoReporteAnalisis.setSize(new java.awt.Dimension(1250, 450));
 
@@ -203,14 +207,6 @@ public class Editor extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem6);
 
-        jMenuItem8.setText("jMenuItem8");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem8);
-
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Analizar");
@@ -220,6 +216,14 @@ public class Editor extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(jMenu2);
+
+        jMenu4.setText("Generar");
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -306,10 +310,6 @@ public class Editor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        addLienzoTab();
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
-
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         try {
             int index = PanelArchivos.getSelectedIndex();
@@ -347,6 +347,47 @@ public class Editor extends javax.swing.JFrame {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+        try {
+            String strLienzos = null, strColores = null, strTiempos=null;
+            for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
+                switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
+                    case "lnz" : {
+                        strLienzos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        break;
+                    }
+                    case "clrs" : {
+                        strColores = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        break;
+                    }
+                    case "tmp" : {
+                        strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        break;
+                    }
+                }
+            }
+            if(strLienzos == null || strColores == null || strTiempos == null){
+                JOptionPane.showMessageDialog(null, "No se han cargado todos los archivos minimos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                LexerLienzo primerLexer = new LexerLienzo(new StringReader(strLienzos));
+                ParserLienzo primerParser = new ParserLienzo(primerLexer);
+                List<Lienzo> lienzos = (List<Lienzo>) primerParser.parse().value;
+                LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
+                ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
+                segundoParser.parse();
+//                LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
+//                ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
+//                tercerParser.parse();
+                for (Lienzo lienzo : lienzos) {
+                    System.out.println(lienzo.toString());
+                    System.out.println("\n************************************************************+");
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenu4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -467,6 +508,7 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -475,9 +517,7 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

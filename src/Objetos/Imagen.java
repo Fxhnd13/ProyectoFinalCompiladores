@@ -29,5 +29,10 @@ public class Imagen {
     public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
+
+    @Override
+    public String toString() {
+        return "\n        Imagen{" + "\n          id=" + id + ", \n          duracion=" + duracion + "\n      }";
+    }
     
 }

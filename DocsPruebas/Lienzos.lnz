@@ -1,7 +1,7 @@
 {
     LIENZOS:{
    	 lienzoId1:{
-   		 nombre:"lienzo1",
+   		 nombre:"_lienzo1",
    		 tipo:"png",
    		 Fondo:{
    			 Red: 25,

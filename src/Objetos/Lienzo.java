@@ -111,5 +111,11 @@ public class Lienzo {
     public void setColumnaT(int columnaT) {
         this.columnaT = columnaT;
     }
+
+    @Override
+    public String toString() {
+        return "Lienzo{" + "\n  id=" + id + ", \n  idSalida=" + idSalida + ", \n  extension=" + extension + ", \n  fondo=" + fondo + ", \n  cuadros=" + cuadros + ", \n  dX=" + dX + ", \n  dY=" + dY + ", \n  colores=" + colores + ", \n  tiempos=" + tiempos + "\n}";
+    }
+    
     
 }
