@@ -5,7 +5,7 @@
 package Analizadores.Tiempos;
 
 import static Analizadores.Tiempos.sym.*;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.Symbol;

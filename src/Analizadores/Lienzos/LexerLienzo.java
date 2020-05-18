@@ -5,7 +5,7 @@
 package Analizadores.Lienzos;
 
 import static Analizadores.Lienzos.sym.*;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.Symbol;

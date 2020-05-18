@@ -5,10 +5,10 @@
 
 package Analizadores.Tiempos;
 
-import Objetos.Atributo;
+import Analizadores.Objetos.Atributo;
 import Objetos.Tiempo;
 import Objetos.Imagen;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;

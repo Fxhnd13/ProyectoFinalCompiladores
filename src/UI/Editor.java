@@ -13,9 +13,9 @@ import Analizadores.Lienzos.LexerLienzo;
 import Analizadores.Lienzos.ParserLienzo;
 import Analizadores.Tiempos.LexerTiempos;
 import Analizadores.Tiempos.ParserTiempos;
-import Objetos.Atributo;
+import Analizadores.Objetos.Atributo;
 import Objetos.Lienzo;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -263,7 +263,7 @@ public class Editor extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        addTab("clr");
+        addTab("clrs");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -409,8 +409,7 @@ public class Editor extends javax.swing.JFrame {
                 ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
                 tercerParser.parse();
                 for (Lienzo lienzo : lienzos) {
-                    System.out.println(lienzo.toString());
-                    System.out.println("\n************************************************************+");
+                    addLienzoTab(lienzo);
                 }
             }
         } catch (Exception ex) {
@@ -461,9 +460,9 @@ public class Editor extends javax.swing.JFrame {
         return valor;
     }
     
-    private void addLienzoTab(){
-        PanelLienzo lienzo = new PanelLienzo();
-        this.PanelArchivos.addTab("lienzo",lienzo);
+    private void addLienzoTab(Lienzo lienzo){
+        PanelLienzo panelLienzo = new PanelLienzo(lienzo);
+        this.PanelArchivos.addTab("lienzo", panelLienzo);
     }
     
     private void addTab(String extension){

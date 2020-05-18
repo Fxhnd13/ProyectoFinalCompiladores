@@ -5,8 +5,8 @@
 
 package Analizadores.Json;
 
-import Objetos.Atributo;
-import Objetos.Token;
+import Analizadores.Objetos.Atributo;
+import Analizadores.Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.Symbol;

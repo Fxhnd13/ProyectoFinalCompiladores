@@ -5,7 +5,7 @@
 package Analizadores.Colores;
 
 import static Analizadores.Colores.sym.*;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.Symbol;

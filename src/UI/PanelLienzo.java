@@ -5,15 +5,33 @@
  */
 package UI;
 
+import Objetos.ColorP;
+import Objetos.Imagen;
+import Objetos.Lienzo;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.ScrollPane;
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
  * @author fxhnd
  */
 public class PanelLienzo extends javax.swing.JPanel {
-
+    
+    private Lienzo lienzo;
+    private ColorP colorActivo;
+    
+    public PanelLienzo(Lienzo lienzo){
+            initComponents();
+            this.lienzo = lienzo;
+            cargarImagenes();
+            cargarColores();
+    }
+    
     public ScrollPane getLienzoPane() {
         return LienzoPane;
     }
@@ -30,6 +48,55 @@ public class PanelLienzo extends javax.swing.JPanel {
         this.ToolLienzoPane = ToolLienzoPane;
     }
 
+    public void cargarImagen(Imagen imagen){
+        this.LienzoPane.removeAll();
+        JPanel panel = null;
+        if(imagen.getPanel()==null){ panel = new JPanel(); }else{ panel = imagen.getPanel(); }
+        panel.setSize(this.lienzo.getdX()*this.lienzo.getCuadros(), this.lienzo.getdY()*this.lienzo.getCuadros());
+        panel.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));
+        this.LienzoPane.add(panel);
+        for (int i = 0; i < this.lienzo.getdX(); i++) {
+            for (int j = 0; j < this.lienzo.getdY(); j++) {
+                Cell cell = new Cell(i,j);
+                cell.setSize(this.lienzo.getCuadros(), this.lienzo.getCuadros());
+                cell.setOpaque(true);
+                cell.setBorder(new LineBorder(Color.BLACK));
+                this.lienzo.getFondo().CargarColorP();
+                cell.setColor(this.lienzo.getFondo());
+                panel.add(cell);
+                cell.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        cell.setColor(colorActivo);
+                    }
+                });
+            }
+        }
+        imagen.setPanel(panel);
+    }
+    
+    private void cargarImagenes() {
+        //faltaria pintar las imagenes si hay archivo pnt
+        for (Imagen imagen : this.lienzo.getTiempos().getImagenes()) {
+            this.ImagenActivaComboBox.addItem(imagen.getId());
+            this.InicioImagenesComboBox.addItem(imagen.getId());
+            this.FinImagensComboBox.addItem(imagen.getId());
+            cargarImagen(imagen);
+        }
+        this.InicioImagenesComboBox.setSelectedItem(this.lienzo.getTiempos().getIdInicio());
+        this.FinImagensComboBox.setSelectedItem(this.lienzo.getTiempos().getIdFin());
+        this.ImagenActivaComboBox.setSelectedIndex(0);
+        this.LienzoPane.add(this.lienzo.getTiempos().getImagenes().get(0).getPanel());
+    }
+
+    private void cargarColores() {
+        for (ColorP color : this.lienzo.getColores()) {
+            this.ColoresComboBox.addItem(color.getId());
+        }
+        this.ColoresComboBox.setSelectedIndex(0);
+        this.colorActivo = this.lienzo.getColores().get(0);
+        this.ColorActivoLabel.setText("Color Activo: "+this.ColoresComboBox.getSelectedItem());
+    }
+    
     /**
      * Creates new form PanelLienzo
      */
@@ -47,19 +114,139 @@ public class PanelLienzo extends javax.swing.JPanel {
     private void initComponents() {
 
         ToolLienzoPane = new javax.swing.JPanel();
+        ColoresComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        ColorActivoLabel = new javax.swing.JLabel();
+        BorradorCheckBox = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        InicioImagenesComboBox = new javax.swing.JComboBox<>();
+        FinImagensComboBox = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        ImagenActivaComboBox = new javax.swing.JComboBox<>();
+        DuracionImagenActivaLabel = new javax.swing.JLabel();
         LienzoPane = new java.awt.ScrollPane();
 
         ToolLienzoPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Herramientas para el lienzo"));
+
+        ColoresComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ColoresComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Colores:");
+
+        ColorActivoLabel.setText("Color Activo: -------------------------------------------");
+
+        BorradorCheckBox.setText("Borrador");
+        BorradorCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BorradorCheckBoxActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Agregar Color");
+
+        jButton2.setText("Agregar Imagen");
+
+        jLabel3.setText("Inicio");
+
+        jLabel4.setText("Fin");
+
+        jLabel5.setText("Imagen Activa");
+
+        ImagenActivaComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImagenActivaComboBoxActionPerformed(evt);
+            }
+        });
+
+        DuracionImagenActivaLabel.setText("Duracion Imagen Activa: ----------------------");
 
         javax.swing.GroupLayout ToolLienzoPaneLayout = new javax.swing.GroupLayout(ToolLienzoPane);
         ToolLienzoPane.setLayout(ToolLienzoPaneLayout);
         ToolLienzoPaneLayout.setHorizontalGroup(
             ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
+            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                                        .addComponent(BorradorCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton1))
+                                    .addComponent(ColorActivoLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel1)
+                                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(ColoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                                        .addGap(1, 1, 1)
+                                                        .addComponent(jLabel3))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jLabel4)))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(InicioImagenesComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(FinImagensComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(ImagenActivaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(DuracionImagenActivaLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ToolLienzoPaneLayout.setVerticalGroup(
             ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(InicioImagenesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(FinImagensComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(ImagenActivaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(DuracionImagenActivaLabel)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(ColoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(ColorActivoLabel)
+                .addGap(18, 18, 18)
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BorradorCheckBox)
+                    .addComponent(jButton1))
+                .addGap(33, 33, 33))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -70,7 +257,7 @@ public class PanelLienzo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(ToolLienzoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,15 +265,51 @@ public class PanelLienzo extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                    .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                     .addComponent(ToolLienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BorradorCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorradorCheckBoxActionPerformed
+        if(BorradorCheckBox.isSelected()){
+            this.colorActivo = this.lienzo.getFondo();
+        }else{
+            this.colorActivo = this.lienzo.getColores().get(this.ColoresComboBox.getSelectedIndex());
+        }
+    }//GEN-LAST:event_BorradorCheckBoxActionPerformed
+
+    private void ColoresComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoresComboBoxActionPerformed
+        this.colorActivo = this.lienzo.getColores().get(this.ColoresComboBox.getSelectedIndex());
+        this.ColorActivoLabel.setText("Color Activo: "+this.colorActivo.getId());
+    }//GEN-LAST:event_ColoresComboBoxActionPerformed
+
+    private void ImagenActivaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagenActivaComboBoxActionPerformed
+        Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex());
+        this.LienzoPane.removeAll();
+        if(imagen.getPanel()!=null) {
+            this.LienzoPane.add(imagen.getPanel());
+            this.DuracionImagenActivaLabel.setText("Duracion Imagen Activa: "+imagen.getDuracion());
+        }
+    }//GEN-LAST:event_ImagenActivaComboBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox BorradorCheckBox;
+    private javax.swing.JLabel ColorActivoLabel;
+    private javax.swing.JComboBox<String> ColoresComboBox;
+    private javax.swing.JLabel DuracionImagenActivaLabel;
+    private javax.swing.JComboBox<String> FinImagensComboBox;
+    private javax.swing.JComboBox<String> ImagenActivaComboBox;
+    private javax.swing.JComboBox<String> InicioImagenesComboBox;
     private java.awt.ScrollPane LienzoPane;
     private javax.swing.JPanel ToolLienzoPane;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
+
 }
