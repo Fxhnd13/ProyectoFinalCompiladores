@@ -331,7 +331,7 @@ public class LexerTiempos implements java_cup.runtime.Scanner {
 
     private Symbol symbol(int type, String lexeme) {
         tokens.add(new Token(lexeme, yyline+1, yycolumn+1, type));
-        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1, type));
+        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1, type)); 
     }
 
     private void error(String lexeme) {

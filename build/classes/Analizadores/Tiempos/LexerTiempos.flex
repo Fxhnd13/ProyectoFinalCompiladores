@@ -37,7 +37,7 @@ IntegerLiteral = 0 | [1-9][0-9]*
 
     private Symbol symbol(int type, String lexeme) {
         tokens.add(new Token(lexeme, yyline+1, yycolumn+1, type));
-        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1, type));
+        return new Symbol(type, new Token(lexeme, yyline + 1, yycolumn + 1, type)); 
     }
 
     private void error(String lexeme) {
@@ -75,12 +75,14 @@ IntegerLiteral = 0 | [1-9][0-9]*
     {IntegerLiteral}                {   return symbol(ENTERO, yytext());        }
     ({L}|("\_"))({L}|{Digito}|("\_"))*        {   return symbol(ID, yytext());            }
     ","                             {   return symbol(COMA);                  }
+    "["                             {   return symbol(CORCHETE_A); }
+    "]"                             {   return symbol(CORCHETE_C);  }
     "{"                             {   return symbol(LLAVE_A);}
     "}"                             {   return symbol(LLAVE_C);}
     ":"                             {   return symbol(ASIGNACION);              }
-    "["                             {   return symbol(CORCHETE_A);  }
-    "]"                             {   return symbol(CORCHETE_C);  }
-    "\""                            {   return symbol(COMILLA);}
+
+    "\""                            {   return symbol(COMILLA); }
+
 
     {WhiteSpace} 	{   /*return symbol(WHITESPACE); */  }
 

@@ -5,7 +5,7 @@
         <group>
             <file>file:/home/fxhnd/NetBeansProjects/FinalCompiladoresSwing/src/Analizadores/Tiempos/LexerTiempos.flex</file>
             <file>file:/home/fxhnd/NetBeansProjects/FinalCompiladoresSwing/src/Analizadores/Lienzos/LexerLienzo.flex</file>
-            <file>file:/home/fxhnd/NetBeansProjects/FinalCompiladoresSwing/src/Analizadores/Colores/LexerColores.flex</file>
+            <file>file:/home/fxhnd/NetBeansProjects/FinalCompiladoresSwing/src/UI/InputTab.java</file>
             <file>file:/home/fxhnd/NetBeansProjects/FinalCompiladoresSwing/src/UI/Editor.java</file>
         </group>
     </open-files>

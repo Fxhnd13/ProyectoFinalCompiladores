@@ -312,35 +312,64 @@ public class Editor extends javax.swing.JFrame {
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         try {
-            int index = PanelArchivos.getSelectedIndex();
-            String texto = ((InputTab) PanelArchivos.getComponentAt(index)).getTextArea().getText();
-//            LexerJson lexer = new LexerJson(new StringReader(texto));
-//            ParserJson parser = new ParserJson(lexer);
-//            List<Atributo> atributos = (List<Atributo>) parser.parse().value;
-//            for (Atributo atributo : atributos) {
-//                escribirAtributo(atributo);
-//                System.out.println("}");
-//            }
-            String reporteFinal = "";
-            LexerLienzo lexer = new LexerLienzo(new StringReader(texto));
-            ParserLienzo parser = new ParserLienzo(lexer);
-            List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
-            if(lienzos != null){
-                for (Lienzo lienzo : lienzos) {
-                    reporteFinal+=("Se creo un lienzo con ("+lienzo.getExtension()+","+lienzo.getId()+","+lienzo.getIdSalida()+","+lienzo.getFondo()+"\n");
+            String strLienzos = null, strColores = null, strTiempos=null;
+            for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
+                switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
+                    case "lnz" : {
+                        strLienzos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        break;
+                    }
+                    case "clrs" : {
+                        strColores = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        break;
+                    }
+                    case "tmp" : {
+                        strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        break;
+                    }
                 }
             }
-            String reporteErrores = "";
+            String reporteFinal = "";
+            LexerLienzo lexer = new LexerLienzo(new StringReader(strLienzos));
+            ParserLienzo parser = new ParserLienzo(lexer);
+            List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
+            LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
+            ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
+            segundoParser.parse();
+            LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
+            ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
+            tercerParser.parse();
+            if(lienzos != null){
+                for (Lienzo lienzo : lienzos) {
+                    reporteFinal+=(lienzo.toString()+"\n");
+                }
+            }
+            String reporteErrores = "\n\n*******************Errores Archivo Lienzos********************\n\n";
             for (String error : parser.getErrores()) {
                 reporteErrores+=(error+"\n");
             }
-            String tokens = "";
-            for (Token token : lexer.getTokensList()) {
-                tokens+=("Token tipo "+token.getTipo()+"|lexema: "+token.getLexema()+"|linea: "+token.getLinea()+"|Columna: "+token.getColumna()+"\n");
+            reporteErrores = "\n\n*******************Errores Archivo Colores********************\n\n";
+            for (String error : segundoParser.getErrores()) {
+                reporteErrores+=(error+"\n");
             }
-
+            reporteErrores = "\n\n*******************Errores Archivo Tiempos********************\n\n";
+            for (String error : tercerParser.getErrores()) {
+                reporteErrores+=(error+"\n");
+            }
+            String tokens = "**********Archivo Lienzos**********\n";
+            for (Token token : lexer.getTokensList()) {
+                tokens+=("Tipo ["+Analizadores.Lienzos.sym.terminalNames[token.getTipo()]+"]->lexema ["+token.getLexema()+"]->linea ["+token.getLinea()+"]->Columna["+token.getColumna()+"]\n");
+            }
+            tokens+="***********Archivo Colores*************\n";
+            for (Token token : segundoLexer.getTokensList()) {
+                tokens+=("Token ["+Analizadores.Colores.sym.terminalNames[token.getTipo()]+"]->lexema ["+token.getLexema()+"]->linea ["+token.getLinea()+"]->Columna["+token.getColumna()+"]\n");
+            }
+            tokens+="***********Archivo Tiempos*************\n";
+            for (Token token : tercerLexer.getTokensList()) {
+                tokens+=("Token ["+Analizadores.Tiempos.sym.terminalNames[token.getTipo()]+"]->lexema ["+token.getLexema()+"]->linea ["+token.getLinea()+"]->Columna["+token.getColumna()+"]\n");
+            }
             TextAreaReporteLexico.setText(tokens);
-            String finalSintactico = reporteFinal + "\n**********************ERRORES**********************\n"+reporteErrores;
+            String finalSintactico = reporteFinal+reporteErrores;
             TextAreaReporteSintactico.setText(finalSintactico);
             DialogoReporteAnalisis.setVisible(true);
         } catch (Exception ex) {
@@ -376,9 +405,9 @@ public class Editor extends javax.swing.JFrame {
                 LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
                 ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
                 segundoParser.parse();
-//                LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
-//                ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
-//                tercerParser.parse();
+                LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
+                ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
+                tercerParser.parse();
                 for (Lienzo lienzo : lienzos) {
                     System.out.println(lienzo.toString());
                     System.out.println("\n************************************************************+");

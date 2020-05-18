@@ -19,7 +19,7 @@ action code {:
                     if(tiempo.getIdInicio() != null){
                         listErrores.add("Ya existe un valor asignado, atributo inicio repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        tiempo.setIdInicio((String) atributo.getValor());
+                        tiempo.setIdInicio((String)atributo.getValor());
                     }
                     break;
                 }
@@ -27,7 +27,7 @@ action code {:
                     if(tiempo.getIdFin() != null){
                         listErrores.add("Ya existe un valor asignado, atributo fin repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        tiempo.setIdFin((String) atributo.getValor());
+                        tiempo.setIdFin((String)atributo.getValor());
                     }
                     break;
                 }
@@ -58,7 +58,7 @@ action code {:
                     if(imagen.getDuracion() != (-1)){
                         listErrores.add("Ya existe un valor asignado, atributo duracion repetido en la linea: "+atributo.getLinea()+", columna: "+atributo.getColumna());
                     }else{
-                        imagen.setDuracion(Integer.parseInt(atributo.getValor().toString()));
+                        imagen.setDuracion(Integer.parseInt((String)atributo.getValor()));
                     }
                     break;
                 }
