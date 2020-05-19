@@ -25,8 +25,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -54,8 +56,18 @@ public class Editor extends javax.swing.JFrame {
 
         DialogoReporteAnalisis = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TextAreaReporteLexico = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TablaTokensLienzo = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TablaTokensColores = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        TablaTokensTiempos = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        TablaTokensPintar = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TextAreaReporteSintactico = new javax.swing.JTextArea();
@@ -75,13 +87,57 @@ public class Editor extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
 
-        DialogoReporteAnalisis.setSize(new java.awt.Dimension(1250, 450));
+        DialogoReporteAnalisis.setSize(new java.awt.Dimension(1250, 750));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Analisis Lexico"));
 
-        TextAreaReporteLexico.setColumns(20);
-        TextAreaReporteLexico.setRows(5);
-        jScrollPane1.setViewportView(TextAreaReporteLexico);
+        TablaTokensLienzo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Token", "Lexema", "Linea", "Columna"
+            }
+        ));
+        jScrollPane3.setViewportView(TablaTokensLienzo);
+
+        TablaTokensColores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Token", "Lexema", "Linea", "Columna"
+            }
+        ));
+        jScrollPane4.setViewportView(TablaTokensColores);
+
+        TablaTokensTiempos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Token", "Lexema", "Linea", "Columna"
+            }
+        ));
+        jScrollPane5.setViewportView(TablaTokensTiempos);
+
+        jLabel2.setText("Archivo Lienzo");
+
+        jLabel3.setText("Archivo Colores");
+
+        jLabel4.setText("Archivo Tiempos");
+
+        jLabel5.setText("Archivo Pintar");
+
+        TablaTokensPintar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Token", "Lexema", "Linea", "Columna"
+            }
+        ));
+        jScrollPane6.setViewportView(TablaTokensPintar);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -89,14 +145,44 @@ public class Editor extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Analisis Sintactico"));
@@ -111,13 +197,13 @@ public class Editor extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
 
@@ -330,45 +416,49 @@ public class Editor extends javax.swing.JFrame {
                 }
             }
             String reporteFinal = "";
-            LexerLienzo lexer = new LexerLienzo(new StringReader(strLienzos));
-            ParserLienzo parser = new ParserLienzo(lexer);
-            List<Lienzo> lienzos = (List<Lienzo>) parser.parse().value;
-            LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
-            ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
-            segundoParser.parse();
-            LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
-            ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
-            tercerParser.parse();
-            if(lienzos != null){
+            LexerLienzo lexerLienzo = null; LexerColores lexerColores = null; LexerTiempos lexerTiempos = null;
+            ParserLienzo parserLienzo = null; ParserColores parserColores = null; ParserTiempos parserTiempos = null;
+            List<Lienzo> lienzos;
+            if(strLienzos != null){
+                lexerLienzo = new LexerLienzo(new StringReader(strLienzos));
+                parserLienzo = new ParserLienzo(lexerLienzo);
+                lienzos = (List<Lienzo>) parserLienzo.parse().value;
+                if(strColores != null){
+                    lexerColores = new LexerColores(new StringReader(strColores));
+                    parserColores = new ParserColores(lexerColores, lienzos);
+                    parserColores.parse();
+                }
+                if(strTiempos != null){
+                    lexerTiempos = new LexerTiempos(new StringReader(strTiempos));
+                    parserTiempos = new ParserTiempos(lexerTiempos, lienzos);
+                    parserTiempos.parse();
+                }
                 for (Lienzo lienzo : lienzos) {
-                    reporteFinal+=(lienzo.toString()+"\n");
+                    reporteFinal += lienzo.toString();
                 }
             }
-            String reporteErrores = "\n\n*******************Errores Archivo Lienzos********************\n\n";
-            for (String error : parser.getErrores()) {
-                reporteErrores+=(error+"\n");
+            String reporteErrores = "";
+            if(strLienzos != null){
+                reporteErrores = "\n\n*******************Errores Archivo Lienzos********************\n\n";
+                for (String error : parserLienzo.getErrores()) {
+                    reporteErrores+=(error+"\n");
+                }
             }
-            reporteErrores = "\n\n*******************Errores Archivo Colores********************\n\n";
-            for (String error : segundoParser.getErrores()) {
-                reporteErrores+=(error+"\n");
+            if(strColores != null){
+                reporteErrores += "\n\n*******************Errores Archivo Colores********************\n\n";
+                for (String error : parserColores.getErrores()) {
+                    reporteErrores+=(error+"\n");
+                }
             }
-            reporteErrores = "\n\n*******************Errores Archivo Tiempos********************\n\n";
-            for (String error : tercerParser.getErrores()) {
-                reporteErrores+=(error+"\n");
+            if(strTiempos != null){
+                reporteErrores += "\n\n*******************Errores Archivo Tiempos********************\n\n";
+                for (String error : parserTiempos.getErrores()) {
+                    reporteErrores+=(error+"\n");
+                }
             }
-            String tokens = "**********Archivo Lienzos**********\n";
-            for (Token token : lexer.getTokensList()) {
-                tokens+=("Tipo ["+Analizadores.Lienzos.sym.terminalNames[token.getTipo()]+"]->lexema ["+token.getLexema()+"]->linea ["+token.getLinea()+"]->Columna["+token.getColumna()+"]\n");
-            }
-            tokens+="***********Archivo Colores*************\n";
-            for (Token token : segundoLexer.getTokensList()) {
-                tokens+=("Token ["+Analizadores.Colores.sym.terminalNames[token.getTipo()]+"]->lexema ["+token.getLexema()+"]->linea ["+token.getLinea()+"]->Columna["+token.getColumna()+"]\n");
-            }
-            tokens+="***********Archivo Tiempos*************\n";
-            for (Token token : tercerLexer.getTokensList()) {
-                tokens+=("Token ["+Analizadores.Tiempos.sym.terminalNames[token.getTipo()]+"]->lexema ["+token.getLexema()+"]->linea ["+token.getLinea()+"]->Columna["+token.getColumna()+"]\n");
-            }
-            TextAreaReporteLexico.setText(tokens);
+            if(lexerLienzo != null) addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
+            if(lexerColores != null) addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());
+            if(lexerTiempos != null) addTokensToTable(2, this.TablaTokensTiempos, lexerTiempos.getTokensList());
             String finalSintactico = reporteFinal+reporteErrores;
             TextAreaReporteSintactico.setText(finalSintactico);
             DialogoReporteAnalisis.setVisible(true);
@@ -452,6 +542,22 @@ public class Editor extends javax.swing.JFrame {
         });
     }
 
+    private void addTokensToTable(int opcion, JTable table, List<Token> tokens){
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        modelo.setRowCount(0);
+        for (Token token : tokens) {
+            String tipo = null;
+            switch(opcion){
+                case 0: tipo = Analizadores.Lienzos.sym.terminalNames[token.getTipo()]; break;
+                case 1: tipo = Analizadores.Colores.sym.terminalNames[token.getTipo()]; break;
+                case 2: tipo = Analizadores.Tiempos.sym.terminalNames[token.getTipo()]; break;
+                //case 3: tipo = Analizadores.Pintar.sym.terminalNames[token.getTipo()]; break;
+            }
+            modelo.addRow(new String[]{tipo, token.getLexema(), String.valueOf(token.getLinea()), String.valueOf(token.getColumna())});
+        }
+        table.setModel(modelo);
+    }
+    
     private boolean hayTab(String extension){
         boolean valor = false;
         for (Component component : this.PanelArchivos.getComponents()) {
@@ -462,7 +568,7 @@ public class Editor extends javax.swing.JFrame {
     
     private void addLienzoTab(Lienzo lienzo){
         PanelLienzo panelLienzo = new PanelLienzo(lienzo);
-        this.PanelArchivos.addTab("lienzo", panelLienzo);
+        this.PanelArchivos.addTab("Lienzo: "+lienzo.getId(), panelLienzo);
     }
     
     private void addTab(String extension){
@@ -530,9 +636,16 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JDialog DialogoReporteAnalisis;
     private javax.swing.JLabel InformacionLabel;
     private javax.swing.JTabbedPane PanelArchivos;
-    private javax.swing.JTextArea TextAreaReporteLexico;
+    private javax.swing.JTable TablaTokensColores;
+    private javax.swing.JTable TablaTokensLienzo;
+    private javax.swing.JTable TablaTokensPintar;
+    private javax.swing.JTable TablaTokensTiempos;
     private javax.swing.JTextArea TextAreaReporteSintactico;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -547,8 +660,11 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     // End of variables declaration//GEN-END:variables
 
 //    private void escribirAtributo(Atributo atributo) {

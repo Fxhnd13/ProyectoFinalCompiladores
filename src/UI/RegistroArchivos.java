@@ -47,7 +47,8 @@ public class RegistroArchivos {
                     while((cadena = b.readLine())!=null) {
                         contenido += cadena+"\n";
                     }
-                    tab = new InputTab(archivo.getName().substring(0, archivo.getName().length()-4), archivo);
+                    int indice =  archivo.getName().lastIndexOf(".");
+                    tab = new InputTab(archivo.getName().substring(0, indice), archivo);
                     tab.getTextArea().setText(contenido);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(RegistroArchivos.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,13 +8,18 @@ package UI;
 import Objetos.ColorP;
 import Objetos.Imagen;
 import Objetos.Lienzo;
-import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 
 /**
  *
@@ -26,10 +31,10 @@ public class PanelLienzo extends javax.swing.JPanel {
     private ColorP colorActivo;
     
     public PanelLienzo(Lienzo lienzo){
-            initComponents();
-            this.lienzo = lienzo;
-            cargarImagenes();
-            cargarColores();
+            initComponents(); //inicializa todos los componentes del panel
+            this.lienzo = lienzo; //capturamos el lienzo correspondiente 
+            cargarImagenes();//cargamos las imagenes aqui es donde se deberia dibujar si hay archivo pnt o crear lienzos en blanco si no hay pnt
+            cargarColores();//cargamos los colores declarados para la interfaz grafica
     }
     
     public ScrollPane getLienzoPane() {
@@ -49,18 +54,15 @@ public class PanelLienzo extends javax.swing.JPanel {
     }
 
     public void cargarImagen(Imagen imagen){
-        this.LienzoPane.removeAll();
-        JPanel panel = null;
-        if(imagen.getPanel()==null){ panel = new JPanel(); }else{ panel = imagen.getPanel(); }
-        panel.setSize(this.lienzo.getdX()*this.lienzo.getCuadros(), this.lienzo.getdY()*this.lienzo.getCuadros());
-        panel.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));
-        this.LienzoPane.add(panel);
+        JPanel panel = panel = new JPanel(); //creamos un panel de la imagen
+        panel.setSize(this.lienzo.getdX()*this.lienzo.getCuadros(), this.lienzo.getdY()*this.lienzo.getCuadros()); //arreglamos el tamaño que debería tener
+        panel.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//hacemos el gridlayout (quiza hace falta cambiar)
         for (int i = 0; i < this.lienzo.getdX(); i++) {
             for (int j = 0; j < this.lienzo.getdY(); j++) {
                 Cell cell = new Cell(i,j);
                 cell.setSize(this.lienzo.getCuadros(), this.lienzo.getCuadros());
                 cell.setOpaque(true);
-                cell.setBorder(new LineBorder(Color.BLACK));
+                cell.setBorder(new EtchedBorder());
                 this.lienzo.getFondo().CargarColorP();
                 cell.setColor(this.lienzo.getFondo());
                 panel.add(cell);
@@ -80,7 +82,7 @@ public class PanelLienzo extends javax.swing.JPanel {
             this.ImagenActivaComboBox.addItem(imagen.getId());
             this.InicioImagenesComboBox.addItem(imagen.getId());
             this.FinImagensComboBox.addItem(imagen.getId());
-            cargarImagen(imagen);
+            if(imagen.getPanel() == null) cargarImagen(imagen);
         }
         this.InicioImagenesComboBox.setSelectedItem(this.lienzo.getTiempos().getIdInicio());
         this.FinImagensComboBox.setSelectedItem(this.lienzo.getTiempos().getIdFin());
@@ -127,6 +129,7 @@ public class PanelLienzo extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         ImagenActivaComboBox = new javax.swing.JComboBox<>();
         DuracionImagenActivaLabel = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         LienzoPane = new java.awt.ScrollPane();
 
         ToolLienzoPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Herramientas para el lienzo"));
@@ -165,6 +168,13 @@ public class PanelLienzo extends javax.swing.JPanel {
         });
 
         DuracionImagenActivaLabel.setText("Duracion Imagen Activa: ----------------------");
+
+        jButton3.setText("Exportar Imagen");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ToolLienzoPaneLayout = new javax.swing.GroupLayout(ToolLienzoPane);
         ToolLienzoPane.setLayout(ToolLienzoPaneLayout);
@@ -208,14 +218,17 @@ public class PanelLienzo extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(ImagenActivaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(DuracionImagenActivaLabel)
+                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(DuracionImagenActivaLabel))
+                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton3)
+                                    .addComponent(jButton2))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ToolLienzoPaneLayout.setVerticalGroup(
             ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,6 +249,8 @@ public class PanelLienzo extends javax.swing.JPanel {
                 .addComponent(DuracionImagenActivaLabel)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -293,6 +308,26 @@ public class PanelLienzo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_ImagenActivaComboBoxActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JPanel panelAPintar = new JPanel();
+        Imagen imagenT = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex());
+        panelAPintar.setSize(lienzo.getdY()*lienzo.getCuadros(), lienzo.getdX()*lienzo.getCuadros());
+        panelAPintar.setLayout(new GridLayout(lienzo.getdY(), lienzo.getdX()));
+        for (Component component : imagenT.getPanel().getComponents()) {
+            Cell cell = new Cell();
+            cell.setColor(((Cell)component).getColor());
+            panelAPintar.add(cell);
+        }
+        BufferedImage imagen = new BufferedImage(panelAPintar.getHeight(), panelAPintar.getWidth(), BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = imagen.getGraphics();
+        panelAPintar.paint(graphics);
+        try{
+            ImageIO.write(imagen, "jpg", new File("MiPrueba"));
+        } catch (IOException ex) {
+            Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox BorradorCheckBox;
@@ -306,6 +341,7 @@ public class PanelLienzo extends javax.swing.JPanel {
     private javax.swing.JPanel ToolLienzoPane;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -26,6 +26,8 @@ public class Cell extends JLabel {
         this.dy = y;
     }
 
+    public Cell() {}
+
     public ColorP getColor() {
         return color;
     }
