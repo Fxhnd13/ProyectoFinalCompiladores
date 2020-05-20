@@ -124,4 +124,20 @@ public class Lienzo {
         }
         return cadena;
     }
+
+    public String getEstructuraLienzo() {
+        return id+":{, \n  nombre:" + idSalida + ", \n  tipo=" + extension + ", \n  Fondo:{" + fondo.getEstructura() +"\n  },\n  tamaño:{\n    cuadros:" + cuadros + ", \n    dimension_x:" + dX + ", \n    dimension_y:" + dY + "\n  }\n}";
+    }
+
+    public String getEstructuraColores() {
+        String cadena = "";
+        for (ColorP color : colores) {
+            cadena+="  "+color.getId()+":{\n    "+color.getValue()+"  }";
+        }
+        return id+":{\n"+cadena+"}";
+    }
+
+    public String getEstructuraTiempos() {
+        return id+":{\n"+tiempos.getEstructura()+"}";
+    }
 }

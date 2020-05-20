@@ -470,18 +470,22 @@ public class Editor extends javax.swing.JFrame {
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
         try {
             String strLienzos = null, strColores = null, strTiempos=null;
+            File lienzo = null, colores=null, tiempos = null, pintar = null;
             for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
                 switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
                     case "lnz" : {
                         strLienzos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        lienzo = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
                         break;
                     }
                     case "clrs" : {
                         strColores = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        colores = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
                         break;
                     }
                     case "tmp" : {
                         strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        tiempos = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
                         break;
                     }
                 }
@@ -501,6 +505,7 @@ public class Editor extends javax.swing.JFrame {
                 if(tercerParser.getErrores().isEmpty()){
                     Pintor pintor = new Pintor();
                     pintor.setLienzos(lienzos);
+                    pintor.setFiles(lienzo, colores, tiempos, pintar);
                     pintor.setVisible(true);
                     this.dispose();
                 }

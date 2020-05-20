@@ -2,6 +2,7 @@ package UI;
 
 
 import Objetos.Lienzo;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,22 @@ import java.util.List;
  */
 public class Pintor extends javax.swing.JFrame {
 
-    List<Lienzo> lienzos = new ArrayList<Lienzo>();
+    private List<Lienzo> lienzos = new ArrayList<Lienzo>();
+    private File fileLienzo, fileColores, fileTiempos, filePintar;
+    
     /**
      * Creates new form Pintor
      */
     public Pintor() {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         initComponents();
+    }
+    
+    public void setFiles(File lienzo, File colores, File tiempos, File pintar){
+        this.fileLienzo = lienzo;
+        this.fileColores = colores;
+        this.fileTiempos = tiempos;
+        this.filePintar = pintar;
     }
     
     public void setLienzos(List<Lienzo> lienzos){
@@ -50,20 +60,20 @@ public class Pintor extends javax.swing.JFrame {
         LienzosPane = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jMenu1.setText("Lienzo");
 
-        jMenuItem1.setText("Crear Archivo Pintar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setText("Guardar Cambios");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
@@ -92,11 +102,24 @@ public class Pintor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        System.out.println("Archivo Lienzos------------------------------------------------------------------------------------------");
+        for (Lienzo lienzo : lienzos) {
+            System.out.println(lienzo.getEstructuraLienzo());
+        }
+        System.out.println("Archivo Colores------------------------------------------------------------------------------------------");
+        for (Lienzo lienzo : lienzos) {
+            System.out.println(lienzo.getEstructuraColores());
+        }
+        System.out.println("Archivo Tiempos------------------------------------------------------------------------------------------");
+        for (Lienzo lienzo : lienzos) {
+            System.out.println(lienzo.getEstructuraTiempos());
+        }
+        System.out.println("Archivo Pintar-------------------------------------------------------------------------------------------");
         for (Lienzo lienzo : lienzos) {
             if(!lienzo.instrucciones().isEmpty()) System.out.println("INSTRUCCIONES("+lienzo.getId()+"){\n"+lienzo.instrucciones()+"}");
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,6 +161,6 @@ public class Pintor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }

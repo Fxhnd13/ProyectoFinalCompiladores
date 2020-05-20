@@ -75,10 +75,24 @@ public class ColorP{
     public void setHex(String hex) {
         this.hex = hex;
     }
+    
+    public String getValue(){
+        String cadena =  "";
+        if(hex != null){
+            cadena = hex;
+        }else{
+            cadena = "    Red:"+red+",\n    Blue:"+blue+",\n    Green:"+green;
+        }
+        return cadena;
+    }
 
     @Override
     public String toString() {
         return "\n    ColorP{" + "\n      color=" + color + ", \n      red=" + red + ", \n      blue=" + blue + ", \n      green=" + green + ", \n      hex=" + hex + ", \n      id=" + id + "\n    }";
+    }
+
+    public String getEstructura() {
+        return "\n    "+getValue();
     }
     
 }
