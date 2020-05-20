@@ -498,9 +498,13 @@ public class Editor extends javax.swing.JFrame {
                 LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
                 ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
                 tercerParser.parse();
-                for (Lienzo lienzo : lienzos) {
-                    addLienzoTab(lienzo);
+                if(tercerParser.getErrores().isEmpty()){
+                    Pintor pintor = new Pintor();
+                    pintor.setLienzos(lienzos);
+                    pintor.setVisible(true);
+                    this.dispose();
                 }
+                this.jMenu2.setEnabled(false);
             }
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -564,11 +568,6 @@ public class Editor extends javax.swing.JFrame {
             if(((InputTab)component).getExtension().equals(extension)) valor = true;
         }
         return valor;
-    }
-    
-    private void addLienzoTab(Lienzo lienzo){
-        PanelLienzo panelLienzo = new PanelLienzo(lienzo);
-        this.PanelArchivos.addTab("Lienzo: "+lienzo.getId(), panelLienzo);
     }
     
     private void addTab(String extension){

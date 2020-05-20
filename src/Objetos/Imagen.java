@@ -5,6 +5,8 @@
  */
 package Objetos;
 
+import UI.Cell;
+import java.awt.Component;
 import javax.swing.JPanel;
 
 /**
@@ -44,6 +46,17 @@ public class Imagen {
     @Override
     public String toString() {
         return "\n        Imagen{" + "\n          id=" + id + ", \n          duracion=" + duracion + "\n      }";
+    }
+    
+    public String instrucciones(ColorP fondo){
+        String cadena = "";
+        for (Component component : this.panel.getComponents()) {
+            Cell cell = (Cell) component;
+            if(cell.getColor()!= fondo){
+                cadena+="    PINTAR(\""+cell.getColor().getId()+"\","+this.id+","+cell.getDx()+","+cell.getDy()+";\n";
+            }
+        }
+        return cadena;
     }
     
 }

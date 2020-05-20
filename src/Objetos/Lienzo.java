@@ -117,5 +117,11 @@ public class Lienzo {
         return "Lienzo{" + "\n  id=" + id + ", \n  idSalida=" + idSalida + ", \n  extension=" + extension + ", \n  fondo=" + fondo + ", \n  cuadros=" + cuadros + ", \n  dX=" + dX + ", \n  dY=" + dY + ", \n  colores=" + colores + ", \n  tiempos=" + tiempos + "\n}";
     }
     
-    
+    public String instrucciones(){
+        String cadena = "";
+        for (Imagen imagen : this.tiempos.getImagenes()) {
+            cadena+= imagen.instrucciones(this.fondo);
+        }
+        return cadena;
+    }
 }

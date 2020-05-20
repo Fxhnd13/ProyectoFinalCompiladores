@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
@@ -217,17 +218,17 @@ public class PanelLienzo extends javax.swing.JPanel {
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(ImagenActivaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(DuracionImagenActivaLabel))
-                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton3)
-                                    .addComponent(jButton2))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                            .addGap(72, 72, 72)
+                            .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton3)
+                                .addComponent(jButton2))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(DuracionImagenActivaLabel)
+                            .addGap(0, 0, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         ToolLienzoPaneLayout.setVerticalGroup(
@@ -272,7 +273,7 @@ public class PanelLienzo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(ToolLienzoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -280,7 +281,7 @@ public class PanelLienzo extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                    .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                     .addComponent(ToolLienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -309,21 +310,22 @@ public class PanelLienzo extends javax.swing.JPanel {
     }//GEN-LAST:event_ImagenActivaComboBoxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JPanel panelAPintar = new JPanel();
-        Imagen imagenT = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex());
-        panelAPintar.setSize(lienzo.getdY()*lienzo.getCuadros(), lienzo.getdX()*lienzo.getCuadros());
-        panelAPintar.setLayout(new GridLayout(lienzo.getdY(), lienzo.getdX()));
-        for (Component component : imagenT.getPanel().getComponents()) {
-            Cell cell = new Cell();
-            cell.setColor(((Cell)component).getColor());
-            panelAPintar.add(cell);
+        JPanel panelApintar = new JPanel(); //es el panel al cual vamos a agregar las celdas que queremos pintar
+        Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex()); //obtenemos la imagen que contiene las celdas a agregar
+        panelApintar.setSize(this.lienzo.getCuadros()*this.lienzo.getdY(), this.lienzo.getdX()*this.lienzo.getCuadros());//ajustamos el tamaño del panel
+        panelApintar.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//agregamos la cuadricula de celdas que va a tener el panel
+        for (Component component : imagen.getPanel().getComponents()) {
+            JLabel label = new JLabel();
+            label.setOpaque(true);
+            label.setBackground(((Cell) component).getBackground());
+            panelApintar.add(label);
         }
-        BufferedImage imagen = new BufferedImage(panelAPintar.getHeight(), panelAPintar.getWidth(), BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = imagen.getGraphics();
-        panelAPintar.paint(graphics);
+        BufferedImage pintor = new BufferedImage(panelApintar.getHeight(), panelApintar.getWidth(), BufferedImage.TYPE_INT_RGB);
+        Graphics grpahics = pintor.getGraphics();
+        panelApintar.paint(grpahics);
         try{
-            ImageIO.write(imagen, "jpg", new File("MiPrueba"));
-        } catch (IOException ex) {
+            ImageIO.write(pintor, "jpg", new File("MiPrueba"));
+        } catch (IOException ex){
             Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
