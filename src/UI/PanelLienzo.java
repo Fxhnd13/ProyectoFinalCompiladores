@@ -6,6 +6,7 @@
 package UI;
 
 import Objetos.ColorP;
+import Objetos.GifSequenceWriter;
 import Objetos.Imagen;
 import Objetos.Lienzo;
 import java.awt.Component;
@@ -15,10 +16,16 @@ import java.awt.ScrollPane;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
@@ -85,8 +92,13 @@ public class PanelLienzo extends javax.swing.JPanel {
             this.FinImagensComboBox.addItem(imagen.getId());
             if(imagen.getPanel() == null) cargarImagen(imagen);
         }
-        this.InicioImagenesComboBox.setSelectedItem(this.lienzo.getTiempos().getIdInicio());
-        this.FinImagensComboBox.setSelectedItem(this.lienzo.getTiempos().getIdFin());
+        int indiceInicio = 0, indiceFinal = 0;
+        for (int i = 0; i < this.lienzo.getTiempos().getImagenes().size(); i++) {
+            if(this.lienzo.getTiempos().getImagenes().get(i).getId().equals(this.lienzo.getTiempos().getIdInicio())) indiceInicio = i;
+            if(this.lienzo.getTiempos().getImagenes().get(i).getId().equals(this.lienzo.getTiempos().getIdFin())) indiceFinal = i;
+        }
+        this.InicioImagenesComboBox.setSelectedIndex(indiceInicio);
+        this.FinImagensComboBox.setSelectedIndex(indiceFinal);
         this.ImagenActivaComboBox.setSelectedIndex(0);
         this.LienzoPane.add(this.lienzo.getTiempos().getImagenes().get(0).getPanel());
     }
@@ -160,6 +172,12 @@ public class PanelLienzo extends javax.swing.JPanel {
 
         jLabel4.setText("Fin");
 
+        InicioImagenesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InicioImagenesComboBoxActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Imagen Activa");
 
         ImagenActivaComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +188,7 @@ public class PanelLienzo extends javax.swing.JPanel {
 
         DuracionImagenActivaLabel.setText("Duracion Imagen Activa: ----------------------");
 
-        jButton3.setText("Exportar Imagen");
+        jButton3.setText("Exportar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -218,17 +236,17 @@ public class PanelLienzo extends javax.swing.JPanel {
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(ImagenActivaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                            .addGap(72, 72, 72)
-                            .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
                                 .addComponent(jButton3)
-                                .addComponent(jButton2))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(DuracionImagenActivaLabel)
-                            .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(27, 27, 27))))
+                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(DuracionImagenActivaLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         ToolLienzoPaneLayout.setVerticalGroup(
@@ -273,7 +291,7 @@ public class PanelLienzo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(ToolLienzoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -281,7 +299,7 @@ public class PanelLienzo extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                    .addComponent(LienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
                     .addComponent(ToolLienzoPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -310,25 +328,42 @@ public class PanelLienzo extends javax.swing.JPanel {
     }//GEN-LAST:event_ImagenActivaComboBoxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JPanel panelApintar = new JPanel(); //es el panel al cual vamos a agregar las celdas que queremos pintar
-        Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex()); //obtenemos la imagen que contiene las celdas a agregar
-        panelApintar.setSize(this.lienzo.getCuadros()*this.lienzo.getdY(), this.lienzo.getdX()*this.lienzo.getCuadros());//ajustamos el tamaño del panel
-        panelApintar.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//agregamos la cuadricula de celdas que va a tener el panel
-        for (Component component : imagen.getPanel().getComponents()) {
-            JLabel label = new JLabel();
-            label.setOpaque(true);
-            label.setBackground(((Cell) component).getBackground());
-            panelApintar.add(label);
-        }
-        BufferedImage pintor = new BufferedImage(panelApintar.getHeight(), panelApintar.getWidth(), BufferedImage.TYPE_INT_RGB);
-        Graphics grpahics = pintor.getGraphics();
-        panelApintar.paint(grpahics);
-        try{
-            ImageIO.write(pintor, "jpg", new File("MiPrueba"));
-        } catch (IOException ex){
-            Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
+        int indiceInicio = this.InicioImagenesComboBox.getSelectedIndex();
+        int indiceFinal = this.FinImagensComboBox.getSelectedIndex();
+        if(this.lienzo.getExtension().equals("gif")){
+            if(indiceInicio == indiceFinal){
+                JOptionPane.showMessageDialog(null, "Al crear un gif, debe haber por lo menos dos imagenes", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                if(indiceInicio < indiceFinal){
+                    this.exportarGif(indiceInicio, indiceFinal);
+                }else{
+                    JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            if(this.FinImagensComboBox.getItemCount()==0){
+                Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.InicioImagenesComboBox.getSelectedIndex()); //obtenemos la imagen que contiene las celdas a agregar
+                imprimirImagen(imagen);
+            }else{
+                if(indiceInicio != indiceFinal){
+                    if(indiceInicio < indiceFinal){
+                        for (int i = indiceInicio; i < (indiceFinal+1); i++) {
+                            Imagen imagen = this.lienzo.getTiempos().getImagenes().get(i); //obtenemos la imagen que contiene las celdas a agregar
+                            imprimirImagen(imagen);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else{
+                    Imagen imagen = this.lienzo.getTiempos().getImagenes().get(indiceInicio); //obtenemos la imagen que contiene las celdas a agregar
+                    imprimirImagen(imagen);
+                }
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void InicioImagenesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InicioImagenesComboBoxActionPerformed
+    }//GEN-LAST:event_InicioImagenesComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -350,4 +385,66 @@ public class PanelLienzo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 
+    private void imprimirImagen(Imagen imagen) {
+        JPanel panelApintar = new JPanel(); //es el panel al cual vamos a agregar las celdas que queremos pintar
+        panelApintar.setSize(this.lienzo.getCuadros()*this.lienzo.getdX(), this.lienzo.getdY()*this.lienzo.getCuadros());//ajustamos el tamaño del panel
+        panelApintar.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//agregamos la cuadricula de celdas que va a tener el panel
+        for (Component component : imagen.getPanel().getComponents()) {
+            JLabel label = new JLabel();
+            label.setOpaque(true);
+            label.setBackground(((Cell) component).getBackground());
+            panelApintar.add(label);
+        }
+        JFrame frame = new JFrame();
+        frame.setSize(panelApintar.getWidth(), panelApintar.getHeight());
+        frame.add(panelApintar);
+        frame.setVisible(true);
+        BufferedImage pintor = new BufferedImage(panelApintar.getHeight(), panelApintar.getWidth(), BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = pintor.createGraphics();
+        panelApintar.printAll(graphics);
+        graphics.dispose();
+        frame.dispose();
+        try{
+            File file = new File("Salidas/"+this.lienzo.getIdSalida());
+            if(!file.exists()) file.mkdirs();
+            ImageIO.write(pintor, "png", new File("Salidas/"+this.lienzo.getIdSalida()+"/"+imagen.getId()));
+        } catch (IOException ex){
+            Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void exportarGif(int indiceInicio, int indiceFinal){
+        try {
+            File file = new File("Salidas/"+this.lienzo.getIdSalida());
+            if(!file.exists()) file.mkdirs();
+            for (int i = indiceInicio; i < (indiceFinal+1); i++) {
+                Imagen imagen = this.lienzo.getTiempos().getImagenes().get(i); //obtenemos la imagen que contiene las celdas a agregar
+                imprimirImagen(imagen);
+            }
+            BufferedImage first = ImageIO.read(new File("Salidas/"+this.lienzo.getIdSalida()+"/"+this.lienzo.getTiempos().getImagenes().get(indiceInicio).getId()));
+            ImageOutputStream output = new FileImageOutputStream(new File("Salidas/"+this.lienzo.getIdSalida()+"/"+this.lienzo.getIdSalida()));
+            
+            GifSequenceWriter writer = new GifSequenceWriter(output, first.getType(), 250, true);
+            writer.writeToSequence(first);
+            
+            List<File> images = new ArrayList<File>();
+            for (int i = indiceInicio; i < (indiceFinal+1); i++) {
+                images.add(new File("Salidas/"+this.lienzo.getIdSalida()+"/"+this.lienzo.getTiempos().getImagenes().get(i).getId()));
+            }
+            
+            for (File image : images) {
+                BufferedImage next = ImageIO.read(image);
+                writer.writeToSequence(next);
+            }
+            
+            writer.close();
+            output.close();
+            
+            for (File image : images) {
+                image.delete();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
