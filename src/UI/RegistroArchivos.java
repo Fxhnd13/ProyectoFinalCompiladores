@@ -31,7 +31,7 @@ public class RegistroArchivos {
         JFileChooser filechooser = new JFileChooser();
         filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Lienzo","lnz"));
-        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Colores","clr"));
+        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Colores","clrs"));
         filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Tiempos","tmp"));
         filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Pintar","pnt"));
         int resultado = filechooser.showOpenDialog(null);
