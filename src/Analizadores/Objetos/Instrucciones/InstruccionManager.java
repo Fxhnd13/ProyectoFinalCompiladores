@@ -20,7 +20,9 @@ public class InstruccionManager {
             switch(instruccion.getTipo()){
                 case "if":{
                     SiInstruccion temporal = (SiInstruccion) instruccion.getInstruccion();
-                    if()
+                    if(temporal.getCondiciones().evaluar(variables)){
+                        
+                    }
                     break;
                 }
                 case "while":{

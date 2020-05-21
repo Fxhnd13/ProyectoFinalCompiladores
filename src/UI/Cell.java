@@ -6,6 +6,7 @@
 package UI;
 
 import Objetos.ColorP;
+import java.awt.Color;
 import java.awt.Component;
 import javax.accessibility.AccessibleContext;
 import javax.swing.JLabel;

@@ -16,4 +16,29 @@ public class SiInstruccion {
     
     NodoCondicion condiciones;
     List<Instruccion> instruccionesSi, instruccionesSiNo;
+
+    public NodoCondicion getCondiciones() {
+        return condiciones;
+    }
+
+    public void setCondiciones(NodoCondicion condiciones) {
+        this.condiciones = condiciones;
+    }
+
+    public List<Instruccion> getInstruccionesSi() {
+        return instruccionesSi;
+    }
+
+    public void setInstruccionesSi(List<Instruccion> instruccionesSi) {
+        this.instruccionesSi = instruccionesSi;
+    }
+
+    public List<Instruccion> getInstruccionesSiNo() {
+        return instruccionesSiNo;
+    }
+
+    public void setInstruccionesSiNo(List<Instruccion> instruccionesSiNo) {
+        this.instruccionesSiNo = instruccionesSiNo;
+    }
+    
 }

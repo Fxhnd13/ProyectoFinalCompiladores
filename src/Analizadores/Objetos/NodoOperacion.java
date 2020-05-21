@@ -58,17 +58,21 @@ public class NodoOperacion {
         this.valor = valor;
     }
     
-    public int evaluar(){
+    public int evaluar(TablaDeSimbolos variables){
         if(this.operador != null){
             switch(this.operador){
-                case "*": return (this.izq.evaluar() * this.der.evaluar());
-                case "/": return (this.izq.evaluar() / this.der.evaluar());
-                case "+": return (this.izq.evaluar() + this.der.evaluar());
-                case "-": return (this.izq.evaluar() - this.der.evaluar());
+                case "*": return (this.izq.evaluar(variables) * this.der.evaluar(variables));
+                case "/": return (this.izq.evaluar(variables) / this.der.evaluar(variables));
+                case "+": return (this.izq.evaluar(variables) + this.der.evaluar(variables));
+                case "-": return (this.izq.evaluar(variables) - this.der.evaluar(variables));
                 default: return 0;
             }
         }else{
-            return (Integer) this.getValor();
+            if(variables.getVariable(this.valor.toString())!=null){
+                return (Integer) variables.getVariable(this.valor.toString()).getValor();
+            }else{
+                return 0;
+            }
         }
     }
     

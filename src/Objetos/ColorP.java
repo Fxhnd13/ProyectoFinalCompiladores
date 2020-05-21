@@ -16,12 +16,22 @@ public class ColorP{
     Color color = null;
     int red = -1, blue=-1, green=-1;
     String hex = null, id = null;
+
+    public ColorP(){}
+    
+    public ColorP(Color color, String id) {
+        this.red = color.getRed();
+        this.blue = color.getBlue();
+        this.green = color.getGreen();
+        this.color = color;
+        this.id = id;
+    }
     
     public void CargarColorP(){
         if(this.hex == null){
-            int r = red / 256;
-            int b = blue / 256;
-            int g = green / 256;
+            int r = red;
+            int b = blue;
+            int g = green;
             this.color = new Color(r, g, b);
         }else{
             this.color = Color.decode(hex);

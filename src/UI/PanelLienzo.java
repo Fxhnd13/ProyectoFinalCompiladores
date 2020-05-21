@@ -9,6 +9,7 @@ import Objetos.ColorP;
 import Objetos.GifSequenceWriter;
 import Objetos.Imagen;
 import Objetos.Lienzo;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -85,6 +86,9 @@ public class PanelLienzo extends javax.swing.JPanel {
     }
     
     private void cargarImagenes() {
+        this.InicioImagenesComboBox.removeAllItems();
+        this.FinImagensComboBox.removeAllItems();
+        this.ImagenActivaComboBox.removeAllItems();
         //faltaria pintar las imagenes si hay archivo pnt
         for (Imagen imagen : this.lienzo.getTiempos().getImagenes()) {
             this.ImagenActivaComboBox.addItem(imagen.getId());
@@ -104,6 +108,7 @@ public class PanelLienzo extends javax.swing.JPanel {
     }
 
     private void cargarColores() {
+        this.ColoresComboBox.removeAllItems();
         for (ColorP color : this.lienzo.getColores()) {
             this.ColoresComboBox.addItem(color.getId());
         }
@@ -128,6 +133,17 @@ public class PanelLienzo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        DialogoAgregarImagen = new javax.swing.JDialog();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        IdAgregarImagen = new javax.swing.JTextField();
+        DuracionAgregarImagen = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        DialogoAgregarColor = new javax.swing.JDialog();
+        ColorAgregarColor = new javax.swing.JColorChooser();
+        jLabel7 = new javax.swing.JLabel();
+        IdAgregarColor = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
         ToolLienzoPane = new javax.swing.JPanel();
         ColoresComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -144,6 +160,99 @@ public class PanelLienzo extends javax.swing.JPanel {
         DuracionImagenActivaLabel = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         LienzoPane = new java.awt.ScrollPane();
+
+        DialogoAgregarImagen.setSize(new java.awt.Dimension(420, 190));
+
+        jLabel2.setText("Id de la imagen:");
+
+        jLabel6.setText("Duracion de la imagen:");
+
+        jButton4.setText("Agregar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout DialogoAgregarImagenLayout = new javax.swing.GroupLayout(DialogoAgregarImagen.getContentPane());
+        DialogoAgregarImagen.getContentPane().setLayout(DialogoAgregarImagenLayout);
+        DialogoAgregarImagenLayout.setHorizontalGroup(
+            DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogoAgregarImagenLayout.createSequentialGroup()
+                .addGroup(DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DialogoAgregarImagenLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(IdAgregarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DuracionAgregarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(DialogoAgregarImagenLayout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(jButton4)))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+        DialogoAgregarImagenLayout.setVerticalGroup(
+            DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogoAgregarImagenLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(IdAgregarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(DialogoAgregarImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(DuracionAgregarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton4)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
+        DialogoAgregarColor.setSize(new java.awt.Dimension(675, 470));
+
+        ColorAgregarColor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jLabel7.setText("Id color: ");
+
+        jButton5.setText("Agregar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout DialogoAgregarColorLayout = new javax.swing.GroupLayout(DialogoAgregarColor.getContentPane());
+        DialogoAgregarColor.getContentPane().setLayout(DialogoAgregarColorLayout);
+        DialogoAgregarColorLayout.setHorizontalGroup(
+            DialogoAgregarColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogoAgregarColorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(DialogoAgregarColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DialogoAgregarColorLayout.createSequentialGroup()
+                        .addComponent(ColorAgregarColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(11, Short.MAX_VALUE))
+                    .addGroup(DialogoAgregarColorLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(IdAgregarColor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5)
+                        .addGap(66, 66, 66))))
+        );
+        DialogoAgregarColorLayout.setVerticalGroup(
+            DialogoAgregarColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogoAgregarColorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ColorAgregarColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(DialogoAgregarColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(IdAgregarColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
 
         ToolLienzoPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Herramientas para el lienzo"));
 
@@ -165,8 +274,18 @@ public class PanelLienzo extends javax.swing.JPanel {
         });
 
         jButton1.setText("Agregar Color");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Agregar Imagen");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Inicio");
 
@@ -314,16 +433,20 @@ public class PanelLienzo extends javax.swing.JPanel {
     }//GEN-LAST:event_BorradorCheckBoxActionPerformed
 
     private void ColoresComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoresComboBoxActionPerformed
-        this.colorActivo = this.lienzo.getColores().get(this.ColoresComboBox.getSelectedIndex());
-        this.ColorActivoLabel.setText("Color Activo: "+this.colorActivo.getId());
+        if(this.ColoresComboBox.getSelectedIndex()!=(-1)){
+            this.colorActivo = this.lienzo.getColores().get(this.ColoresComboBox.getSelectedIndex());
+            this.ColorActivoLabel.setText("Color Activo: "+this.colorActivo.getId());
+        }
     }//GEN-LAST:event_ColoresComboBoxActionPerformed
 
     private void ImagenActivaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagenActivaComboBoxActionPerformed
-        Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex());
-        this.LienzoPane.removeAll();
-        if(imagen.getPanel()!=null) {
-            this.LienzoPane.add(imagen.getPanel());
-            this.DuracionImagenActivaLabel.setText("Duracion Imagen Activa: "+imagen.getDuracion());
+        if(this.ImagenActivaComboBox.getSelectedIndex()!=(-1)){
+            Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex());
+            this.LienzoPane.removeAll();
+            if(imagen.getPanel()!=null) {
+                this.LienzoPane.add(imagen.getPanel());
+                this.DuracionImagenActivaLabel.setText("Duracion Imagen Activa: "+imagen.getDuracion());
+            }
         }
     }//GEN-LAST:event_ImagenActivaComboBoxActionPerformed
 
@@ -365,13 +488,65 @@ public class PanelLienzo extends javax.swing.JPanel {
     private void InicioImagenesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InicioImagenesComboBoxActionPerformed
     }//GEN-LAST:event_InicioImagenesComboBoxActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        IdAgregarImagen.setText("");
+        DuracionAgregarImagen.setText("");
+        DialogoAgregarImagen.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        IdAgregarColor.setText("");
+        ColorAgregarColor.setColor(null);
+        DialogoAgregarColor.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(IdAgregarImagen.getText().isEmpty() || DuracionAgregarImagen.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se ingreso los datos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                int duracion = Integer.parseInt(DuracionAgregarImagen.getText());
+                Imagen imagen = new Imagen();
+                imagen.setId(IdAgregarImagen.getText());
+                imagen.setDuracion(duracion);
+                this.lienzo.getTiempos().getImagenes().add(imagen);
+                DialogoAgregarImagen.setVisible(false);
+                cargarImagenes();
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "No se ingreso un valor entero en duracion", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if(ColorAgregarColor.getColor() != null){
+            if(IdAgregarColor.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "No se ingreso un id para el color nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                Color color = ColorAgregarColor.getColor();
+                ColorP colorAgregado = new ColorP(color, IdAgregarColor.getText());
+                this.lienzo.getColores().add(colorAgregado);
+                DialogoAgregarColor.setVisible(false);
+                this.cargarColores();
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No selecciono un color a agregar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox BorradorCheckBox;
     private javax.swing.JLabel ColorActivoLabel;
+    private javax.swing.JColorChooser ColorAgregarColor;
     private javax.swing.JComboBox<String> ColoresComboBox;
+    private javax.swing.JDialog DialogoAgregarColor;
+    private javax.swing.JDialog DialogoAgregarImagen;
+    private javax.swing.JTextField DuracionAgregarImagen;
     private javax.swing.JLabel DuracionImagenActivaLabel;
     private javax.swing.JComboBox<String> FinImagensComboBox;
+    private javax.swing.JTextField IdAgregarColor;
+    private javax.swing.JTextField IdAgregarImagen;
     private javax.swing.JComboBox<String> ImagenActivaComboBox;
     private javax.swing.JComboBox<String> InicioImagenesComboBox;
     private java.awt.ScrollPane LienzoPane;
@@ -379,10 +554,15 @@ public class PanelLienzo extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     // End of variables declaration//GEN-END:variables
 
     private void imprimirImagen(Imagen imagen) {

@@ -57,12 +57,12 @@ public class NodoCondicion {
     public void setValor(Object valor) {
         this.valor = valor;
     }
-
-    boolean evaluar() {
+    
+    public boolean evaluar(TablaDeSimbolos variables) {
         if(this.operador != null){
             switch(this.operador){
-                case "AND": return (this.izq.evaluar() && this.der.evaluar());
-                case "OR": return (this.izq.evaluar() || this.der.evaluar());
+                case "AND": return (this.izq.evaluar(variables) && this.der.evaluar(variables));
+                case "OR": return (this.izq.evaluar(variables) || this.der.evaluar(variables));
                 case "==": return (this.izq.getValor() == this.der.getValor());
                 case "<=": return ((Integer)this.izq.getValor() <= (Integer)this.der.getValor());
                 case ">=": return ((Integer)this.izq.getValor() >= (Integer)this.der.getValor());
@@ -72,7 +72,11 @@ public class NodoCondicion {
                 default: return false;
             }
         }else{
-            return (boolean) this.getValor();
+            if(variables.getVariable(this.valor.toString())!=null){
+                return (boolean) variables.getVariable(this.valor.toString()).getValor();
+            }else{
+                return false;
+            }
         }
     }
     
