@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class Imagen {
     
     String id = null;
-    int duracion = -1; 
+    int duracion = -1, lineaT, columnaT; 
     JPanel panel = null;
 
     public JPanel getPanel() {
@@ -41,6 +41,22 @@ public class Imagen {
 
     public void setDuracion(int duracion) {
         this.duracion = duracion;
+    }
+
+    public int getLineaT() {
+        return lineaT;
+    }
+
+    public void setLineaT(int lineaT) {
+        this.lineaT = lineaT;
+    }
+
+    public int getColumnaT() {
+        return columnaT;
+    }
+
+    public void setColumnaT(int columnaT) {
+        this.columnaT = columnaT;
     }
 
     @Override

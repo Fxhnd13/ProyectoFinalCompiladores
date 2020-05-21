@@ -5,10 +5,10 @@
 
 package Analizadores.Tiempos;
 
-import Analizadores.Objetos.Atributo;
-import Analizadores.Objetos.Token;
+import Objetos.Atributo;
 import Objetos.Tiempo;
 import Objetos.Imagen;
+import Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -187,57 +187,32 @@ class CUP$ParserTiempos$actions {
 
 
     private boolean isValido(Imagen imagen){
-        boolean valor = true;
-        if(imagen.getId()==null) {
-            listErrores.add("Hay un error con la imagen declarada en la linea: "+imagen.getLineaT()+", columna: "+imagen.getColumnaT()+" no posee un id");
-            valor = false;
-        }
-        if(imagen.getDuracion()==(-1)){
-            listErrores.add("Hay un error con la imagen declarada en la linea: "+imagen.getLineaT()+", columna: "+imagen.getColumnaT()+" no posee una duracion");
-            valor = false;
-        }
-        return valor;
+        if(imagen.getId()==null) listErrores.add("Hay un error con la imagen declarada en la linea: "+imagen.getLineaT()+", columna: "+imagen.getColumnaT()+" no posee un id");
+        if(imagen.getDuracion()==(-1)) listErrores.add("Hay un error con la imagen declarada en la linea: "+imagen.getLineaT()+", columna: "+imagen.getColumnaT()+" no posee una duracion");
     }
 
     private boolean isValido(Tiempo tiempo){
-        boolean valor = true;
         if(tiempo.getIdInicio()!= null && tiempo.getIdFin()!=null){
             if(tiempo.existe(tiempo.getIdInicio()) && tiempo.existe(tiempo.getIdFin())){
-                if(tiempo.getIndice(tiempo.getIdInicio()) >= tiempo.getIndice(tiempo.getIdFin())){
-                    listErrores.add("El idInicio se encuentra después que el idFin, en el tiempo del lienzo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
-                    valor = false;
+                if(tiempo.getImagenes().getIndex(tiempo.getIdInicio()) >= tiempo.getImagenes().getIndex(tiempo.getIdFin)){
+                    listErrores.add("El idInicio se encuentra después que el idFin, en el tiempo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
                 }
             }else{
-                if(!tiempo.existe(tiempo.getIdInicio())){
-                    listErrores.add("No existe el idInicio, en la lista de imagenes, en el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
-                    valor = false;
-                }
-                if(!tiempo.existe(tiempo.getIdFin())) {
-                    listErrores.add("No existe el idFin, en la lista de imagenes, en el tiempo del lienzo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
-                    valor= false;
-                }
+                if(!tiempo.existe(tiempo.getIdInicio()) listErrores.add("No existe el idInicio, en la lista de imagenes, en el tiempo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
+                if(!tiempo.existe(tiempo.getIdFin()) listErrores.add("No existe el idFin, en la lista de imagenes, en el tiempo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
             }
         }else{
             if(tiempo.getIdInicio() == null){
-                listErrores.add("Hay un error con el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT()+" no posee un idInicio");
-                valor = false;
+                listErrores.add("Hay un error con el tiempo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT()+" no posee un idInicio");
             }else{
-                if(!tiempo.existe(tiempo.getIdInicio())){
-                    listErrores.add("No existe el idInicio, en la lista de imagenes, en el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
-                    valor = false;
-                }
+                if(!tiempo.existe(tiempo.getIdInicio()) listErrores.add("No existe el idInicio, en la lista de imagenes, en el tiempo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
             }
             if(tiempo.getIdFin() == null){
-                valor = false;
-                listErrores.add("Hay un error con el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT()+" no posee un idFIn");
+                listErrores.add("Hay un error con el tiempo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT()+" no posee un idFIn");
             }else{
-                if(!tiempo.existe(tiempo.getIdFin())) {
-                    listErrores.add("No existe el idFin, en la lista de imagenes, en el tiempo del lienzo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
-                    valor = false;
-                }
+                if(!tiempo.existe(tiempo.getIdFin()) listErrores.add("No existe el idFin, en la lista de imagenes, en el tiempo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
             }
         }
-        return valor;
     }
 
     private void inicializarTiempo(Tiempo tiempo, List<Atributo> atributos){
@@ -379,13 +354,9 @@ class CUP$ParserTiempos$actions {
                                             Tiempo tiempo = new Tiempo();
                                             if(listAtributos != null){
                                                 inicializarTiempo(tiempo, listAtributos);
-                                                tiempo.setLineaT(lienzo.getLinea());
-                                                tiempo.setColumnaT(lienzo.getColumna());
                                                 if(getLienzoPorId(lienzo.getLexema()) != null){
-                                                    if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
-                                                }else{
-                                                    listErrores.add("No existe el lienzo escrito, en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
-                                                }
+                                                    getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                }       
                                             }
                                         
               CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("inicioTiemposLienzo",2, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-4)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
@@ -505,9 +476,7 @@ class CUP$ParserTiempos$actions {
 		Imagen imagen = (Imagen)((java_cup.runtime.Symbol) CUP$ParserTiempos$stack.peek()).value;
 		
                                             if(imagenes == null) imagenes = new ArrayList<Imagen>();
-                                            if(imagen != null){
-                                                if(isValido(imagen)) imagenes.add(imagen);
-                                            }
+                                            if(imagen != null) imagenes.add(imagen);
                                             RESULT = imagenes;
                                         
               CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("listImagenes",8, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
@@ -523,9 +492,7 @@ class CUP$ParserTiempos$actions {
 		Imagen imagen = (Imagen)((java_cup.runtime.Symbol) CUP$ParserTiempos$stack.peek()).value;
 		
                                             ArrayList<Imagen> imagenes = new ArrayList<Imagen>();
-                                            if(imagen != null){
-                                                if(isValido(imagen)) imagenes.add(imagen);
-                                            }
+                                            if(imagen != null) imagenes.add(imagen);
                                             RESULT = imagenes;
                                         
               CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("listImagenes",8, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);

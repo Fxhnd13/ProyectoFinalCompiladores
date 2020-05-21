@@ -1,9 +1,9 @@
 package Analizadores.Tiempos;
 
-import Objetos.Atributo;
+import Analizadores.Objetos.Atributo;
+import Analizadores.Objetos.Token;
 import Objetos.Tiempo;
 import Objetos.Imagen;
-import Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,60 @@ import java_cup.runtime.Symbol;
 import java_cup.runtime.XMLElement;
 
 action code {:
+
+    private boolean isValido(Imagen imagen){
+        boolean valor = true;
+        if(imagen.getId()==null) {
+            listErrores.add("Hay un error con la imagen declarada en la linea: "+imagen.getLineaT()+", columna: "+imagen.getColumnaT()+" no posee un id");
+            valor = false;
+        }
+        if(imagen.getDuracion()==(-1)){
+            listErrores.add("Hay un error con la imagen declarada en la linea: "+imagen.getLineaT()+", columna: "+imagen.getColumnaT()+" no posee una duracion");
+            valor = false;
+        }
+        return valor;
+    }
+
+    private boolean isValido(Tiempo tiempo){
+        boolean valor = true;
+        if(tiempo.getIdInicio()!= null && tiempo.getIdFin()!=null){
+            if(tiempo.existe(tiempo.getIdInicio()) && tiempo.existe(tiempo.getIdFin())){
+                if(tiempo.getIndice(tiempo.getIdInicio()) >= tiempo.getIndice(tiempo.getIdFin())){
+                    listErrores.add("El idInicio se encuentra después que el idFin, en el tiempo del lienzo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
+                    valor = false;
+                }
+            }else{
+                if(!tiempo.existe(tiempo.getIdInicio())){
+                    listErrores.add("No existe el idInicio, en la lista de imagenes, en el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
+                    valor = false;
+                }
+                if(!tiempo.existe(tiempo.getIdFin())) {
+                    listErrores.add("No existe el idFin, en la lista de imagenes, en el tiempo del lienzo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
+                    valor= false;
+                }
+            }
+        }else{
+            if(tiempo.getIdInicio() == null){
+                listErrores.add("Hay un error con el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT()+" no posee un idInicio");
+                valor = false;
+            }else{
+                if(!tiempo.existe(tiempo.getIdInicio())){
+                    listErrores.add("No existe el idInicio, en la lista de imagenes, en el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
+                    valor = false;
+                }
+            }
+            if(tiempo.getIdFin() == null){
+                valor = false;
+                listErrores.add("Hay un error con el tiempo del lienzo declarado en la linea: "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT()+" no posee un idFIn");
+            }else{
+                if(!tiempo.existe(tiempo.getIdFin())) {
+                    listErrores.add("No existe el idFin, en la lista de imagenes, en el tiempo del lienzo declarado en la linea : "+tiempo.getLineaT()+", columna: "+tiempo.getColumnaT());
+                    valor = false;
+                }
+            }
+        }
+        return valor;
+    }
 
     private void inicializarTiempo(Tiempo tiempo, List<Atributo> atributos){
         for(Atributo atributo : atributos){
@@ -136,9 +190,13 @@ inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listA
                                             Tiempo tiempo = new Tiempo();
                                             if(listAtributos != null){
                                                 inicializarTiempo(tiempo, listAtributos);
+                                                tiempo.setLineaT(lienzo.getLinea());
+                                                tiempo.setColumnaT(lienzo.getColumna());
                                                 if(getLienzoPorId(lienzo.getLexema()) != null){
-                                                    getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
-                                                }       
+                                                    if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                }else{
+                                                    listErrores.add("No existe el lienzo escrito, en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
+                                                }
                                             }
                                         :}
                                     ;
@@ -183,19 +241,25 @@ paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMIL
 
 listImagenes::=                     listImagenes:imagenes COMA strImagen:imagen {:
                                             if(imagenes == null) imagenes = new ArrayList<Imagen>();
-                                            if(imagen != null) imagenes.add(imagen);
+                                            if(imagen != null){
+                                                if(isValido(imagen)) imagenes.add(imagen);
+                                            }
                                             RESULT = imagenes;
                                         :}    
                                     |strImagen:imagen {:
                                             ArrayList<Imagen> imagenes = new ArrayList<Imagen>();
-                                            if(imagen != null) imagenes.add(imagen);
+                                            if(imagen != null){
+                                                if(isValido(imagen)) imagenes.add(imagen);
+                                            }
                                             RESULT = imagenes;
                                         :}
                                     ;
 
-strImagen::=                        LLAVE_A paramsImagen:listAtributos LLAVE_C {:
+strImagen::=                        LLAVE_A:dcl paramsImagen:listAtributos LLAVE_C {:
                                             if(listAtributos != null){
                                                 Imagen imagen = new Imagen();
+                                                if(dcl!=null) imagen.setLineaT(dcl.getLinea());
+                                                if(dcl!=null) imagen.setColumnaT(dcl.getColumna());
                                                 inicializarImagen(imagen, listAtributos);
                                                 RESULT = imagen;
                                             }

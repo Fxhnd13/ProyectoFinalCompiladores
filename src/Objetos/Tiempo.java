@@ -16,6 +16,7 @@ public class Tiempo {
     
     String idInicio = null, idFin=null;
     List<Imagen> imagenes;
+    int lineaT, columanT;
 
     public Tiempo(){
         this.imagenes = new ArrayList<>();
@@ -45,6 +46,22 @@ public class Tiempo {
         this.imagenes = imagenes;
     }
 
+    public int getLineaT() {
+        return lineaT;
+    }
+
+    public void setLineaT(int lineaT) {
+        this.lineaT = lineaT;
+    }
+
+    public int getColumnaT() {
+        return columanT;
+    }
+
+    public void setColumnaT(int columanT) {
+        this.columanT = columanT;
+    }
+
     @Override
     public String toString() {
         return "\n    Tiempo{" + "\n      idInicio=" + idInicio + ", \n      idFin=" + idFin + ", \n      imagenes=" + imagenes + "\n    }";
@@ -57,6 +74,25 @@ public class Tiempo {
             if((i+1) < imagenes.size()) cadena+=",\n";
         }
         return "\n  inicio:"+idInicio+",\n  fin:"+idFin+",\n  imagenes:["+cadena+"\n  ]";
+    }
+
+    public boolean existe(String id) {
+        boolean valor = false;
+        for (Imagen imagen : imagenes) {
+            if(imagen.getId().equals(id)) valor = true;
+        }
+        return valor;
+    }
+
+    public int getIndice(String id) {
+        int indice = 0;
+        for (int i = 0; i < imagenes.size(); i++) {
+            if(imagenes.get(i).getId().equals(id)){
+                indice = i;
+                break;
+            }
+        }
+        return indice;
     }
     
 }

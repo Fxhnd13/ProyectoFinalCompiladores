@@ -44,6 +44,7 @@ public class Editor extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
         this.GenerarOption.setEnabled(false);
+        this.EditorGrafico.setEnabled(false);
     }
 
     /**
@@ -88,6 +89,7 @@ public class Editor extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
         GenerarOption = new javax.swing.JMenuItem();
+        EditorGrafico = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -311,13 +313,16 @@ public class Editor extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem11);
 
-        GenerarOption.setText("Generar");
+        GenerarOption.setText("Editor Grafico");
         GenerarOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GenerarOptionActionPerformed(evt);
             }
         });
         jMenu5.add(GenerarOption);
+
+        EditorGrafico.setText("Generar");
+        jMenu5.add(EditorGrafico);
 
         jMenuBar1.add(jMenu5);
 
@@ -564,7 +569,9 @@ public class Editor extends javax.swing.JFrame {
             DialogoReporteAnalisis.setVisible(true);
             if(parserTiempos.getErrores().isEmpty()){
                 this.GenerarOption.setEnabled(true);
+                this.EditorGrafico.setEnabled(true);
             }else{
+                this.EditorGrafico.setEnabled(false);
                 this.GenerarOption.setEnabled(false);
             }
         } catch (Exception ex) {
@@ -695,6 +702,7 @@ public class Editor extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog DialogoReporteAnalisis;
+    private javax.swing.JMenuItem EditorGrafico;
     private javax.swing.JMenuItem GenerarOption;
     private javax.swing.JLabel InformacionLabel;
     private javax.swing.JTabbedPane PanelArchivos;

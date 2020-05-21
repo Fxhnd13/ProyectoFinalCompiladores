@@ -448,11 +448,16 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="GenerarOption">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Generar"/>
+                <Property name="text" type="java.lang.String" value="Editor Grafico"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GenerarOptionActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="EditorGrafico">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generar"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
