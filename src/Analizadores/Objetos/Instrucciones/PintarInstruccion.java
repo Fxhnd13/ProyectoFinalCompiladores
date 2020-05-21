@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Analizadores.Objetos;
+package Analizadores.Objetos.Instrucciones;
+
+import Analizadores.Objetos.NodoPosicion;
 
 /**
  *
  * @author fxhnd
  */
-public class Instruccion {
+public class PintarInstruccion {
     
-    String tipo = null;
-    Object instruccion = null;
+    String idColor, idImagen;
+    NodoPosicion posX, posY;
 }

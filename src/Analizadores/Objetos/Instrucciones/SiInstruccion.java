@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Analizadores.Objetos;
+package Analizadores.Objetos.Instrucciones;
 
+import Analizadores.Objetos.NodoCondicion;
 import java.util.List;
 
 /**
  *
  * @author fxhnd
  */
-public class MientrasInstruccion {
+public class SiInstruccion {
     
-    List<Comparador> comparadores;
-    List<Instruccion> instrucciones;
-    
+    NodoCondicion condiciones;
+    List<Instruccion> instruccionesSi, instruccionesSiNo;
 }
