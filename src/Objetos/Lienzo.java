@@ -126,18 +126,18 @@ public class Lienzo {
     }
 
     public String getEstructuraLienzo() {
-        return id+":{, \n  nombre:" + idSalida + ", \n  tipo=" + extension + ", \n  Fondo:{" + fondo.getEstructura() +"\n  },\n  tamaño:{\n    cuadros:" + cuadros + ", \n    dimension_x:" + dX + ", \n    dimension_y:" + dY + "\n  }\n}";
+        return id+":{ \n  nombre:\"" + idSalida + "\", \n  tipo:\"" + extension + "\", \n  Fondo:{" + fondo.getEstructura() +"\n  },\n  tamaño:{\n    cuadros:" + cuadros + ", \n    dimension_x:" + dX + ", \n    dimension_y:" + dY + "\n  }\n}\n";
     }
 
     public String getEstructuraColores() {
         String cadena = "";
         for (ColorP color : colores) {
-            cadena+="  "+color.getId()+":{\n    "+color.getValue()+"  }";
+            cadena+="  "+color.getId()+":{\n    "+color.getValue()+"\n  }\n";
         }
-        return id+":{\n"+cadena+"}";
+        return id+":{\n"+cadena+"}\n";
     }
 
     public String getEstructuraTiempos() {
-        return id+":{\n"+tiempos.getEstructura()+"}";
+        return id+":{"+tiempos.getEstructura()+"\n}\n";
     }
 }

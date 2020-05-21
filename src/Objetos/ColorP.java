@@ -89,9 +89,9 @@ public class ColorP{
     public String getValue(){
         String cadena =  "";
         if(hex != null){
-            cadena = hex;
+            cadena = "        HEX:"+hex;
         }else{
-            cadena = "    Red:"+red+",\n    Blue:"+blue+",\n    Green:"+green;
+            cadena = "    Red:"+red+",\n        Blue:"+blue+",\n        Green:"+green;
         }
         return cadena;
     }

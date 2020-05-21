@@ -41,8 +41,9 @@ public class Editor extends javax.swing.JFrame {
      * Creates new form Editor
      */
     public Editor() {
-        this.setExtendedState(this.MAXIMIZED_BOTH);
         initComponents();
+        this.setExtendedState(this.MAXIMIZED_BOTH);
+        this.GenerarOption.setEnabled(false);
     }
 
     /**
@@ -84,8 +85,13 @@ public class Editor extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        GenerarOption = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
 
         DialogoReporteAnalisis.setSize(new java.awt.Dimension(1250, 750));
 
@@ -295,20 +301,52 @@ public class Editor extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Analizar");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenu2);
+        jMenu5.setText("Funcionalidades");
 
-        jMenu4.setText("Generar");
-        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu4MouseClicked(evt);
+        jMenuItem11.setText("Analizar");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
             }
         });
+        jMenu5.add(jMenuItem11);
+
+        GenerarOption.setText("Generar");
+        GenerarOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GenerarOptionActionPerformed(evt);
+            }
+        });
+        jMenu5.add(GenerarOption);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu4.setText("Ayuda");
+
+        jMenuItem8.setText("Manual de usuario");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem8);
+
+        jMenuItem9.setText("Manual técnico");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
+
+        jMenuItem10.setText("Acerca de...");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem10);
+
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -341,23 +379,23 @@ public class Editor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        addTab("lnz");
+        addTab("lnz", null);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        addTab(null);
+        addTab(null, null);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        addTab("clrs");
+        addTab("clrs", null);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        addTab("tmp");
+        addTab("tmp", null);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        addTab("pnt");
+        addTab("pnt", null);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -387,16 +425,78 @@ public class Editor extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        //Aqui es el codigo para guardar el archivo
-        int index = PanelArchivos.getSelectedIndex();
-        try {
-            RegistroArchivos.guardarArchivo((InputTab)PanelArchivos.getComponentAt(index));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if(PanelArchivos.getComponentCount()>0){
+            //Aqui es el codigo para guardar el archivo
+            int index = PanelArchivos.getSelectedIndex();
+            try {
+                RegistroArchivos.guardarArchivo((InputTab)PanelArchivos.getComponentAt(index));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        JOptionPane.showMessageDialog(null, "Desarrollado Por: José Carlos Soberanis Ramírez\nCarnet: 201730246", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        //Se muestra el manual de usuario
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        //Se muestra el manual tecnico
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void GenerarOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarOptionActionPerformed
+        try {
+            String strLienzos = null, strColores = null, strTiempos=null;
+            File lienzo = null, colores=null, tiempos = null, pintar = null;
+            for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
+                switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
+                    case "lnz" : {
+                        strLienzos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        lienzo = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                        break;
+                    }
+                    case "clrs" : {
+                        strColores = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        colores = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                        break;
+                    }
+                    case "tmp" : {
+                        strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        tiempos = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                        break;
+                    }
+                }
+            }
+            if(strLienzos == null || strColores == null || strTiempos == null){
+                JOptionPane.showMessageDialog(null, "No se han cargado todos los archivos minimos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                LexerLienzo primerLexer = new LexerLienzo(new StringReader(strLienzos));
+                ParserLienzo primerParser = new ParserLienzo(primerLexer);
+                List<Lienzo> lienzos = (List<Lienzo>) primerParser.parse().value;
+                LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
+                ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
+                segundoParser.parse();
+                LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
+                ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
+                tercerParser.parse();
+                if(tercerParser.getErrores().isEmpty()){
+                    Pintor pintor = new Pintor();
+                    pintor.setLienzos(lienzos);
+                    pintor.setFiles(lienzo, colores, tiempos, pintar);
+                    pintor.setVisible(true);
+                    this.dispose();
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_GenerarOptionActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         try {
             String strLienzos = null, strColores = null, strTiempos=null;
             for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
@@ -462,59 +562,15 @@ public class Editor extends javax.swing.JFrame {
             String finalSintactico = reporteFinal+reporteErrores;
             TextAreaReporteSintactico.setText(finalSintactico);
             DialogoReporteAnalisis.setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenu2MouseClicked
-
-    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
-        try {
-            String strLienzos = null, strColores = null, strTiempos=null;
-            File lienzo = null, colores=null, tiempos = null, pintar = null;
-            for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
-                switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
-                    case "lnz" : {
-                        strLienzos = ((InputTab)PanelArchivos.getComponent(i)).getText();
-                        lienzo = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
-                        break;
-                    }
-                    case "clrs" : {
-                        strColores = ((InputTab)PanelArchivos.getComponent(i)).getText();
-                        colores = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
-                        break;
-                    }
-                    case "tmp" : {
-                        strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
-                        tiempos = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
-                        break;
-                    }
-                }
-            }
-            if(strLienzos == null || strColores == null || strTiempos == null){
-                JOptionPane.showMessageDialog(null, "No se han cargado todos los archivos minimos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
+            if(parserTiempos.getErrores().isEmpty()){
+                this.GenerarOption.setEnabled(true);
             }else{
-                LexerLienzo primerLexer = new LexerLienzo(new StringReader(strLienzos));
-                ParserLienzo primerParser = new ParserLienzo(primerLexer);
-                List<Lienzo> lienzos = (List<Lienzo>) primerParser.parse().value;
-                LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
-                ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
-                segundoParser.parse();
-                LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
-                ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
-                tercerParser.parse();
-                if(tercerParser.getErrores().isEmpty()){
-                    Pintor pintor = new Pintor();
-                    pintor.setLienzos(lienzos);
-                    pintor.setFiles(lienzo, colores, tiempos, pintar);
-                    pintor.setVisible(true);
-                    this.dispose();
-                }
-                this.jMenu2.setEnabled(false);
+                this.GenerarOption.setEnabled(false);
             }
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jMenu4MouseClicked
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -575,7 +631,7 @@ public class Editor extends javax.swing.JFrame {
         return valor;
     }
     
-    private void addTab(String extension){
+    public void addTab(String extension, String texto){
         InputTab newTab;//creamos el nuevo tab a agregar
         if(extension != null){//si no enviamos una extension, es porque se cargo un archivo
             newTab = new InputTab("Pestaña de " +extension);//si no se cargo un archivo, este sera el nombre predeterminado
@@ -612,6 +668,7 @@ public class Editor extends javax.swing.JFrame {
                 this.PanelArchivos.addTab(newTab.getName(), newTab);//lo agreamos al TabPanel
                 //this.undoManager = newTab.getManager(); agrega el undoManager
                 newTab.getTextArea().requestFocus();
+                if(texto != null) newTab.setText(texto);
                 newTab.getTextArea().addCaretListener(new CaretListener() {
                     public void caretUpdate(CaretEvent e) {
                         int pos = e.getDot();
@@ -638,6 +695,7 @@ public class Editor extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog DialogoReporteAnalisis;
+    private javax.swing.JMenuItem GenerarOption;
     private javax.swing.JLabel InformacionLabel;
     private javax.swing.JTabbedPane PanelArchivos;
     private javax.swing.JTable TablaTokensColores;
@@ -651,17 +709,21 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
