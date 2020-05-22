@@ -11,50 +11,35 @@ package Analizadores.Objetos;
  */
 public class NodoPosicion {
     
-    String operador = null;
-    NodoPosicion izq;
-    NodoPosicion der;
-    Object valor;
+    NodoOperacion izq, der, medio;
     
-    public NodoPosicion(NodoPosicion izq, NodoPosicion der){
-        this.operador = operador;
+    public NodoPosicion(NodoOperacion izq, NodoOperacion der){
         this.izq = izq;
         this.der = der;
     }
-    
-    public NodoPosicion(Object valor){
-        this.valor = valor;
-    }
 
-    public String getOperador() {
-        return operador;
-    }
-
-    public void setOperador(String operador) {
-        this.operador = operador;
-    }
-
-    public NodoPosicion getIzq() {
+    public NodoOperacion getIzq() {
         return izq;
     }
 
-    public void setIzq(NodoPosicion izq) {
+    public void setIzq(NodoOperacion izq) {
         this.izq = izq;
     }
 
-    public NodoPosicion getDer() {
+    public NodoOperacion getDer() {
         return der;
     }
 
-    public void setDer(NodoPosicion der) {
+    public void setDer(NodoOperacion der) {
         this.der = der;
     }
-    
-    public Object getValor() {
-        return valor;
+
+    public NodoOperacion getMedio() {
+        return medio;
     }
 
-    public void setValor(Object valor) {
-        this.valor = valor;
+    public void setMedio(NodoOperacion medio) {
+        this.medio = medio;
     }
+    
 }

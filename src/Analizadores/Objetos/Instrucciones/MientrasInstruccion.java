@@ -16,5 +16,21 @@ public class MientrasInstruccion {
     
     NodoCondicion condiciones;
     List<Instruccion> instrucciones;
+
+    public NodoCondicion getCondiciones() {
+        return condiciones;
+    }
+
+    public void setCondiciones(NodoCondicion condiciones) {
+        this.condiciones = condiciones;
+    }
+
+    public List<Instruccion> getInstrucciones() {
+        return instrucciones;
+    }
+
+    public void setInstrucciones(List<Instruccion> instrucciones) {
+        this.instrucciones = instrucciones;
+    }
     
 }

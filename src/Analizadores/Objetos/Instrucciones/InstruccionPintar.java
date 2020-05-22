@@ -5,17 +5,22 @@
  */
 package Analizadores.Objetos.Instrucciones;
 
-import Analizadores.Objetos.NodoPosicion;
-
 /**
  *
  * @author fxhnd
  */
-public class PintarInstruccion {
+public class InstruccionPintar {
     
     String idColor, idImagen;
-    NodoPosicion posX, posY;
+    int posX, posY;
 
+    public InstruccionPintar(String idColor, String idImagen, int posX, int posY) {
+        this.idColor = idColor;
+        this.idImagen = idImagen;
+        this.posX = posX;
+        this.posY = posY;
+    }
+    
     public String getIdColor() {
         return idColor;
     }
@@ -32,19 +37,19 @@ public class PintarInstruccion {
         this.idImagen = idImagen;
     }
 
-    public NodoPosicion getPosX() {
+    public int getPosX() {
         return posX;
     }
 
-    public void setPosX(NodoPosicion posX) {
+    public void setPosX(int posX) {
         this.posX = posX;
     }
 
-    public NodoPosicion getPosY() {
+    public int getPosY() {
         return posY;
     }
 
-    public void setPosY(NodoPosicion posY) {
+    public void setPosY(int posY) {
         this.posY = posY;
     }
     

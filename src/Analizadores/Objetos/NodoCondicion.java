@@ -63,19 +63,25 @@ public class NodoCondicion {
             switch(this.operador){
                 case "AND": return (this.izq.evaluar(variables) && this.der.evaluar(variables));
                 case "OR": return (this.izq.evaluar(variables) || this.der.evaluar(variables));
-                case "==": return (this.izq.getValor() == this.der.getValor());
-                case "<=": return ((Integer)this.izq.getValor() <= (Integer)this.der.getValor());
-                case ">=": return ((Integer)this.izq.getValor() >= (Integer)this.der.getValor());
-                case ">":  return ((Integer)this.izq.getValor() > (Integer)this.der.getValor());
-                case "<":  return ((Integer)this.izq.getValor() < (Integer)this.der.getValor());
-                case "<>": return ((Integer)this.izq.getValor() != (Integer)this.der.getValor());
+                case "equals": return (((String)this.izq.getValor()).equals((String)this.der.getValor()));
+                case "==": return (((NodoOperacion)this.izq.getValor()).evaluar(variables) == ((NodoOperacion)this.der.getValor()).evaluar(variables));
+                case "<=": return (((NodoOperacion)this.izq.getValor()).evaluar(variables) <= ((NodoOperacion)this.der.getValor()).evaluar(variables));
+                case ">=": return (((NodoOperacion)this.izq.getValor()).evaluar(variables) >= ((NodoOperacion)this.der.getValor()).evaluar(variables));
+                case ">":  return (((NodoOperacion)this.izq.getValor()).evaluar(variables) >  ((NodoOperacion)this.der.getValor()).evaluar(variables));
+                case "<":  return (((NodoOperacion)this.izq.getValor()).evaluar(variables) <  ((NodoOperacion)this.der.getValor()).evaluar(variables));
+                case "<>": return (((NodoOperacion)this.izq.getValor()).evaluar(variables) != ((NodoOperacion)this.der.getValor()).evaluar(variables));
                 default: return false;
             }
         }else{
-            if(variables.getVariable(this.valor.toString())!=null){
-                return (boolean) variables.getVariable(this.valor.toString()).getValor();
-            }else{
-                return false;
+            try{
+                Boolean valor = (boolean) this.valor;
+                return valor;
+            }catch(Exception e){
+                if(variables.getVariable(this.valor.toString()) != null){
+                    return (boolean) variables.getVariable(this.valor.toString()).getValor();
+                }else{
+                    return false;
+                }
             }
         }
     }

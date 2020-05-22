@@ -68,10 +68,15 @@ public class NodoOperacion {
                 default: return 0;
             }
         }else{
-            if(variables.getVariable(this.valor.toString())!=null){
-                return (Integer) variables.getVariable(this.valor.toString()).getValor();
-            }else{
-                return 0;
+            try{
+                int valor = (Integer) this.valor;
+                return valor;
+            }catch(Exception e){
+                if(variables.getVariable(this.valor.toString()) != null){
+                    return (Integer) variables.getVariable(this.valor.toString()).getValor();
+                }else{
+                    return 0;
+                }
             }
         }
     }

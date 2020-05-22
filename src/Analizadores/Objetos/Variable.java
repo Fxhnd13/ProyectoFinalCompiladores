@@ -9,7 +9,7 @@ package Analizadores.Objetos;
  *
  * @author fxhnd
  */
-class Variable {
+public class Variable {
     
     String id, tipo;
     Object valor;
