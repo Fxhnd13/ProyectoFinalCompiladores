@@ -194,8 +194,22 @@ parser code {:
             int linea = (((Token)s.value).getLinea());
             int columna = (((Token)s.value).getColumna());
             switch(s.toString()){
+                //para palabras reservadas
+                case "#2": case "#6": case "#7": case "#9": case "#10": case "#11": case "#12": case "#13": case "#14": case "#15": case "#16": case "#17" :{
+                    message = "No se esperaba una palabra reservada, probablemente hace falta una coma en la linea anterior o una llave";
+                    break;
+                }
+                case "#3": message = "No se esperaba una llave abierta"; break;
+                case "#4": message = "No se esperaba una llave cerrada"; break;
+                case "#5": message = "No se esperaba una asignacion, verifique que antes se encuentre un Id o una palabra reservada"; break;
+                case "#8": message = "No se esperaba una coma o fin de linea"; break;
+                case "#18": message = "No se esperaba una comilla, verifique que el tipo de dato del atributo que desea asignar, sea una cadena"; break;
+                case "#19": message = "No se esperaba un Id, verifique que haya finalizado linea anteriormente"; break;
+                case "#20": message = "No se esperaba un valor Hex, verifique que el tipo de dato del atributo que desea asignar, sea color"; break;
+                case "#21": message = "No se esperaba una extension, verifique que el tipo de dato del atributo que desea asignar, sea una extension"; break;
+                case "#22": message = "No se esperaba un entero, verifique que el tipo de dato del atributo que desea asignar, sea un entero"; break;
             }
-            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: <falta implementar>");
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
         }
         
 :}

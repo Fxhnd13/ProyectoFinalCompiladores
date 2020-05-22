@@ -162,8 +162,19 @@ public class ParserColores extends java_cup.runtime.lr_parser {
             int linea = (((Token)s.value).getLinea());
             int columna = (((Token)s.value).getColumna());
             switch(s.toString()){
+                case "#2": case "#3": case "#4": case "#5": case "#6":{
+                    message = "No se esperaba una palabra reservada, probablemente hace falta un fin de linea anteriormente";
+                    break;
+                }
+                case "#7": message = "No se esperaba un entero, verifique que el tipo de dato del atributo que desea asignar, sea un entero"; break;
+                case "#8": message = "No se esperaba un hexadecimal, verifique que el tipo de dato del atributo que desea asignar, sea hexadecimal"; break;
+                case "#9": message = "No se esperaba un id, verifique se se haya finalizado correctamente la linea anterior"; break;
+                case "#10": message = "No se esperaba una coma, verifique que efectivamente se trate de un fin de linea"; break;
+                case "#11": message = "No se esperaba una llave abierta"; break;
+                case "#12": message = "No se esperaba una llave cerrada"; break;
+                case "#13": message = "No se esperaba una asignacion, verifique que antes se encuentre un id o una palabra reservada"; break;
             }
-            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: <falta implementar>");
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
         }
         
 
