@@ -1,1 +1,219 @@
+package Analizadores.Pintar;
 
+
+import Analizadores.Objetos.Instrucciones.Instruccion;
+import Analizadores.Objetos.Instrucciones.MientrasInstruccion;
+import Analizadores.Objetos.Instrucciones.PintarInstruccion;
+import Analizadores.Objetos.Instrucciones.SiInstruccion;
+import Analizadores.Objetos.TablaDeSimbolos;
+import Analizadores.Objetos.Token;
+import Objetos.Lienzo;
+import java.util.ArrayList;
+import java.util.List;
+import java_cup.runtime.Symbol;
+import java_cup.runtime.XMLElement;
+
+action code {:
+    
+    private void verificarValores(String idLienzo, List<Instruccion> instrucciones){
+        for(Instruccion instruccion: instrucciones){
+            switch(instruccion.getTipo()){
+                case "PINTAR":{
+                    if(!getLienzo(idLienzo).existeColor(((PintarInstruccion)instruccion).getIdColor())) listErrores.add("No existe el color de la instruccion pintar declarada en la linea: "+instruccion.getLinea()+", columna: "+instruccion.getColumna());
+                    if(!getLienzo(idLienzo).existeImagen(((PintarInstruccion)instruccion).getIdImagen())) listErrores.add("No existe la imagen de la instruccion pintar declarada en la linea:"+instruccion.getLinea()+", columna: "+instruccion.getColumna()");
+                    break;
+                }
+                case "while":{
+                    verificarValores(lienzo, ((MientrasInstruccion) instruccion.getInstruccion()).getInstrucciones());
+                    break;
+                }
+                case "if":{
+                    verificarValores(lienzo, ((SiInstruccion) instruccion.getInstruccion()).getInstruccionesSi());
+                    if(((SiInstruccion) instruccion.getInstruccion()).getInstruccionesSiNo()!=null){
+                        verificarValores(lienzo, ((SiInstruccion) instruccion.getInstruccion()).getInstruccionesSiNo());
+                    }
+                    break;
+                }
+            }    
+        }
+    }
+    
+    private Lienzo getLienzo(String id){
+        Lienzo lienzo = null;
+        for(Lienzo temporal : lienzos){
+            if(temporal.getId().equals(id)) lienzo = temporal;
+        }
+        return lienzo;
+    }
+
+    private boolean existeLienzo(String id){
+        boolean valor = false;
+        if(lienzos != null){
+            for(Lienzo lienzo : lienzos){
+                if(lienzo.getId().equals(id)) valor = true;
+            }
+        }
+        return valor;
+    }
+
+:}
+
+parser code {:
+        
+        private List<String> listErrores;
+        private List<Lienzo> lienzos;
+        private TablaDeSimbolos variables;
+
+        public ParserPintar(LexerPintar lex, List<Lienzo> a) { 
+            super(lex);   
+            listErrores = lex.getErrorsList();
+            variables = new TablaDeSimbolos();
+            lienzos = a;
+	}
+        
+        public void setAccion(String tipo, String mensaje, String accion){
+            System.out.println(tipo+"         "+mensaje);
+        }
+
+        public void unrecovered_syntax_error(Symbol cur_token){
+            System.err.println("Couldn't repair and continue parse "+cur_token.value);
+        }
+
+        public void syntax_error(Symbol s){
+            String message = "";
+            StringBuilder m = new StringBuilder("Error:");
+            String cadena = ((Token)s.value).getLexema();
+            int linea = (((Token)s.value).getLinea());
+            int columna = (((Token)s.value).getColumna());
+            switch(s.toString()){
+            }
+            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
+        }
+
+        public List<String> getErrores(){
+            return listErrores;
+        }
+        
+        public TablaDeSimbolos getVariables(){
+            return variables;
+        }
+        
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal Token                      PR_VARS, CORCHETE_A, CORCHETE_C, LLAVE_A, LLAVE_C, PARENTESIS_A, PARENTESIS_C, PR_STRING, PR_INT, PR_BOOLEAN,
+                                    COMA, ID, ASIGNACION, S_SUMA, S_RESTA, S_DIV, S_MUL, COMILLA, PR_OR, PR_AND, COMPARADOR, ENTERO, BOOLEAN, 
+                                    PR_INSTRUCCIONES, PR_IF, PR_ELSE, PR_WHILE, PR_PINTAR, PR_RANGE, FINAL;
+
+non terminal                        S, variables, dcl, varListString, varString, asigString, varListInt, varInt, asigInt, varListBoolean, varBoolean,
+                                    cadenas, instrLienzo, instrLienzos, instrs, restoIf, posicion, expresion;
+
+/* precedence */
+
+precedence left     PR_OR, PR_AND;
+precedence left     COMPARADOR;
+precedence left     S_SUMA, S_RESTA;
+precedence left     S_MUL, S_DIV;
+
+/* The grammar */
+
+start with S;
+
+S ::=                                       variables instrLienzos
+                                            |instrLienzos
+                                            ;
+
+variables ::=                               PR_VARS CORCHETE_A dcl CORCHETE_C
+                                            ;
+                                            
+dcl ::=                                     PR_STRING varListString
+                                            |PR_INT varListInt
+                                            |PR_BOOLEAN varListBoolean
+                                            ;
+
+varListString::=                            varListString COMA varString
+                                            |varString
+                                            ;
+
+varString ::=                               ID asigString
+                                            ;
+
+asigString ::=                              ASIGNACION expresion
+                                            |
+                                            ;
+
+varListInt ::=                              varListInt COMA varInt
+                                            |varInt
+                                            ;
+
+varInt::=                                   ID asigInt
+                                            ;
+
+asigInt ::=                                 ASIGNACION expresion
+                                            |
+                                            ;
+
+varListBoolean ::=                          varListBoolean COMA varBoolean
+                                            |varBoolean
+                                            ;
+                                            
+varBoolean ::=                              ASIGNACION expresion
+                                            |
+                                            ;
+
+cadenas ::=                                 cadenas ID
+                                            |ID
+                                            ;
+
+instrLienzos::=                             instrLienzos instrLienzo
+                                            |instrLienzo
+                                            ;
+
+instrLienzo::=                              PR_INSTRUCCIONES PARENTESIS_A ID PARENTESIS_C CORCHETE_A instrs CORCHETE_C
+                                            ;
+
+instrs ::=                                  ID ASIGNACION expresion FINAL
+                                            |PR_PINTAR PARENTESIS_A expresion COMA expresion COMA posicion COMA posicion PARENTESIS_C FINAL
+                                            |PR_WHILE PARENTESIS_A expresion PARENTESIS_C LLAVE_A instrs LLAVE_C
+                                            |PR_IF PARENTESIS_A expresion PARENTESIS_C LLAVE_A instrs LLAVE_C restoIf
+                                            ;
+
+restoIf::=                                  PR_ELSE LLAVE_A instrs LLAVE_C
+                                            ;
+
+posicion ::=                                expresion
+                                            |expresion PR_RANGE expresion
+                                            ;
+
+expresion ::=                               expresion S_SUMA expresion
+                                            |expresion S_RESTA expresion
+                                            |expresion S_MUL expresion
+                                            |expresion S_DIV expresion
+                                            |expresion PR_AND expresion
+                                            |expresion PR_OR expresion
+                                            |expresion COMPARADOR expresion {::}
+                                            |ID:valor   {:
+                                                    if(variables.getVariable(valor.getLexema())!=null){
+                                                        Variable variable = new Variable("Id", valor.getLexema());
+                                                        Nodo nodo = new Nodo(variable, variables);
+                                                        RESULT = nodo;
+                                                    }else{
+                                                        //error semantico, no existe la variable
+                                                    }
+                                                :}
+                                            |BOOLEAN:valor {:
+                                                    Variable variable = new Variable("Boolean", valor.getLexema());
+                                                    Nodo nodo = new Nodo("Boolean", variable);
+                                                    RESULT = nodo;
+                                                :}
+                                            |COMILLA cadenas:valor COMILLA {:
+                                                    Variable variable = new Variable("String", valor.getLexema());
+                                                    Nodo nodo = new Nodo("String", variable);
+                                                    RESULT = nodo;
+                                                :}
+                                            |ENTERO:valor {:
+                                                    Variable variable = new Variable("Entero", valor.getLexema());
+                                                    Nodo nodo = new Nodo("Entero", variable);
+                                                    RESULT = nodo;
+                                                :}
+                                            ;

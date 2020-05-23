@@ -11,14 +11,24 @@ package Analizadores.Objetos.Instrucciones;
  */
 public class InstruccionPintar {
     
+    String idLienzo;
     String idColor, idImagen;
     int posX, posY;
 
-    public InstruccionPintar(String idColor, String idImagen, int posX, int posY) {
+    public InstruccionPintar(String idLienzo, String idColor, String idImagen, int posX, int posY) {
+        this.idLienzo = idLienzo;
         this.idColor = idColor;
         this.idImagen = idImagen;
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public String getIdLienzo() {
+        return idLienzo;
+    }
+
+    public void setIdLienzo(String idLienzo) {
+        this.idLienzo = idLienzo;
     }
     
     public String getIdColor() {

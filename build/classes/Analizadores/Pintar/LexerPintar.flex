@@ -1,7 +1,7 @@
 package Analizadores.Pintar;
 
 import static Analizadores.Pintar.sym.*;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.Symbol;
@@ -16,6 +16,7 @@ import java_cup.runtime.Symbol;
 
 /* special chars */
 LineTerminator = \r|\n|\r\n
+InputCharacter = [^LineTerminator]
 WhiteSpace = [ \t\f]+
 
 /* identifiers */
@@ -24,6 +25,12 @@ L = [a-zA-Z]
 /* integer literals */
 Digito = [0-9]
 IntegerLiteral = 0 | [1-9][0-9]*
+
+/* comments */
+Comment = {TraditionalComment} | {EndOfLineComment}
+
+TraditionalComment   = "/*" [^*] ~"*/"
+EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 
 %{
     private List<String> errorsList;
@@ -68,13 +75,25 @@ IntegerLiteral = 0 | [1-9][0-9]*
     "int"                                   { return symbol(PR_INT);}
     "String"                                { return symbol(PR_STRING);}
     "boolean"                               { return symbol(PR_BOOLEAN);}
+    "true"                                  { return symbol(BOOLEAN);}
+    "false"                                 { return symbol(BOOLEAN);}
     "INSTRUCCIONES"                         { return symbol(PR_INSTRUCCIONES);}
     "PINTAR"                                { return symbol(PR_PINTAR);}
     ".."                                    { return symbol(PR_RANGE);}
     "if"                                    { return symbol(PR_IF);}
     "else"                                  { return symbol(PR_ELSE);}
     "while"                                 { return symbol(PR_WHILE);}
-    ";"                                     { return symbol(PR_FINAL_INSTRUCCION);}
+    "+"                                     { return symbol(S_SUMA);}
+    "-"                                     { return symbol(S_RESTA);}
+    "*"                                     { return symbol(S_MUL);}
+    "/"                                     { return symbol(S_DIV);}
+    "<"                                     { return symbol(COMPARADOR);}
+    ">"                                     { return symbol(COMPARADOR);}
+    "=="                                    { return symbol(COMPARADOR);}
+    "<="                                    { return symbol(COMPARADOR);}
+    ">="                                    { return symbol(COMPARADOR);}
+    "<>"                                    { return symbol(COMPARADOR);}
+    ";"                                     { return symbol(FINAL);}
     ","                                     {   return symbol(COMA);                  }
     "{"                                     {   return symbol(LLAVE_A);}
     "}"                                     {   return symbol(LLAVE_C);}
@@ -86,6 +105,7 @@ IntegerLiteral = 0 | [1-9][0-9]*
     "\""                                    {   return symbol(COMILLA);}
     {LineTerminator}                        {   /*return symbol(FIN_LINEA);*/               }
     {IntegerLiteral}                        {   return symbol(ENTERO, yytext());        }
+    {Comment}                               { /*ignore*/}
     ({L}|("\_"))({L}|{Digito}|("\_"))*      {   return symbol(ID, yytext());            }
 
     {WhiteSpace} 	{   /*return symbol(WHITESPACE); */  }

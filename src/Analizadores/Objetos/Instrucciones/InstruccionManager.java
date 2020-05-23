@@ -5,6 +5,7 @@
  */
 package Analizadores.Objetos.Instrucciones;
 
+import Analizadores.Objetos.Rango;
 import Analizadores.Objetos.TablaDeSimbolos;
 import Objetos.Lienzo;
 import java.util.List;
@@ -15,59 +16,62 @@ import java.util.List;
  */
 public class InstruccionManager {
     
-    public void ejecutarInstrucciones(Lienzo lienzo, List<Instruccion> instrucciones, TablaDeSimbolos variables, List<InstruccionPintar> pinturas){
+    public void ejecutarInstrucciones(String lienzo, List<Instruccion> instrucciones, TablaDeSimbolos variables, List<InstruccionPintar> pinturas){
         for (Instruccion instruccion : instrucciones) {
+            instruccion.setLienzo(lienzo);
             switch(instruccion.getTipo()){
                 case "if":{
                     SiInstruccion temporal = (SiInstruccion) instruccion.getInstruccion();
-                    if(temporal.getCondiciones().evaluar(variables)){
-                        ejecutarInstrucciones(lienzo, temporal.getInstruccionesSi(), variables, pinturas);
+                    if((boolean) temporal.getCondiciones().evaluar(variables)){
+                        ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSi(), variables, pinturas);
                     }else{
                         if(temporal.getInstruccionesSiNo() != null){
-                            ejecutarInstrucciones(lienzo, temporal.getInstruccionesSiNo(), variables, pinturas);
+                            ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSiNo(), variables, pinturas);
                         }
                     }
                     break;
                 }
                 case "while":{
                     MientrasInstruccion temporal = (MientrasInstruccion) instruccion.getInstruccion();
-                    while(temporal.getCondiciones().evaluar(variables)){
-                        ejecutarInstrucciones(lienzo, temporal.getInstrucciones(), variables, pinturas);
+                    while((boolean)temporal.getCondiciones().evaluar(variables)){
+                        ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstrucciones(), variables, pinturas);
                     }
                     break;
                 }
                 case "PINTAR":{
                     PintarInstruccion temporal = (PintarInstruccion) instruccion.getInstruccion();
-                    if(temporal.getPosX().getMedio() != null && temporal.getPosY().getMedio() != null){ //si ambos son solamente expresiones
-                        InstruccionPintar pintar = new InstruccionPintar(temporal.getIdColor(), temporal.getIdImagen(), 
-                                temporal.getPosX().getMedio().evaluar(variables), 
-                                temporal.getPosY().getMedio().evaluar(variables));
+                    temporal.getPosX().evaluar(variables);
+                    temporal.getPosY().evaluar(variables);
+                    if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Entero")){
+                        InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(), 
+                                (Integer) temporal.getPosX().evaluar(variables), 
+                                (Integer) temporal.getPosY().evaluar(variables));
                         pinturas.add(pintar);
                     }else{
-                        if(temporal.getPosX().getMedio() == null && temporal.getPosY().getMedio() != null){ // si hay rango en x pero expresion en y
-                            int indiceFinalX = temporal.getPosX().getDer().evaluar(variables);
-                            int indiceEnY = temporal.getPosY().getMedio().evaluar(variables);
-                            for(int indiceInicialX = temporal.getPosX().getIzq().evaluar(variables); indiceInicialX<=indiceFinalX; indiceInicialX++){
-                                InstruccionPintar pintar = new InstruccionPintar(temporal.getIdColor(), temporal.getIdImagen(),
+                        if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Entero")){ // si hay rango en x pero expresion en y
+                            int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
+                            int indiceEnY = (Integer) temporal.getPosY().evaluar(variables);
+                            for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX<=indiceFinalX; indiceInicialX++){
+                                InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(),
                                     indiceInicialX, indiceEnY);
                                 pinturas.add(pintar);
                             }
                         }
-                        if(temporal.getPosY().getMedio() == null && temporal.getPosX().getMedio() != null){ // si hay rango en y pero expresion en x
-                            int indiceFinalY = temporal.getPosY().getDer().evaluar(variables);
-                            int indiceEnX = temporal.getPosX().getMedio().evaluar(variables);
-                            for(int indiceInicialY = temporal.getPosX().getIzq().evaluar(variables); indiceInicialY<=indiceFinalY; indiceInicialY++){
-                                InstruccionPintar pintar = new InstruccionPintar(temporal.getIdColor(), temporal.getIdImagen(),
+                        if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Rango")){ // si hay rango en x pero expresion en y
+                            int indiceEnX = (Integer) temporal.getPosX().evaluar(variables);
+                            int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
+                            for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY<=indiceFinalY; indiceInicialY++){
+                                InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(),
                                     indiceEnX, indiceInicialY);
                                 pinturas.add(pintar);
                             }
                         }
-                        if(temporal.getPosX().getMedio() == null && temporal.getPosY().getMedio() == null){ // si hay rango en x y
-                            int indiceFinalX = temporal.getPosX().getDer().evaluar(variables);
-                            int indiceFinalY = temporal.getPosY().getDer().evaluar(variables);
-                            for(int indiceInicialX = temporal.getPosX().getIzq().evaluar(variables); indiceInicialX <= indiceFinalX; indiceInicialX++){
-                                for(int indiceInicialY = temporal.getPosY().getIzq().evaluar(variables); indiceInicialY <= indiceFinalY; indiceInicialY++){
-                                    InstruccionPintar pintar = new InstruccionPintar(temporal.getIdColor(), temporal.getIdImagen(),
+                        if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Rango")){ // si hay rango en x y
+                            int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
+                            int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
+                            for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX <= indiceFinalX; indiceInicialX++){
+                                for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY <= indiceFinalY; indiceInicialY++){
+                                    InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(),
                                         indiceInicialX, indiceInicialY);
                                     pinturas.add(pintar);
                                 }
@@ -84,4 +88,5 @@ public class InstruccionManager {
             }
         }
     }
+    
 }

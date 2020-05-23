@@ -5,6 +5,7 @@
  */
 package Objetos;
 
+import Analizadores.Objetos.Instrucciones.Instruccion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,10 @@ public class Lienzo {
     int cuadros=-1, dX=-1, dY=-1, lineaT, columnaT;
     List<ColorP> colores;
     Tiempo tiempos = null;
+    List<Instruccion> instrucciones;
 
     public Lienzo(){
+        instrucciones = new ArrayList<>();
         colores = new ArrayList<>();
     }
     

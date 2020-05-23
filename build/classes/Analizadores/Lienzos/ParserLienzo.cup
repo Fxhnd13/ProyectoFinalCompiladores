@@ -1,4 +1,3 @@
-package Analizadores.Lienzos;
 
 import Objetos.Atributo;
 import Objetos.ColorP;

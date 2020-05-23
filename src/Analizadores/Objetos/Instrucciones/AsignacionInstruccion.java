@@ -5,7 +5,7 @@
  */
 package Analizadores.Objetos.Instrucciones;
 
-import Analizadores.Objetos.NodoOperacion;
+import Analizadores.Objetos.Nodo;
 
 /**
  *
@@ -14,7 +14,7 @@ import Analizadores.Objetos.NodoOperacion;
 public class AsignacionInstruccion {
     
     String id;
-    NodoOperacion derecha;
+    Nodo derecha;
 
     public String getId() {
         return id;
@@ -24,11 +24,11 @@ public class AsignacionInstruccion {
         this.id = id;
     }
 
-    public NodoOperacion getDerecha() {
+    public Nodo getDerecha() {
         return derecha;
     }
 
-    public void setDerecha(NodoOperacion derecha) {
+    public void setDerecha(Nodo derecha) {
         this.derecha = derecha;
     }
     

@@ -11,8 +11,34 @@ package Analizadores.Objetos.Instrucciones;
  */
 public class Instruccion {
     
+    String lienzo;
     String tipo = null;
     Object instruccion = null;
+    int linea, columna;
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    public String getLienzo() {
+        return lienzo;
+    }
+
+    public void setLienzo(String lienzo) {
+        this.lienzo = lienzo;
+    }
 
     public String getTipo() {
         return tipo;

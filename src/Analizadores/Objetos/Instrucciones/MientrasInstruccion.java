@@ -5,7 +5,7 @@
  */
 package Analizadores.Objetos.Instrucciones;
 
-import Analizadores.Objetos.NodoCondicion;
+import Analizadores.Objetos.Nodo;
 import java.util.List;
 
 /**
@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class MientrasInstruccion {
     
-    NodoCondicion condiciones;
+    Nodo condiciones;
     List<Instruccion> instrucciones;
 
-    public NodoCondicion getCondiciones() {
+    public Nodo getCondiciones() {
         return condiciones;
     }
 
-    public void setCondiciones(NodoCondicion condiciones) {
+    public void setCondiciones(Nodo condiciones) {
         this.condiciones = condiciones;
     }
 
