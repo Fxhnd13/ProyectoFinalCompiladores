@@ -102,11 +102,11 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner). */
 terminal Token                      PR_VARS, CORCHETE_A, CORCHETE_C, LLAVE_A, LLAVE_C, PARENTESIS_A, PARENTESIS_C, PR_STRING, PR_INT, PR_BOOLEAN,
-                                    COMA, ID, ASIGNACION, S_SUMA, S_RESTA, S_DIV, S_MUL, COMILLA, PR_OR, PR_AND, COMPARADOR, ENTERO, BOOLEAN, 
+                                    COMA, ID, ASIGNACION, S_SUMA, S_RESTA, S_DIV, S_MUL, PR_OR, PR_AND, COMPARADOR, ENTERO, BOOLEAN, 
                                     PR_INSTRUCCIONES, PR_IF, PR_ELSE, PR_WHILE, PR_PINTAR, PR_RANGE, FINAL;
 
-non terminal                        S, variables, dcl, varListString, varString, asigString, varListInt, varInt, asigInt, varListBoolean, varBoolean,
-                                    cadenas, instrLienzo, instrLienzos, instrs, restoIf, posicion, expresion;
+non terminal                        S, variables, dcls, dcl, varListString, varListInt, varListBoolean;
+non terminal Nodo                   
 
 /* precedence */
 
@@ -119,101 +119,429 @@ precedence left     S_MUL, S_DIV;
 
 start with S;
 
+//none
 S ::=                                       variables instrLienzos
                                             |instrLienzos
                                             ;
 
-variables ::=                               PR_VARS CORCHETE_A dcl CORCHETE_C
-                                            ;
-                                            
-dcl ::=                                     PR_STRING varListString
-                                            |PR_INT varListInt
-                                            |PR_BOOLEAN varListBoolean
+//none
+variables ::=                               PR_VARS CORCHETE_A dcls CORCHETE_C
                                             ;
 
-varListString::=                            varListString COMA varString
-                                            |varString
+//none
+dcls ::=                                    dcls dcl
+                                            |dcl
+                                            |error FINAL dcl
+                                            |error CORCHETE_C instrLienzos
+                                            ;
+      
+//none                                      
+dcl ::=                                     PR_STRING varListString FINAL
+                                            |PR_INT varListInt FINAL 
+                                            |PR_BOOLEAN varListBoolean FINAL
                                             ;
 
-varString ::=                               ID asigString
+//none
+varListString::=                            varListString COMA ID:idVariable varString:nodo {:
+                                                    if(idVariable != null && nodo != null){
+                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema()){
+                                                            Variable variable = new Variable();
+                                                            variable.setTipo("String");
+                                                            variable.setValor(nodo);
+                                                            variable.setId(idVariable.getId());
+                                                            variables.addVariable(variable);
+                                                        }else{
+                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }   
+                                                    }
+                                                :}
+                                            |ID:idVariable varString:nodo {:
+                                                    if(idVariable != null && nodo != null){
+                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema()){
+                                                            Variable variable = new Variable();
+                                                            variable.setTipo("String");
+                                                            variable.setValor(nodo);
+                                                            variable.setId(idVariable.getId());
+                                                            variables.addVariable(variable);
+                                                        }else{
+                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
+                                                    }
+                                                :}
                                             ;
 
-asigString ::=                              ASIGNACION expresion
+//Nodo
+asigString ::=                              ASIGNACION expresion:derecha {:
+                                                    if(derecha != null){
+                                                        RESULT = (String) derecha.evaluar();
+                                                    }
+                                                :}
                                             |
                                             ;
 
-varListInt ::=                              varListInt COMA varInt
-                                            |varInt
+//node
+varListInt ::=                              varListInt COMA ID:idVariable asigInt:nodo {:
+                                                    if(idVariable != null && nodo != null){
+                                                        if(!variables.verificarDisponibilidad8idVariable.getLexema()){
+                                                            Variable variable = new Variable();
+                                                            variable.setTipo("Entero");
+                                                            variable.setValor(nodo);
+                                                            variable.setId(idVariable.getId());
+                                                            variables.addVariable(variable);
+                                                        }else{
+                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }   
+                                                    }
+                                                :}
+                                            |ID:idVariable asigInt:nodo {:
+                                                    if(idVariable != null && nodo != null){
+                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema()){
+                                                            Variable variable = new Variable();
+                                                            variable.setTipo("Entero");
+                                                            variable.setValor(nodo);
+                                                            variable.setId(idVariable.getId());
+                                                            variables.addVariable(variable);
+                                                        }else{
+                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
+                                                    }
+                                                :}
                                             ;
 
-varInt::=                                   ID asigInt
-                                            ;
-
-asigInt ::=                                 ASIGNACION expresion
+//Nodo
+asigInt ::=                                 ASIGNACION expresion:derecha {:
+                                                    if(derecha != null){
+                                                        if(derecha.getTipoRetorno().equals("Entero")){
+                                                            RESULT = derecha;
+                                                        }
+                                                    }
+                                                :}
                                             |
                                             ;
 
-varListBoolean ::=                          varListBoolean COMA varBoolean
-                                            |varBoolean
+//none
+varListBoolean ::=                          varListBoolean COMA ID:idVariable varBoolean:nodo {:
+                                                    if(idVariable != null && nodo != null){
+                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema()){
+                                                            Variable variable = new Variable();
+                                                            variable.setTipo("Boolean");
+                                                            variable.setValor(nodo);
+                                                            variable.setId(idVariable.getId());
+                                                            variables.addVariable(variable);
+                                                        }else{
+                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }   
+                                                    }
+                                                :}
+                                            |ID:idVariable varBoolean:nodo {:
+                                                    if(idVariable != null && nodo != null){
+                                                        if(variables.verificarDisponibilidad(idVariable.getLexema()){
+                                                            Variable variable = new Variable();
+                                                            variable.setTipo("Boolean");
+                                                            variable.setValor(nodo);
+                                                            variable.setId(idVariable.getId());
+                                                            variables.addVariable(variable);
+                                                        }else{
+                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
+                                                    }
+                                                :}
                                             ;
-                                            
-varBoolean ::=                              ASIGNACION expresion
-                                            |
+//Nodo                                       
+varBoolean ::=                              ASIGNACION expresion:derecha {:
+                                                    if(derecha != null){
+                                                        if(derecha.getTipoRetorno().equals("Boolean")){
+                                                            RESULT = derecha;
+                                                        }
+                                                    }
+                                                :}
+                                            |   
                                             ;
 
-cadenas ::=                                 cadenas ID
-                                            |ID
-                                            ;
-
+//None
 instrLienzos::=                             instrLienzos instrLienzo
                                             |instrLienzo
                                             ;
 
-instrLienzo::=                              PR_INSTRUCCIONES PARENTESIS_A ID PARENTESIS_C CORCHETE_A instrs CORCHETE_C
+//none
+instrLienzo::=                              PR_INSTRUCCIONES PARENTESIS_A ID:id PARENTESIS_C CORCHETE_A instrs:instrucciones CORCHETE_C {:
+                                                    if(id != null && instrucciones != null){
+                                                        if(getLienzo(id.getLexema)!= null){
+                                                            getLienzo(id.getLexema).setInstrucciones(instrucciones);
+                                                        }else{
+                                                            listErrores.add("No existe el lienzo especificiado en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |error CORCHETE_A instrs
+                                            |error CORCHETE_C instrLienzo
                                             ;
 
-instrs ::=                                  ID ASIGNACION expresion FINAL
-                                            |PR_PINTAR PARENTESIS_A expresion COMA expresion COMA posicion COMA posicion PARENTESIS_C FINAL
-                                            |PR_WHILE PARENTESIS_A expresion PARENTESIS_C LLAVE_A instrs LLAVE_C
-                                            |PR_IF PARENTESIS_A expresion PARENTESIS_C LLAVE_A instrs LLAVE_C restoIf
+//List<Instruccion>
+instrs ::=                                  instrs:instrucciones instr:instruccion {:
+                                                    if(instrucciones == null) instrucciones = new ArrayList<Instruccion>();
+                                                    if(instruccion != null) instrucciones.add(instruccion);
+                                                    RESULT = instrucciones;
+                                                :}
+                                            |instr:instruccion {:
+                                                    ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
+                                                    if(instruccion != null) instrucciones.add(instruccion);
+                                                    RESULT = instrucciones;
+                                                :}
+                                            |error FINAL instr
+                                            |error CORCHETE_C instrLienzo
+                                            |error CORCHETE_A instrs
                                             ;
 
-restoIf::=                                  PR_ELSE LLAVE_A instrs LLAVE_C
+//Instruccion
+instr ::=                                  ID:id ASIGNACION expresion:valorDerecha FINAL {:
+                                                    if(id != null && valorDerecha != null){
+                                                        if(variables.verificarDisponibilidad(id.getLexema())){
+                                                            if(valorDerecha.getTipoRetorno().equals(variables.getVariable(id.getLexema()).getTipo()){
+                                                                AsignacionInstruccion instruccion = new AsignacionInstruccion();
+                                                                instruccion.setId(id.getLexema());
+                                                                instruccion.setDerecha(valorDerecha);
+                                                                RESULT = instruccion;
+                                                            }else{
+                                                                listErrores.add("No se puede asignar a una variable tipo: +"variables.getVariable(id.getLexema()).getTipo()+" un valor tipo: "+valorDerecha.getTipoRetorno()+
+                                                                    ", error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                        }else{
+                                                            listErrores.add("No existe la variable utilizada en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                        }   
+                                                    }
+                                                :}
+                                            |PR_PINTAR:valor PARENTESIS_A expresion:idColor COMA expresion:idImagen COMA posicion:posX COMA posicion:posY PARENTESIS_C FINAL {:
+                                                    if(valor != null && idColor != null && idImagen != null && posX != null && posY != null){
+                                                        if((posX.getTipoRetorno().equals("Entero") || posX.getTipoRetorno().equals("Rango"))&&(posY.getTipoRetorno().equals("Entero") || posY.getTipoRetorno().equals("Rango))){
+                                                            PintarInstruccion instruccion = new PintarInstruccion();
+                                                            instruccion.setIdColor(idColor);
+                                                            instruccion.setIdImagen(idImagen);
+                                                            instruccion.setPosX(posX);
+                                                            instruccion.setPosY(posY);
+                                                            RESULT = instruccion;
+                                                        }else{
+                                                            listErrores.add("Error en la instruccion pintar en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"las posiciones en x o y, no son enteros o rangos");
+                                                        }
+                                                    }
+                                                :}
+                                            |PR_WHILE:valor PARENTESIS_A expresion:condiciones PARENTESIS_C LLAVE_A instrs:instrucciones LLAVE_C {:
+                                                    if(valor != null && condiciones != null && instrucciones != null){
+                                                        if(condiciones.getTipoRetorno().equals("Boolean"){
+                                                            MientrasInstruccion instruccion = new MientrasInstruccion();
+                                                            instruccion.setCondiciones(condiciones);
+                                                            instruccion.setInstrucciones(instrucciones);
+                                                            RESULT = instruccion;
+                                                        }else{
+                                                            listErrores.add("Error en la instruccion while en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"no es una condicion válida");
+                                                        }
+                                                    }
+                                                :}
+                                            |PR_IF:valor PARENTESIS_A expresion:condiciones PARENTESIS_C LLAVE_A instrs:instruccionesSi LLAVE_C restoIf:instruccionesSiNo {:
+                                                    if(valor != null && condiciones != null && instruccionesSi != null){
+                                                        if(condiciones.getTipoRetorno().equals("Boolean"){
+                                                            SiInstruccion instruccion = new SiInstruccion();
+                                                            instruccion.setCondiciones(condiciones);
+                                                            instruccion.setInstruccionesSi(instruccionesSi);
+                                                            instruccion.setInstruccionesSiNo(instruccionesSiNo);
+                                                            RESULT = instruccion;
+                                                        }else{
+                                                            listErrores.add("Error en la instruccion if en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"no es una condicion válida");
+                                                        }
+                                                    }
+                                                :}
                                             ;
 
-posicion ::=                                expresion
-                                            |expresion PR_RANGE expresion
+//List<Instruccion>
+restoIf::=                                  PR_ELSE LLAVE_A instrs:instrucciones LLAVE_C {:
+                                                    if(instrucciones == null) instrucciones = new ArrayList<Instruccion>();
+                                                    RESULT = instrucciones;
+                                                :}
+                                            |   {:
+                                                    ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
+                                                    RESULT = instrucciones;
+                                                :}
                                             ;
 
-expresion ::=                               expresion S_SUMA expresion
-                                            |expresion S_RESTA expresion
-                                            |expresion S_MUL expresion
-                                            |expresion S_DIV expresion
-                                            |expresion PR_AND expresion
-                                            |expresion PR_OR expresion
-                                            |expresion COMPARADOR expresion {::}
+//Nodo
+posicion ::=                                expresion:nodo {:
+                                                    if(nodo != null){
+                                                        if(nodo.getTipoRetorno().equals("Entero")){
+                                                            RESULT = nodo;
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq PR_RANGE:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno.equals("Entero") && der.getTipoRetorno.equals("Entero")){
+                                                            Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }
+                                                    }
+                                                :}
+                                            ;
+
+//Nodo
+expresion ::=                               expresion:izq S_SUMA:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                            Nodo nodo = new Nodo(null, operador.getLexema(), izq, der); 
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }else{
+                                                            listErrores.add("No se pueden sumar dos valores booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq S_RESTA:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno.equals("Entero")){
+                                                            Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der); 
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }else{
+                                                            listErrores.add("No se pueden restar dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq S_MUL:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno.equals("Entero")){
+                                                            Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der);
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }else{
+                                                            listErrores.add("No se pueden multiplicar dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq S_DIV:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno.equals("Entero")){
+                                                            Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der);
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }else{
+                                                            listErrores.add("No se pueden dividir dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq PR_AND:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno().equals("Boolean") && der.getTipoRetorno.equals("Boolean")){
+                                                            Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }else{
+                                                            listErrores.add("No se pueden comparar dos valores que no sean booleanos con AND, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq PR_OR:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        if(izq.getTipoRetorno().equals("Boolean") && der.getTipoRetorno.equals("Boolean")){
+                                                            Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                            nodo.evaluar();
+                                                            RESULT = nodo;
+                                                        }else{
+                                                            listErrores.add("No se pueden comparar dos valores que no sean booleanos con OR, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                        }
+                                                    }
+                                                :}
+                                            |expresion:izq COMPARADOR:operador expresion:der {:
+                                                    if(operador != null && izq != null && der != null){
+                                                        switch(operador.getLexema){
+                                                            case "<":{
+                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar();
+                                                                    RESULT = nodo;
+                                                                }else{
+                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                }
+                                                            }
+                                                            case ">":{
+                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar();
+                                                                    RESULT = nodo;
+                                                                }else{
+                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                }
+                                                            }
+                                                            case "<=":{
+                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar();
+                                                                    RESULT = nodo;
+                                                                }else{
+                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                }
+                                                            }
+                                                            case ">=":{
+                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar();
+                                                                    RESULT = nodo;
+                                                                }else{
+                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                }
+                                                            }
+                                                            case "==":{
+                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno())){
+                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar();
+                                                                    RESULT = nodo;
+                                                                }else{
+                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                }
+                                                            }
+                                                            case "<>":{
+                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar();
+                                                                    RESULT = nodo;
+                                                                }else{
+                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                :}
                                             |ID:valor   {:
-                                                    if(variables.getVariable(valor.getLexema())!=null){
-                                                        Variable variable = new Variable("Id", valor.getLexema());
-                                                        Nodo nodo = new Nodo(variable, variables);
-                                                        RESULT = nodo;
-                                                    }else{
-                                                        //error semantico, no existe la variable
+                                                    if(valor != null){
+                                                        if(variables.getVariable(valor.getLexema())!=null){
+                                                            if(variables.getVariable(valor.getLexema()).getValor()!=null){
+                                                                Variable variable = new Variable("Id", valor.getLexema());
+                                                                Nodo nodo = new Nodo(variable, variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se puede usar una variable sin inicializar como expresion, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
+                                                            }
+                                                        }else{
+                                                            listErrores.add("No existe la variable utilizada, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
+                                                        }
                                                     }
                                                 :}
                                             |BOOLEAN:valor {:
-                                                    Variable variable = new Variable("Boolean", valor.getLexema());
-                                                    Nodo nodo = new Nodo("Boolean", variable);
-                                                    RESULT = nodo;
+                                                    if(valor != null){
+                                                        Variable variable = new Variable("Boolean", valor.getLexema());
+                                                        Nodo nodo = new Nodo("Boolean", variable);
+                                                        RESULT = nodo;
+                                                    }
                                                 :}
-                                            |COMILLA cadenas:valor COMILLA {:
-                                                    Variable variable = new Variable("String", valor.getLexema());
-                                                    Nodo nodo = new Nodo("String", variable);
-                                                    RESULT = nodo;
+                                            |CADENA:valor{:
+                                                    if(valor != null){
+                                                        Variable variable = new Variable("String", valor.getLexema().subString(1,valor.getLexema()-1));
+                                                        Nodo nodo = new Nodo("String", variable);
+                                                        RESULT = nodo;  
+                                                    }
                                                 :}
                                             |ENTERO:valor {:
-                                                    Variable variable = new Variable("Entero", valor.getLexema());
-                                                    Nodo nodo = new Nodo("Entero", variable);
-                                                    RESULT = nodo;
+                                                    if(valor != null){
+                                                        Variable variable = new Variable("Entero", valor.getLexema());
+                                                        Nodo nodo = new Nodo("Entero", variable);
+                                                        RESULT = nodo;
+                                                    }
                                                 :}
                                             ;

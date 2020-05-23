@@ -165,7 +165,7 @@ public class Nodo {
                     break;
                 }
                 case "+":{
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                    if(this.izq.getTipoRetorno().equals("String") || this.der.getTipoRetorno().equals("String")){
                         this.tipoRetorno = "String";
                         valor = ((String)this.izq.evaluar(variables)) + ((String)this.der.evaluar(variables));
                     }
@@ -251,6 +251,11 @@ public class Nodo {
                 case "String":{
                     this.tipoRetorno = "String";
                     valor = (String) variable.getValor();
+                    break;
+                }
+                case "Rango":{
+                    this.tipoRetorno = "Rango";
+                    valor = (Rango) variable.getValor();
                     break;
                 }
             }

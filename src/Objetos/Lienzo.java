@@ -22,6 +22,14 @@ public class Lienzo {
     Tiempo tiempos = null;
     List<Instruccion> instrucciones;
 
+    public List<Instruccion> getInstrucciones() {
+        return instrucciones;
+    }
+
+    public void setInstrucciones(List<Instruccion> instrucciones) {
+        this.instrucciones = instrucciones;
+    }
+    
     public Lienzo(){
         instrucciones = new ArrayList<>();
         colores = new ArrayList<>();

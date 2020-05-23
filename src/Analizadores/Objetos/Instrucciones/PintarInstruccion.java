@@ -13,25 +13,25 @@ import Analizadores.Objetos.Nodo;
  */
 public class PintarInstruccion {
     
-    String idColor, idImagen;
-    Nodo posX, posY;
+    
+    Nodo posX, posY, idColor, idImagen;
 
-    public String getIdColor() {
+    public Nodo getIdColor() {
         return idColor;
     }
 
-    public void setIdColor(String idColor) {
+    public void setIdColor(Nodo idColor) {
         this.idColor = idColor;
     }
 
-    public String getIdImagen() {
+    public Nodo getIdImagen() {
         return idImagen;
     }
 
-    public void setIdImagen(String idImagen) {
+    public void setIdImagen(Nodo idImagen) {
         this.idImagen = idImagen;
     }
-
+    
     public Nodo getPosX() {
         return posX;
     }
