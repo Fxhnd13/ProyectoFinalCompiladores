@@ -18,7 +18,7 @@ public class GifSequenceWriter {
     protected ImageWriter writer;
     protected ImageWriteParam params;
     protected IIOMetadata metadata;
-
+    
     public GifSequenceWriter(ImageOutputStream out, int imageType, int delay, boolean loop) throws IOException {
         writer = ImageIO.getImageWritersBySuffix("gif").next();
         params = writer.getDefaultWriteParam();
@@ -32,7 +32,7 @@ public class GifSequenceWriter {
         writer.prepareWriteSequence(null);
     }
 
-    private void configureRootMetadata(int delay, boolean loop) throws IIOInvalidTreeException {
+    public void configureRootMetadata(int delay, boolean loop) throws IIOInvalidTreeException {
         String metaFormatName = metadata.getNativeMetadataFormatName();
         IIOMetadataNode root = (IIOMetadataNode) metadata.getAsTree(metaFormatName);
 

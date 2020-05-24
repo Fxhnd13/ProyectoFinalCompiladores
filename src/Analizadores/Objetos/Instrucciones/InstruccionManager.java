@@ -7,6 +7,7 @@ package Analizadores.Objetos.Instrucciones;
 
 import Analizadores.Objetos.Rango;
 import Analizadores.Objetos.TablaDeSimbolos;
+import Objetos.ColorP;
 import Objetos.Lienzo;
 import java.util.List;
 
@@ -87,6 +88,11 @@ public class InstruccionManager {
                 }
             }
         }
+    }
+
+    public void ejecutarPintura(InstruccionPintar pintura, Lienzo lienzo) {
+        ColorP color = lienzo.getColor(pintura.getIdColor());
+        lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
     }
     
 }

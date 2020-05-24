@@ -222,7 +222,7 @@ public class Nodo {
                     switch(variables.getVariable((String)variable.getValor()).getTipo()){
                         case "Entero":{
                             this.tipoRetorno = "Entero";
-                            valor = (Integer) variables.getVariable((String)variable.getValor()).getValor();
+                            valor = Integer.parseInt(variables.getVariable((String)variable.getValor()).getValor().toString());
                             break;
                         }
                         case "Boolean":{
@@ -240,12 +240,12 @@ public class Nodo {
                 }
                 case "Entero":{
                     this.tipoRetorno = "Entero";
-                    valor = (Integer) variable.getValor();
+                    valor = Integer.parseInt(variable.getValor().toString());
                     break;
                 }
                 case "Boolean":{
                     this.tipoRetorno = "Boolean";
-                    valor = (boolean) variable.getValor();
+                    valor = Boolean.parseBoolean(variable.getValor().toString());
                     break;
                 }
                 case "String":{

@@ -1,6 +1,9 @@
 package UI;
 
 
+import Analizadores.Objetos.Instrucciones.InstruccionManager;
+import Analizadores.Objetos.Instrucciones.InstruccionPintar;
+import Analizadores.Objetos.TablaDeSimbolos;
 import Objetos.Lienzo;
 import java.io.File;
 import java.util.ArrayList;
@@ -36,15 +39,15 @@ public class Pintor extends javax.swing.JFrame {
         this.filePintar = pintar;
     }
     
-    public void setLienzos(List<Lienzo> lienzos){
+    public void setLienzos(List<Lienzo> lienzos, TablaDeSimbolos variables){
         this.lienzos = lienzos;
         for (Lienzo lienzo : lienzos) {
-            addLienzoTab(lienzo);
+            addLienzoTab(lienzo, variables);
         }
     }
 
-    private void addLienzoTab(Lienzo lienzo){
-        PanelLienzo panelLienzo = new PanelLienzo(lienzo);
+    private void addLienzoTab(Lienzo lienzo, TablaDeSimbolos variables){
+        PanelLienzo panelLienzo = new PanelLienzo(lienzo, variables);
         this.LienzosPane.addTab("Lienzo: "+lienzo.getId(), panelLienzo);
     }
     

@@ -73,6 +73,8 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 <YYINITIAL> {
 
     /* Reserved words */
+    "AND"                                   { return symbol(PR_AND);}
+    "OR"                                    { return symbol(PR_OR);}
     "VARS"                                  { return symbol(PR_VARS);}
     "int"                                   { return symbol(PR_INT);}
     "String"                                { return symbol(PR_STRING);}

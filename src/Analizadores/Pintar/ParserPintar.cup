@@ -109,13 +109,17 @@ terminal Token                      PR_VARS, CORCHETE_A, CORCHETE_C, LLAVE_A, LL
 terminal Token                      COMA, ID, ASIGNACION, S_SUMA, S_RESTA, S_DIV, S_MUL, PR_OR, PR_AND, COMPARADOR, ENTERO, BOOLEAN;
 terminal Token                      PR_INSTRUCCIONES, PR_IF, PR_ELSE, PR_WHILE, PR_PINTAR, PR_RANGE, FINAL, CADENA;
 
-non terminal                        S, variables, dcls, dcl, varListString, varListInt, varListBoolean, instrLienzos, instrLienzo;
-non terminal Nodo                   asigString, asigInt, varBoolean, posicion, expresion;
+non terminal                        S, dcls, dcl, varListString, varListInt, varListBoolean, instrLienzos, instrLienzo;
+non terminal String                 asigString;
+non terminal Integer                asigInt;
+non terminal Boolean                varBoolean;
+non terminal Nodo                   posicion, expresion;
 non terminal List<Instruccion>      instrs, restoIf;
 non terminal Instruccion            instr;
 
 /* precedence */
 
+precedence left     CORCHETE_C;
 precedence left     PR_OR, PR_AND;
 precedence left     COMPARADOR;
 precedence left     S_SUMA, S_RESTA;
@@ -125,11 +129,8 @@ precedence left     S_MUL, S_DIV;
 
 start with S;
 
-S ::=                                       variables instrLienzos
+S ::=                                       PR_VARS CORCHETE_A dcls CORCHETE_C instrLienzos
                                             |instrLienzos
-                                            ;
-
-variables ::=                               PR_VARS CORCHETE_A dcls CORCHETE_C
                                             ;
 
 dcls ::=                                    dcls dcl
@@ -144,57 +145,41 @@ dcl ::=                                     PR_STRING varListString FINAL
                                             ;
 
 varListString ::=                            varListString COMA ID:idVariable asigString:nodo {:
-                                                    if(idVariable != null && nodo != null){
-                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema())){
-                                                            Variable variable = new Variable("String", nodo);
-                                                            variable.setId(idVariable.getLexema());
-                                                            variables.addVariable(variable);
-                                                        }else{
-                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
-                                                        }   
+                                                    if(idVariable != null){
+                                                        Variable variable = new Variable("String", nodo);
+                                                        variable.setId(idVariable.getLexema());
+                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
                                                     }
                                                 :}
                                             |ID:idVariable asigString:nodo {:
-                                                    if(idVariable != null && nodo != null){
-                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema())){
-                                                            Variable variable = new Variable("String", nodo);
-                                                            variable.setId(idVariable.getLexema());
-                                                            variables.addVariable(variable);
-                                                        }else{
-                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
-                                                        }
+                                                    if(idVariable != null){
+                                                        Variable variable = new Variable("String", nodo);
+                                                        variable.setId(idVariable.getLexema());
+                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
                                                     }
                                                 :}
                                             ;
 
 asigString ::=                              ASIGNACION expresion:derecha {:
                                                     if(derecha != null){
-                                                        RESULT =  derecha;
+                                                        RESULT =  derecha.evaluar(variables).toString();
                                                     }
                                                 :}
                                             |
                                             ;
 
 varListInt ::=                              varListInt COMA ID:idVariable asigInt:nodo {:
-                                                    if(idVariable != null && nodo != null){
-                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema())){
-                                                            Variable variable = new Variable("Entero", nodo);
-                                                            variable.setId(idVariable.getLexema());
-                                                            variables.addVariable(variable);
-                                                        }else{
-                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
-                                                        }   
+                                                    if(idVariable != null){
+                                                        Variable variable = new Variable("Entero", nodo);
+                                                        variable.setId(idVariable.getLexema());
+                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
                                                     }
                                                 :}
                                             |ID:idVariable asigInt:nodo {:
-                                                    if(idVariable != null && nodo != null){
-                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema())){
-                                                            Variable variable = new Variable("Entero", nodo);
-                                                            variable.setId(idVariable.getLexema());
-                                                            variables.addVariable(variable);
-                                                        }else{
-                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
-                                                        }
+                                                    if(idVariable != null){
+                                                        Variable variable = new Variable("Entero", nodo);
+                                                        variable.setId(idVariable.getLexema());
+                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
                                                     }
                                                 :}
                                             ;
@@ -202,7 +187,7 @@ varListInt ::=                              varListInt COMA ID:idVariable asigIn
 asigInt ::=                                 ASIGNACION expresion:derecha {:
                                                     if(derecha != null){
                                                         if(derecha.getTipoRetorno().equals("Entero")){
-                                                            RESULT = derecha;
+                                                            RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
                                                         }
                                                     }
                                                 :}
@@ -210,25 +195,17 @@ asigInt ::=                                 ASIGNACION expresion:derecha {:
                                             ;
 
 varListBoolean ::=                          varListBoolean COMA ID:idVariable varBoolean:nodo {:
-                                                    if(idVariable != null && nodo != null){
-                                                        if(!variables.verificarDisponibilidad(idVariable.getLexema())){
-                                                            Variable variable = new Variable("Boolean", nodo);
-                                                            variable.setId(idVariable.getLexema());
-                                                            variables.addVariable(variable);
-                                                        }else{
-                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
-                                                        }   
+                                                    if(idVariable != null){
+                                                        Variable variable = new Variable("Boolean", nodo);
+                                                        variable.setId(idVariable.getLexema());
+                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
                                                     }
                                                 :}
                                             |ID:idVariable varBoolean:nodo {:
-                                                    if(idVariable != null && nodo != null){
-                                                        if(variables.verificarDisponibilidad(idVariable.getLexema())){
-                                                            Variable variable = new Variable("Boolean", nodo);
-                                                            variable.setId(idVariable.getLexema());
-                                                            variables.addVariable(variable);
-                                                        }else{
-                                                            listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
-                                                        }
+                                                    if(idVariable != null){
+                                                        Variable variable = new Variable("Boolean", nodo);
+                                                        variable.setId(idVariable.getLexema());
+                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
                                                     }
                                                 :}
                                             ;
@@ -236,7 +213,7 @@ varListBoolean ::=                          varListBoolean COMA ID:idVariable va
 varBoolean ::=                              ASIGNACION expresion:derecha {:
                                                     if(derecha != null){
                                                         if(derecha.getTipoRetorno().equals("Boolean")){
-                                                            RESULT = derecha;
+                                                            RESULT = (boolean) derecha.evaluar(variables);
                                                         }
                                                     }
                                                 :}
@@ -247,7 +224,7 @@ instrLienzos ::=                             instrLienzos instrLienzo
                                             |instrLienzo
                                             ;
 
-instrLienzo ::=                              PR_INSTRUCCIONES PARENTESIS_A ID:id PARENTESIS_C CORCHETE_A instrs:instrucciones CORCHETE_C {:
+instrLienzo ::=                             PR_INSTRUCCIONES PARENTESIS_A ID:id PARENTESIS_C CORCHETE_A instrs:instrucciones CORCHETE_C {:
                                                     if(id != null && instrucciones != null){
                                                         if(getLienzo(id.getLexema())!= null){
                                                             getLienzo(id.getLexema()).setInstrucciones(instrucciones);
@@ -287,7 +264,7 @@ instr ::=                                  ID:id ASIGNACION expresion:valorDerec
                                                                     ", error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
                                                             }
                                                         }else{
-                                                            listErrores.add("No existe la variable utilizada en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                            listErrores.add("No existe la variable utilizada, error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
                                                         }   
                                                     }
                                                 :}

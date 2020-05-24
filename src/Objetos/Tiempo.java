@@ -38,6 +38,13 @@ public class Tiempo {
         this.idFin = idFin;
     }
     
+    public Imagen getImagen(String id){
+        Imagen imagen = null;
+        for (Imagen imagent : imagenes) {
+            if(id.equals(imagent.getId())) imagen = imagent;
+        }
+        return imagen;
+    }
     public List<Imagen> getImagenes() {
         return imagenes;
     }

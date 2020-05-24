@@ -19,6 +19,15 @@ public class Imagen {
     int duracion = -1, lineaT, columnaT; 
     JPanel panel = null;
 
+    public void pintarPos(ColorP color, int x, int y){
+        for (Component component : panel.getComponents()) {
+            Cell cell = (Cell) component;
+            if(cell.getDx()==x && cell.getDy()==y){
+                cell.setColor(color);
+            }
+        }
+    }
+    
     public JPanel getPanel() {
         return panel;
     }

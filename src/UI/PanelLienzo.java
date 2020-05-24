@@ -5,6 +5,9 @@
  */
 package UI;
 
+import Analizadores.Objetos.Instrucciones.InstruccionManager;
+import Analizadores.Objetos.Instrucciones.InstruccionPintar;
+import Analizadores.Objetos.TablaDeSimbolos;
 import Objetos.ColorP;
 import Objetos.GifSequenceWriter;
 import Objetos.Imagen;
@@ -39,10 +42,10 @@ public class PanelLienzo extends javax.swing.JPanel {
     private Lienzo lienzo;
     private ColorP colorActivo;
     
-    public PanelLienzo(Lienzo lienzo){
+    public PanelLienzo(Lienzo lienzo, TablaDeSimbolos variables){
             initComponents(); //inicializa todos los componentes del panel
             this.lienzo = lienzo; //capturamos el lienzo correspondiente 
-            cargarImagenes();//cargamos las imagenes aqui es donde se deberia dibujar si hay archivo pnt o crear lienzos en blanco si no hay pnt
+            cargarImagenes(variables);//cargamos las imagenes aqui es donde se deberia dibujar si hay archivo pnt o crear lienzos en blanco si no hay pnt
             cargarColores();//cargamos los colores declarados para la interfaz grafica
     }
     
@@ -85,7 +88,7 @@ public class PanelLienzo extends javax.swing.JPanel {
         imagen.setPanel(panel);
     }
     
-    private void cargarImagenes() {
+    private void cargarImagenes(TablaDeSimbolos variables) {
         this.InicioImagenesComboBox.removeAllItems();
         this.FinImagensComboBox.removeAllItems();
         this.ImagenActivaComboBox.removeAllItems();
@@ -95,6 +98,14 @@ public class PanelLienzo extends javax.swing.JPanel {
             this.InicioImagenesComboBox.addItem(imagen.getId());
             this.FinImagensComboBox.addItem(imagen.getId());
             if(imagen.getPanel() == null) cargarImagen(imagen);
+        }
+        if(!this.lienzo.getInstrucciones().isEmpty() && variables != null){
+            InstruccionManager manager = new InstruccionManager();
+            List<InstruccionPintar> pinturas = new ArrayList<InstruccionPintar>();
+            manager.ejecutarInstrucciones(lienzo.getId(), lienzo.getInstrucciones(), variables, pinturas);
+            for (InstruccionPintar pintura : pinturas) {
+                manager.ejecutarPintura(pintura, lienzo);
+            }
         }
         int indiceInicio = 0, indiceFinal = 0;
         for (int i = 0; i < this.lienzo.getTiempos().getImagenes().size(); i++) {
@@ -511,7 +522,7 @@ public class PanelLienzo extends javax.swing.JPanel {
                 imagen.setDuracion(duracion);
                 this.lienzo.getTiempos().getImagenes().add(imagen);
                 DialogoAgregarImagen.setVisible(false);
-                cargarImagenes();
+                cargarImagenes(null);
             }catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "No se ingreso un valor entero en duracion", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -611,10 +622,12 @@ public class PanelLienzo extends javax.swing.JPanel {
             for (int i = indiceInicio; i < (indiceFinal+1); i++) {
                 images.add(new File("Salidas/"+this.lienzo.getIdSalida()+"/"+this.lienzo.getTiempos().getImagenes().get(i).getId()));
             }
-            
+            int i = 0;
             for (File image : images) {
                 BufferedImage next = ImageIO.read(image);
+                writer.configureRootMetadata(this.lienzo.getTiempos().getImagenes().get(i).getDuracion(), true);
                 writer.writeToSequence(next);
+                i++;
             }
             
             writer.close();

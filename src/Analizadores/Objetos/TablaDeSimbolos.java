@@ -20,7 +20,7 @@ public class TablaDeSimbolos {
     }
     
     public boolean addVariable(Variable variable){
-        if(verificarDisponibilidad(variable.getId())){
+        if(!verificarDisponibilidad(variable.getId())){
             variables.put(variable.getId(), variable);
             return true;
         }else{

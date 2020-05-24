@@ -14,6 +14,7 @@ import Analizadores.Lienzos.ParserLienzo;
 import Analizadores.Tiempos.LexerTiempos;
 import Analizadores.Tiempos.ParserTiempos;
 import Analizadores.Objetos.Atributo;
+import Analizadores.Objetos.TablaDeSimbolos;
 import Objetos.Lienzo;
 import Analizadores.Objetos.Token;
 import Analizadores.Pintar.LexerPintar;
@@ -41,6 +42,7 @@ import javax.swing.text.BadLocationException;
 public class Editor extends javax.swing.JFrame {
 
     private List<Lienzo> lienzos = new ArrayList<Lienzo>();
+    private TablaDeSimbolos variables = new TablaDeSimbolos();
     /**
      * Creates new form Editor
      */
@@ -483,22 +485,11 @@ public class Editor extends javax.swing.JFrame {
             if(strLienzos == null || strColores == null || strTiempos == null){
                 JOptionPane.showMessageDialog(null, "No se han cargado todos los archivos minimos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                LexerLienzo primerLexer = new LexerLienzo(new StringReader(strLienzos));
-                ParserLienzo primerParser = new ParserLienzo(primerLexer);
-                List<Lienzo> lienzos = (List<Lienzo>) primerParser.parse().value;
-                LexerColores segundoLexer = new LexerColores(new StringReader(strColores));
-                ParserColores segundoParser = new ParserColores(segundoLexer, lienzos);
-                segundoParser.parse();
-                LexerTiempos tercerLexer = new LexerTiempos(new StringReader(strTiempos));
-                ParserTiempos tercerParser = new ParserTiempos(tercerLexer, lienzos);
-                tercerParser.parse();
-                if(tercerParser.getErrores().isEmpty()){
-                    Pintor pintor = new Pintor();
-                    pintor.setLienzos(lienzos);
-                    pintor.setFiles(lienzo, colores, tiempos, pintar);
-                    pintor.setVisible(true);
-                    this.dispose();
-                }
+                Pintor pintor = new Pintor();
+                pintor.setLienzos(lienzos, variables);
+                pintor.setFiles(lienzo, colores, tiempos, pintar);
+                pintor.setVisible(true);
+                this.dispose();
             }
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -576,7 +567,8 @@ public class Editor extends javax.swing.JFrame {
                 reporteErrores += "\n\n*******************Errores Archivo Pintar********************\n\n";
                 for (String error : parserPintar.getErrores()) {
                     reporteErrores+=(error+"\n");
-                }    
+                }
+                variables = parserPintar.getVariables();
             }
             if(lexerLienzo != null) addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
             if(lexerColores != null) addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());

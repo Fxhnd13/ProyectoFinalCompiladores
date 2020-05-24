@@ -24,13 +24,17 @@ public class Lienzo {
     
     public boolean existeColor(String color){
         boolean valor = false;
-        
+        for (ColorP colorT : colores) {
+            if(colorT.getId().equals(color)) valor = true;
+        }
         return valor;
     }
     
     public boolean existeImagen(String imagen){
         boolean valor = false;
-        
+        for (Imagen imagenT : tiempos.getImagenes()) {
+            if(imagenT.getId().equals(imagen)) valor = true;
+        }
         return valor;
     }
     
@@ -162,5 +166,13 @@ public class Lienzo {
 
     public String getEstructuraTiempos() {
         return id+":{"+tiempos.getEstructura()+"\n}\n";
+    }
+
+    public ColorP getColor(String idColor) {
+        ColorP valor = null;
+        for (ColorP color : colores) {
+            if(idColor.equals(color)) valor = color;
+        }
+        return valor;
     }
 }
