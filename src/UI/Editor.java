@@ -16,11 +16,14 @@ import Analizadores.Tiempos.ParserTiempos;
 import Analizadores.Objetos.Atributo;
 import Objetos.Lienzo;
 import Analizadores.Objetos.Token;
+import Analizadores.Pintar.LexerPintar;
+import Analizadores.Pintar.ParserPintar;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +40,7 @@ import javax.swing.text.BadLocationException;
  */
 public class Editor extends javax.swing.JFrame {
 
+    private List<Lienzo> lienzos = new ArrayList<Lienzo>();
     /**
      * Creates new form Editor
      */
@@ -524,13 +528,12 @@ public class Editor extends javax.swing.JFrame {
                 }
             }
             String reporteFinal = "";
-            LexerLienzo lexerLienzo = null; LexerColores lexerColores = null; LexerTiempos lexerTiempos = null;
-            ParserLienzo parserLienzo = null; ParserColores parserColores = null; ParserTiempos parserTiempos = null;
-            List<Lienzo> lienzos;
+            LexerLienzo lexerLienzo = null; LexerColores lexerColores = null; LexerTiempos lexerTiempos = null; LexerPintar lexerPintar = null;
+            ParserLienzo parserLienzo = null; ParserColores parserColores = null; ParserTiempos parserTiempos = null; ParserPintar parserPintar = null;
             if(strLienzos != null){
                 lexerLienzo = new LexerLienzo(new StringReader(strLienzos));
                 parserLienzo = new ParserLienzo(lexerLienzo);
-                lienzos = (List<Lienzo>) parserLienzo.parse().value;
+                this.lienzos = (List<Lienzo>) parserLienzo.parse().value;
                 if(strColores != null){
                     lexerColores = new LexerColores(new StringReader(strColores));
                     parserColores = new ParserColores(lexerColores, lienzos);
@@ -540,6 +543,11 @@ public class Editor extends javax.swing.JFrame {
                     lexerTiempos = new LexerTiempos(new StringReader(strTiempos));
                     parserTiempos = new ParserTiempos(lexerTiempos, lienzos);
                     parserTiempos.parse();
+                }
+                if(strPintar != null){
+                    lexerPintar = new LexerPintar(new StringReader(strPintar));
+                    parserPintar = new ParserPintar(lexerPintar, lienzos);
+                    parserPintar.parse();
                 }
                 for (Lienzo lienzo : lienzos) {
                     reporteFinal += lienzo.toString();
@@ -573,15 +581,26 @@ public class Editor extends javax.swing.JFrame {
             if(lexerLienzo != null) addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
             if(lexerColores != null) addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());
             if(lexerTiempos != null) addTokensToTable(2, this.TablaTokensTiempos, lexerTiempos.getTokensList());
+            if(lexerPintar != null) addTokensToTable(3, this.TablaTokensPintar, lexerPintar.getTokensList());
             String finalSintactico = reporteFinal+reporteErrores;
             TextAreaReporteSintactico.setText(finalSintactico);
             DialogoReporteAnalisis.setVisible(true);
-            if(parserTiempos.getErrores().isEmpty()){
-                this.GenerarOption.setEnabled(true);
-                this.EditorGrafico.setEnabled(true);
+            if(strPintar != null){
+                if(parserLienzo.getErrores().isEmpty()&&parserColores.getErrores().isEmpty()&&parserTiempos.getErrores().isEmpty()&&parserPintar.getErrores().isEmpty()){
+                    this.GenerarOption.setEnabled(true);
+                    this.EditorGrafico.setEnabled(true);
+                }else{
+                    this.GenerarOption.setEnabled(false);
+                    this.EditorGrafico.setEnabled(false);
+                }
             }else{
-                this.EditorGrafico.setEnabled(false);
-                this.GenerarOption.setEnabled(false);
+                if(parserLienzo.getErrores().isEmpty()&&parserColores.getErrores().isEmpty()&&parserTiempos.getErrores().isEmpty()){
+                    this.GenerarOption.setEnabled(true);
+                    this.EditorGrafico.setEnabled(true);
+                }else{
+                    this.EditorGrafico.setEnabled(false);
+                    this.GenerarOption.setEnabled(false);
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -632,7 +651,7 @@ public class Editor extends javax.swing.JFrame {
                 case 0: tipo = Analizadores.Lienzos.sym.terminalNames[token.getTipo()]; break;
                 case 1: tipo = Analizadores.Colores.sym.terminalNames[token.getTipo()]; break;
                 case 2: tipo = Analizadores.Tiempos.sym.terminalNames[token.getTipo()]; break;
-                //case 3: tipo = Analizadores.Pintar.sym.terminalNames[token.getTipo()]; break;
+                case 3: tipo = Analizadores.Pintar.sym.terminalNames[token.getTipo()]; break;
             }
             modelo.addRow(new String[]{tipo, token.getLexema(), String.valueOf(token.getLinea()), String.valueOf(token.getColumna())});
         }
