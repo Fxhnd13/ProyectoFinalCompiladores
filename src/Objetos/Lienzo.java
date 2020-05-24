@@ -21,7 +21,19 @@ public class Lienzo {
     List<ColorP> colores;
     Tiempo tiempos = null;
     List<Instruccion> instrucciones;
-
+    
+    public boolean existeColor(String color){
+        boolean valor = false;
+        
+        return valor;
+    }
+    
+    public boolean existeImagen(String imagen){
+        boolean valor = false;
+        
+        return valor;
+    }
+    
     public List<Instruccion> getInstrucciones() {
         return instrucciones;
     }

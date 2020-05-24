@@ -16,7 +16,7 @@ import java_cup.runtime.Symbol;
 
 /* special chars */
 LineTerminator = \r|\n|\r\n
-InputCharacter = [^LineTerminator]
+InputCharacter = [^\r\n]
 WhiteSpace = [ \t\f]+
 
 /* identifiers */
@@ -24,12 +24,13 @@ L = [a-zA-Z]
 
 /* integer literals */
 Digito = [0-9]
-IntegerLiteral = 0 | [1-9][0-9]*
+IntegerLiteral = 0 | [1-9]{Digito}*
 
 /* comments */
 Comment = {TraditionalComment} | {EndOfLineComment}
 
 TraditionalComment   = "/*" [^*] ~"*/"
+Cadena               = "\"" [^*] ~"\""
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 
 %{
@@ -65,6 +66,7 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
     errorsList = new ArrayList<>();
 %init}
 
+
 %%
 
 /* reglas lexicas */
@@ -83,6 +85,7 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
     "if"                                    { return symbol(PR_IF);}
     "else"                                  { return symbol(PR_ELSE);}
     "while"                                 { return symbol(PR_WHILE);}
+    {Comment}                               { /*ignore*/}
     "+"                                     { return symbol(S_SUMA);}
     "-"                                     { return symbol(S_RESTA);}
     "*"                                     { return symbol(S_MUL);}
@@ -102,11 +105,10 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
     "("                                     {   return symbol(PARENTESIS_A);}
     ")"                                     {   return symbol(PARENTESIS_C);}
     "="                                     {   return symbol(ASIGNACION);              }
-    "\""                                    {   return symbol(COMILLA);}
-    {LineTerminator}                        {   /*return symbol(FIN_LINEA);*/               }
+    {Cadena}                                {   return symbol(CADENA);}
     {IntegerLiteral}                        {   return symbol(ENTERO, yytext());        }
-    {Comment}                               { /*ignore*/}
     ({L}|("\_"))({L}|{Digito}|("\_"))*      {   return symbol(ID, yytext());            }
+    {LineTerminator}                        {   /*return symbol(FIN_LINEA);*/               }
 
     {WhiteSpace} 	{   /*return symbol(WHITESPACE); */  }
 

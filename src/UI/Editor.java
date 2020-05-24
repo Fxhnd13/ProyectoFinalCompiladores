@@ -503,7 +503,7 @@ public class Editor extends javax.swing.JFrame {
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         try {
-            String strLienzos = null, strColores = null, strTiempos=null;
+            String strLienzos = null, strColores = null, strTiempos=null, strPintar = null;
             for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
                 switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
                     case "lnz" : {
@@ -517,6 +517,9 @@ public class Editor extends javax.swing.JFrame {
                     case "tmp" : {
                         strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
                         break;
+                    }
+                    case "pnt":{
+                        strPintar = ((InputTab)PanelArchivos.getComponent(i)).getText();
                     }
                 }
             }
@@ -560,6 +563,12 @@ public class Editor extends javax.swing.JFrame {
                 for (String error : parserTiempos.getErrores()) {
                     reporteErrores+=(error+"\n");
                 }
+            }
+            if(strPintar != null){
+                reporteErrores += "\n\n*******************Errores Archivo Pintar********************\n\n";
+                for (String error : parserPintar.getErrores()) {
+                    reporteErrores+=(error+"\n");
+                }    
             }
             if(lexerLienzo != null) addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
             if(lexerColores != null) addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());

@@ -16,6 +16,11 @@ public class Instruccion {
     Object instruccion = null;
     int linea, columna;
 
+    public Instruccion(String tipo, Object instruccion) {
+        this.tipo = tipo;
+        this.instruccion = instruccion;
+    }
+
     public int getLinea() {
         return linea;
     }

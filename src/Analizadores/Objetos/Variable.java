@@ -14,6 +14,11 @@ public class Variable {
     String id, tipo;
     Object valor;
 
+    public Variable(String tipo, Object valor){
+        this.tipo = tipo;
+        this.valor = valor;
+    }
+    
     public String getId() {
         return id;
     }

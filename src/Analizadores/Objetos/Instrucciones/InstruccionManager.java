@@ -20,7 +20,7 @@ public class InstruccionManager {
         for (Instruccion instruccion : instrucciones) {
             instruccion.setLienzo(lienzo);
             switch(instruccion.getTipo()){
-                case "if":{
+                case "IF":{
                     SiInstruccion temporal = (SiInstruccion) instruccion.getInstruccion();
                     if((boolean) temporal.getCondiciones().evaluar(variables)){
                         ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSi(), variables, pinturas);
@@ -31,7 +31,7 @@ public class InstruccionManager {
                     }
                     break;
                 }
-                case "while":{
+                case "WHILE":{
                     MientrasInstruccion temporal = (MientrasInstruccion) instruccion.getInstruccion();
                     while((boolean)temporal.getCondiciones().evaluar(variables)){
                         ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstrucciones(), variables, pinturas);
@@ -43,7 +43,7 @@ public class InstruccionManager {
                     temporal.getPosX().evaluar(variables);
                     temporal.getPosY().evaluar(variables);
                     if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Entero")){
-                        InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(), 
+                        InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables), 
                                 (Integer) temporal.getPosX().evaluar(variables), 
                                 (Integer) temporal.getPosY().evaluar(variables));
                         pinturas.add(pintar);
@@ -52,7 +52,7 @@ public class InstruccionManager {
                             int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
                             int indiceEnY = (Integer) temporal.getPosY().evaluar(variables);
                             for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX<=indiceFinalX; indiceInicialX++){
-                                InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(),
+                                InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
                                     indiceInicialX, indiceEnY);
                                 pinturas.add(pintar);
                             }
@@ -61,7 +61,7 @@ public class InstruccionManager {
                             int indiceEnX = (Integer) temporal.getPosX().evaluar(variables);
                             int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
                             for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY<=indiceFinalY; indiceInicialY++){
-                                InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(),
+                                InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
                                     indiceEnX, indiceInicialY);
                                 pinturas.add(pintar);
                             }
@@ -71,7 +71,7 @@ public class InstruccionManager {
                             int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
                             for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX <= indiceFinalX; indiceInicialX++){
                                 for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY <= indiceFinalY; indiceInicialY++){
-                                    InstruccionPintar pintar = new InstruccionPintar(lienzo, temporal.getIdColor(), temporal.getIdImagen(),
+                                    InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
                                         indiceInicialX, indiceInicialY);
                                     pinturas.add(pintar);
                                 }
