@@ -337,6 +337,11 @@ public class Editor extends javax.swing.JFrame {
         jMenu5.add(GenerarOption);
 
         EditorGrafico.setText("Generar");
+        EditorGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditorGraficoActionPerformed(evt);
+            }
+        });
         jMenu5.add(EditorGrafico);
 
         jMenuBar1.add(jMenu5);
@@ -649,6 +654,42 @@ public class Editor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
+    private void EditorGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditorGraficoActionPerformed
+        try {
+            String strLienzos = null, strColores = null, strTiempos=null;
+            File lienzo = null, colores=null, tiempos = null, pintar = null;
+            for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
+                switch(((InputTab)PanelArchivos.getComponent(i)).getExtension()){
+                    case "lnz" : {
+                        strLienzos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        lienzo = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                        break;
+                    }
+                    case "clrs" : {
+                        strColores = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        colores = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                        break;
+                    }
+                    case "tmp" : {
+                        strTiempos = ((InputTab)PanelArchivos.getComponent(i)).getText();
+                        tiempos = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                        break;
+                    }
+                }
+            }
+            if(strLienzos == null || strColores == null || strTiempos == null){
+                JOptionPane.showMessageDialog(null, "No se han cargado todos los archivos minimos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                for (Lienzo lienzoT : lienzos) {
+                    PanelLienzo panel = new PanelLienzo(lienzoT, variables);
+                    panel.exportacion();
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_EditorGraficoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -714,8 +755,10 @@ public class Editor extends javax.swing.JFrame {
             newTab = new InputTab("Pestaña de " +extension);//si no se cargo un archivo, este sera el nombre predeterminado
         }else{//si entra aqui es porque se cargo un archivo
             newTab = RegistroArchivos.cargarArchivo();//cargamos el archivo en el tab
-            int posicionPunto = newTab.getOrigin().getAbsolutePath().lastIndexOf(".")+1;
-            extension = newTab.getOrigin().getAbsolutePath().substring(posicionPunto, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
+            if(newTab!= null){
+                int posicionPunto = newTab.getOrigin().getAbsolutePath().lastIndexOf(".")+1;
+                extension = newTab.getOrigin().getAbsolutePath().substring(posicionPunto, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
+            }
         }
         if(newTab != null){
             newTab.setExtension(extension);

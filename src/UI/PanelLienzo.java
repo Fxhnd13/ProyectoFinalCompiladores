@@ -471,38 +471,7 @@ public class PanelLienzo extends javax.swing.JPanel {
     }//GEN-LAST:event_ImagenActivaComboBoxActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int indiceInicio = this.InicioImagenesComboBox.getSelectedIndex();
-        int indiceFinal = this.FinImagensComboBox.getSelectedIndex();
-        if(this.lienzo.getExtension().equals("gif")){
-            if(indiceInicio == indiceFinal){
-                JOptionPane.showMessageDialog(null, "Al crear un gif, debe haber por lo menos dos imagenes", "Error", JOptionPane.ERROR_MESSAGE);
-            }else{
-                if(indiceInicio < indiceFinal){
-                    this.exportarGif(indiceInicio, indiceFinal);
-                }else{
-                    JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }else{
-            if(this.FinImagensComboBox.getItemCount()==0){
-                Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.InicioImagenesComboBox.getSelectedIndex()); //obtenemos la imagen que contiene las celdas a agregar
-                imprimirImagen(imagen);
-            }else{
-                if(indiceInicio != indiceFinal){
-                    if(indiceInicio < indiceFinal){
-                        for (int i = indiceInicio; i < (indiceFinal+1); i++) {
-                            Imagen imagen = this.lienzo.getTiempos().getImagenes().get(i); //obtenemos la imagen que contiene las celdas a agregar
-                            imprimirImagen(imagen);
-                        }
-                    }else{
-                        JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }else{
-                    Imagen imagen = this.lienzo.getTiempos().getImagenes().get(indiceInicio); //obtenemos la imagen que contiene las celdas a agregar
-                    imprimirImagen(imagen);
-                }
-            }
-        }
+        exportacion();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void InicioImagenesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InicioImagenesComboBoxActionPerformed
@@ -644,6 +613,41 @@ public class PanelLienzo extends javax.swing.JPanel {
             }
         } catch (IOException ex) {
             Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void exportacion(){
+        int indiceInicio = this.InicioImagenesComboBox.getSelectedIndex();
+        int indiceFinal = this.FinImagensComboBox.getSelectedIndex();
+        if(this.lienzo.getExtension().equals("gif")){
+            if(indiceInicio == indiceFinal){
+                JOptionPane.showMessageDialog(null, "Al crear un gif, debe haber por lo menos dos imagenes", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                if(indiceInicio < indiceFinal){
+                    this.exportarGif(indiceInicio, indiceFinal);
+                }else{
+                    JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            if(this.FinImagensComboBox.getItemCount()==0){
+                Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.InicioImagenesComboBox.getSelectedIndex()); //obtenemos la imagen que contiene las celdas a agregar
+                imprimirImagen(imagen);
+            }else{
+                if(indiceInicio != indiceFinal){
+                    if(indiceInicio < indiceFinal){
+                        for (int i = indiceInicio; i < (indiceFinal+1); i++) {
+                            Imagen imagen = this.lienzo.getTiempos().getImagenes().get(i); //obtenemos la imagen que contiene las celdas a agregar
+                            imprimirImagen(imagen);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else{
+                    Imagen imagen = this.lienzo.getTiempos().getImagenes().get(indiceInicio); //obtenemos la imagen que contiene las celdas a agregar
+                    imprimirImagen(imagen);
+                }
+            }
         }
     }
 }
