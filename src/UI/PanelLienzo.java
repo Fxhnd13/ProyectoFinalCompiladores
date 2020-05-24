@@ -586,28 +586,26 @@ public class PanelLienzo extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void imprimirImagen(Imagen imagen) {
-        JPanel panelApintar = new JPanel(); //es el panel al cual vamos a agregar las celdas que queremos pintar
-        panelApintar.setSize(this.lienzo.getCuadros()*this.lienzo.getdY(), this.lienzo.getdX()*this.lienzo.getCuadros());//ajustamos el tamaño del panel
-        panelApintar.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//agregamos la cuadricula de celdas que va a tener el panel
+        JPanel pintura = new JPanel();
+        pintura.setSize(this.lienzo.getCuadros()*this.lienzo.getdX(), this.lienzo.getdY()*this.lienzo.getCuadros());
+        pintura.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));
         for (Component component : imagen.getPanel().getComponents()) {
             JLabel label = new JLabel();
             label.setOpaque(true);
-            label.setSize(lienzo.getCuadros(), lienzo.getCuadros());
-            label.setBackground(((Cell) component).getBackground());
-            panelApintar.add(label);
+            label.setBackground(((Cell)component).getBackground());
+            pintura.add(label);
         }
-        JFrame frame = new JFrame();
-        frame.setSize(panelApintar.getWidth(), panelApintar.getHeight());
-        frame.add(panelApintar);
-        frame.setVisible(true);
-        BufferedImage pintor = new BufferedImage(panelApintar.getHeight(), panelApintar.getWidth(), BufferedImage.TYPE_INT_RGB);
-        panelApintar.paint(pintor.getGraphics());
-        frame.dispose();
-        try{
+        pintura.doLayout();
+        Component componente = pintura;
+        BufferedImage imagenT = new BufferedImage(componente.getWidth(), componente.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //Hacemos que el componente se pinte en el Graphics de la imagen
+        componente.paint(imagenT.getGraphics());
+        try {
+            //Guardamos la imagen y listo
             File file = new File("Salidas/"+this.lienzo.getIdSalida());
             if(!file.exists()) file.mkdirs();
-            ImageIO.write(pintor, "png", new File("Salidas/"+this.lienzo.getIdSalida()+"/"+imagen.getId()));
-        } catch (IOException ex){
+            ImageIO.write(imagenT, "png", new File("Salidas/"+this.lienzo.getIdSalida()+"/"+imagen.getId()));
+        } catch (IOException ex) {
             Logger.getLogger(PanelLienzo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

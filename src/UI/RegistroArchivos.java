@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,15 +27,55 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class RegistroArchivos {
     
+    public static ArrayList<InputTab> cargarArchivos(){
+        ArrayList<InputTab> tabs = new ArrayList<InputTab>();
+        JFileChooser filechooser = new JFileChooser();
+        filechooser.setMultiSelectionEnabled(true);
+        int resultado = filechooser.showOpenDialog(null);
+        if(resultado == JFileChooser.APPROVE_OPTION){
+            File[] files = filechooser.getSelectedFiles();
+            for (File file : files) {
+                tabs.add(cargarTab(file));
+            }
+        }
+        return tabs;
+    }
+    
+    public static InputTab cargarTab(File archivo){
+        InputTab tab = null;
+        String contenido = "";
+        if(archivo == null || archivo.getName().equals("")){
+                JOptionPane.showMessageDialog(null, "No seleccionó una archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
+                try {
+                    String cadena;
+                    FileReader f = new FileReader(archivo);
+                    BufferedReader b = new BufferedReader(f);
+                    while((cadena = b.readLine())!=null) {
+                        contenido += cadena+"\n";
+                    }
+                    int indice =  archivo.getName().lastIndexOf(".");
+                    tab = new InputTab(archivo.getName().substring(0, indice), archivo);
+                    tab.getTextArea().setText(contenido);
+                    tab.setOrigin(archivo);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(RegistroArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(RegistroArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        return tab;
+    }
+    
     public static InputTab cargarArchivo(){
         InputTab tab = null;
         String contenido = "";
         JFileChooser filechooser = new JFileChooser();
         filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Lienzo","lnz"));
-        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Colores","clrs"));
-        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Tiempos","tmp"));
         filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Pintar","pnt"));
+        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Tiempos","tmp"));
+        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Colores","clrs"));
+        filechooser.setFileFilter(new FileNameExtensionFilter("Archivos Lienzo","lnz"));
         int resultado = filechooser.showOpenDialog(null);
         if(resultado == JFileChooser.APPROVE_OPTION){
             File archivo = filechooser.getSelectedFile();
@@ -50,6 +92,7 @@ public class RegistroArchivos {
                     int indice =  archivo.getName().lastIndexOf(".");
                     tab = new InputTab(archivo.getName().substring(0, indice), archivo);
                     tab.getTextArea().setText(contenido);
+                    tab.setOrigin(archivo);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(RegistroArchivos.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {

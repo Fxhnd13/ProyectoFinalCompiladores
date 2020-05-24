@@ -90,6 +90,7 @@ public class Editor extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -290,6 +291,14 @@ public class Editor extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem5);
+
+        jMenuItem12.setText("Cargar Archivos");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem12);
 
         jMenuItem7.setText("Guardar Archivo");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -608,6 +617,38 @@ public class Editor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        ArrayList<InputTab> tabs = RegistroArchivos.cargarArchivos();
+        for (InputTab newTab : tabs) {
+            int posicionPunto = newTab.getOrigin().getAbsolutePath().lastIndexOf(".")+1;
+            String extension = newTab.getOrigin().getAbsolutePath().substring(posicionPunto, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
+            newTab.setExtension(extension);
+            this.PanelArchivos.addTab(newTab.getName(), newTab);//lo agreamos al TabPanel
+                //this.undoManager = newTab.getManager(); agrega el undoManager
+                newTab.getTextArea().requestFocus();
+                newTab.getTextArea().addCaretListener(new CaretListener() {
+                    public void caretUpdate(CaretEvent e) {
+                        int pos = e.getDot();
+                        try {
+                            int row = newTab.getTextArea().getLineOfOffset(pos) + 1;
+                            int col = pos - newTab.getTextArea().getLineStartOffset(row - 1) + 1;
+                            InformacionLabel.setText("Línea: " + row + " Columna: " + col);
+                        } catch (BadLocationException exc) {
+                            System.out.println(exc);
+                        }
+                    }
+                });
+                newTab.getTextArea().addKeyListener(new KeyListener(){
+                    @Override
+                    public void keyPressed(KeyEvent e) {newTab.setModificado(true);}
+                    @Override
+                    public void keyTyped(KeyEvent e) {}
+                    @Override
+                    public void keyReleased(KeyEvent e) {}
+                });
+        }
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -753,6 +794,7 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
