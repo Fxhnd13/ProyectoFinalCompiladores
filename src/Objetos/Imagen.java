@@ -78,7 +78,7 @@ public class Imagen {
         for (Component component : this.panel.getComponents()) {
             Cell cell = (Cell) component;
             if(cell.getColor()!= fondo){
-                cadena+="    PINTAR(\""+cell.getColor().getId()+"\","+this.id+","+cell.getDx()+","+cell.getDy()+");\n";
+                cadena+="    PINTAR(\""+cell.getColor().getId()+"\",\""+this.id+"\","+cell.getDx()+","+cell.getDy()+");\n";
             }
         }
         return cadena;

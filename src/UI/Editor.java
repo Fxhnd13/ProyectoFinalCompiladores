@@ -494,6 +494,9 @@ public class Editor extends javax.swing.JFrame {
                         tiempos = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
                         break;
                     }
+                    case "pnt":{
+                        pintar = ((InputTab)PanelArchivos.getComponent(i)).getOrigin();
+                    }
                 }
             }
             if(strLienzos == null || strColores == null || strTiempos == null){

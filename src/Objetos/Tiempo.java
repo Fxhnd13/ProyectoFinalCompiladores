@@ -77,10 +77,10 @@ public class Tiempo {
     public String getEstructura() {
         String cadena = "";
         for (int i = 0; i < imagenes.size(); i++) {
-            cadena+="\n    {\n      id:"+imagenes.get(i).getId()+",\n      duracion:"+imagenes.get(i).getDuracion()+"\n    }";
+            cadena+="\n    {\n      id:\""+imagenes.get(i).getId()+"\",\n      duracion:"+imagenes.get(i).getDuracion()+"\n    }";
             if((i+1) < imagenes.size()) cadena+=",\n";
         }
-        return "\n  inicio:"+idInicio+",\n  fin:"+idFin+",\n  imagenes:["+cadena+"\n  ]";
+        return "\n  inicio:\""+idInicio+"\",\n  fin:\""+idFin+"\",\n  imagenes:["+cadena+"\n  ]";
     }
 
     public boolean existe(String id) {
