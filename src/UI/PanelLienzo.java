@@ -15,6 +15,7 @@ import Objetos.Lienzo;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import java.awt.image.BufferedImage;
@@ -69,8 +70,8 @@ public class PanelLienzo extends javax.swing.JPanel {
         JPanel panel = panel = new JPanel(); //creamos un panel de la imagen
         panel.setSize(this.lienzo.getdX()*this.lienzo.getCuadros(), this.lienzo.getdY()*this.lienzo.getCuadros()); //arreglamos el tamaño que debería tener
         panel.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//hacemos el gridlayout (quiza hace falta cambiar)
-        for (int i = 0; i < this.lienzo.getdX(); i++) {
-            for (int j = 0; j < this.lienzo.getdY(); j++) {
+        for (int i = 0; i < this.lienzo.getdY(); i++) {
+            for (int j = 0; j < this.lienzo.getdX(); j++) {
                 Cell cell = new Cell(i,j);
                 cell.setSize(this.lienzo.getCuadros(), this.lienzo.getCuadros());
                 cell.setOpaque(true);
@@ -102,9 +103,17 @@ public class PanelLienzo extends javax.swing.JPanel {
         if(!this.lienzo.getInstrucciones().isEmpty() && variables != null){
             InstruccionManager manager = new InstruccionManager();
             List<InstruccionPintar> pinturas = new ArrayList<InstruccionPintar>();
-            manager.ejecutarInstrucciones(lienzo.getId(), lienzo.getInstrucciones(), variables, pinturas);
-            for (InstruccionPintar pintura : pinturas) {
-                manager.ejecutarPintura(pintura, lienzo);
+            List<String> errores = new ArrayList<String>();
+            manager.ejecutarInstrucciones(lienzo.getId(), lienzo.getInstrucciones(), variables, pinturas, errores);
+                for (InstruccionPintar pintura : pinturas) {
+                    manager.ejecutarPintura(pintura, lienzo);
+                }
+            if(!errores.isEmpty()){
+                String cadena = "";
+                for (String error : errores) {
+                    cadena+=error+"\n";
+                }
+                JOptionPane.showMessageDialog(null, cadena, "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         int indiceInicio = 0, indiceFinal = 0;
@@ -578,11 +587,12 @@ public class PanelLienzo extends javax.swing.JPanel {
 
     private void imprimirImagen(Imagen imagen) {
         JPanel panelApintar = new JPanel(); //es el panel al cual vamos a agregar las celdas que queremos pintar
-        panelApintar.setSize(this.lienzo.getCuadros()*this.lienzo.getdX(), this.lienzo.getdY()*this.lienzo.getCuadros());//ajustamos el tamaño del panel
+        panelApintar.setSize(this.lienzo.getCuadros()*this.lienzo.getdY(), this.lienzo.getdX()*this.lienzo.getCuadros());//ajustamos el tamaño del panel
         panelApintar.setLayout(new GridLayout(this.lienzo.getdY(), this.lienzo.getdX()));//agregamos la cuadricula de celdas que va a tener el panel
         for (Component component : imagen.getPanel().getComponents()) {
             JLabel label = new JLabel();
             label.setOpaque(true);
+            label.setSize(lienzo.getCuadros(), lienzo.getCuadros());
             label.setBackground(((Cell) component).getBackground());
             panelApintar.add(label);
         }
@@ -591,9 +601,7 @@ public class PanelLienzo extends javax.swing.JPanel {
         frame.add(panelApintar);
         frame.setVisible(true);
         BufferedImage pintor = new BufferedImage(panelApintar.getHeight(), panelApintar.getWidth(), BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = pintor.createGraphics();
-        panelApintar.printAll(graphics);
-        graphics.dispose();
+        panelApintar.paint(pintor.getGraphics());
         frame.dispose();
         try{
             File file = new File("Salidas/"+this.lienzo.getIdSalida());

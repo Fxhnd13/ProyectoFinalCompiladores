@@ -71,147 +71,203 @@ public class Nodo {
                 case "AND":{
                     this.tipoRetorno = "Boolean";
                     if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        valor = ((boolean)this.izq.evaluar(variables)) && ((boolean)this.der.evaluar(variables));
+                        if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                            valor = ((Boolean)this.izq.evaluar(variables)) && ((Boolean)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }else{
-                        //podemos agregar un error semantico
+                        valor = null;
                     }
                     break;
                 }
                 case "OR":{
                     this.tipoRetorno = "Boolean";
                     if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        valor = ((boolean)this.izq.evaluar(variables)) && ((boolean)this.der.evaluar(variables));
+                        if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                            valor = ((Boolean)this.izq.evaluar(variables)) && ((Boolean)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }else{
-                        //podemos agregar une error semantico
+                        valor = null;
                     }
                     break;
                 }
                 case "==":{
                     this.tipoRetorno = "Boolean";
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
-                        valor = ((String)this.izq.evaluar(variables)).equals((String)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        valor = ((Integer)this.izq.evaluar(variables)) == ((Integer)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        valor = ((boolean)this.izq.evaluar(variables)) == ((boolean)this.der.evaluar(variables));
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                            valor = ((String)this.izq.evaluar(variables)).equals((String)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) == ((Integer)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
+                            valor = ((Boolean)this.izq.evaluar(variables)) == ((Boolean)this.der.evaluar(variables));
+                        }   
+                    }else{
+                        valor = null;
                     }
                     break;
                 }
                 case "<>":{
                     this.tipoRetorno = "Boolean";
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
-                        valor = !((String)this.izq.evaluar(variables)).equals((String)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        valor = ((Integer)this.izq.evaluar(variables)) != ((Integer)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        valor = ((boolean)this.izq.evaluar(variables)) != ((boolean)this.der.evaluar(variables));
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                            valor = !((String)this.izq.evaluar(variables)).equals((String)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) != ((Integer)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
+                            valor = ((Boolean)this.izq.evaluar(variables)) != ((Boolean)this.der.evaluar(variables));
+                        }
+                    }else{
+                        valor = null;
                     }
                     break;
                 }
                 case "<=":{
                     this.tipoRetorno = "Boolean";
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
-                        valor = ((String)this.izq.evaluar(variables)).length() <= ((String)this.der.evaluar(variables)).length();
-                    }
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        valor = ((Integer)this.izq.evaluar(variables)) <= ((Integer)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        //podemos agregar un error semantico
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                            valor = ((String)this.izq.evaluar(variables)).length() <= ((String)this.der.evaluar(variables)).length();
+                        }
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) <= ((Integer)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
+                            //podemos agregar un error semantico
+                        }
+                    }else{
+                        
                     }
                     break;
                 }
                 case ">=":{
                     this.tipoRetorno = "Boolean";
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
-                        valor = ((String)this.izq.evaluar(variables)).length() >= ((String)this.der.evaluar(variables)).length();
-                    }
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        valor = ((Integer)this.izq.evaluar(variables)) >= ((Integer)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        //podemos agregar un error semantico
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                            valor = ((String)this.izq.evaluar(variables)).length() >= ((String)this.der.evaluar(variables)).length();
+                        }
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) >= ((Integer)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
+                            //podemos agregar un error semantico
+                        }
+                    }else{
+                        
                     }
                     break;
                 }
                 case ">":{
                     this.tipoRetorno = "Boolean";
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
-                        valor = ((String)this.izq.evaluar(variables)).length() > ((String)this.der.evaluar(variables)).length();
-                    }
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        valor = ((Integer)this.izq.evaluar(variables)) > ((Integer)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        //podemos agregar un error semantico
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                            valor = ((String)this.izq.evaluar(variables)).length() > ((String)this.der.evaluar(variables)).length();
+                        }
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) > ((Integer)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
+                            valor = null;
+                        }
+                    }else{
+                    
                     }
                     break;
                 }
                 case "<":{
                     this.tipoRetorno = "Boolean";
-                    if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
-                        valor = ((String)this.izq.evaluar(variables)).length() < ((String)this.der.evaluar(variables)).length();
-                    }
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        valor = ((Integer)this.izq.evaluar(variables)) < ((Integer)this.der.evaluar(variables));
-                    }
-                    if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        //podemos agregar un error semantico
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("String") && this.der.getTipoRetorno().equals("String")){
+                            valor = ((String)this.izq.evaluar(variables)).length() < ((String)this.der.evaluar(variables)).length();
+                        }
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) < ((Integer)this.der.evaluar(variables));
+                        }
+                        if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
+                            valor = null;
+                        }
+                    }else{
+                        
                     }
                     break;
                 }
                 case "+":{
                     if(this.izq.getTipoRetorno().equals("String") || this.der.getTipoRetorno().equals("String")){
                         this.tipoRetorno = "String";
-                        valor = ((String)this.izq.evaluar(variables)) + ((String)this.der.evaluar(variables));
+                        if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                            valor = ((String)this.izq.evaluar(variables)) + ((String)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }
                     if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
                         this.tipoRetorno = "Entero";
-                        valor = ((Integer)this.izq.evaluar(variables)) + ((Integer)this.der.evaluar(variables));
+                        if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                            valor = ((Integer)this.izq.evaluar(variables)) + ((Integer)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }
                     if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                        //podemos agregar un error semantico
+                        valor = null;
                     }
                     break;
                 }
                 case "-":{
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        this.tipoRetorno = "Entero";
-                        valor = ((Integer)this.izq.evaluar(variables)) - ((Integer)this.der.evaluar(variables));
+                    this.tipoRetorno = "Entero";
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) - ((Integer)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }else{
-                        //podemos agregar un error semantico
+                        
                     }
                     break;
                 }
                 case "*":{
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        this.tipoRetorno = "Entero";
-                        valor = ((Integer)this.izq.evaluar(variables)) * ((Integer)this.der.evaluar(variables));
+                    this.tipoRetorno = "Entero";
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) * ((Integer)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }else{
-                        //podemos agregar un error semantico
+                        
                     }
                     break;
                 }
                 case "/":{
-                    if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
-                        this.tipoRetorno = "Entero";
-                        valor = ((Integer)this.izq.evaluar(variables)) / ((Integer)this.der.evaluar(variables));
+                    this.tipoRetorno = "Entero";
+                    if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                        if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
+                            valor = ((Integer)this.izq.evaluar(variables)) / ((Integer)this.der.evaluar(variables));
+                        }else{
+                            valor = null;
+                        }
                     }else{
-                        //podemos agregar un error semantico
+                        valor = null;
                     }
                     break;
                 }
                 case "..":{
                     if(this.izq.getTipoRetorno().equals("Entero") && this.der.getTipoRetorno().equals("Entero")){
                         this.tipoRetorno = "Rango";
-                        Rango rango = new Rango();
-                        rango.setInicio((Integer) this.getIzq().evaluar(variables));
-                        rango.setFin((Integer) this.getDer().evaluar(variables));
-                        valor = rango;
+                        if((izq.evaluar(variables)!=null)&&(der.evaluar(variables)!=null)){
+                            Rango rango = new Rango();
+                            rango.setInicio((Integer) this.getIzq().evaluar(variables));
+                            rango.setFin((Integer) this.getDer().evaluar(variables));
+                            valor = rango;
+                        }else{
+                            valor = null;
+                        }
                     }
                 }
             }
@@ -222,17 +278,29 @@ public class Nodo {
                     switch(variables.getVariable((String)variable.getValor()).getTipo()){
                         case "Entero":{
                             this.tipoRetorno = "Entero";
-                            valor = Integer.parseInt(variables.getVariable((String)variable.getValor()).getValor().toString());
+                            if(variables.getVariable((String)variable.getValor()).getValor() != null){
+                                valor = Integer.parseInt(variables.getVariable((String)variable.getValor()).getValor().toString());
+                            }else{
+                                valor = null;
+                            }
                             break;
                         }
                         case "Boolean":{
                             this.tipoRetorno = "Boolean";
-                            valor = (boolean) variables.getVariable((String)variable.getValor()).getValor();
+                            if(variables.getVariable((String)variable.getValor()).getValor()!= null){
+                                valor = Boolean.parseBoolean(variables.getVariable((String)variable.getValor()).getValor().toString());
+                            }else{
+                                valor = null;
+                            }
                             break;
                         }
                         case "String":{
                             this.tipoRetorno = "String";
-                            valor = (String) variables.getVariable((String)variable.getValor()).getValor();
+                            if(variables.getVariable((String)variable.getValor()).getValor()!= null){
+                                valor = (String) variables.getVariable((String)variable.getValor()).getValor();
+                            }else{
+                                valor = null;
+                            }
                             break;
                         }
                     }

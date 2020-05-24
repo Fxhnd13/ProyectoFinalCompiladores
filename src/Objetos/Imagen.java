@@ -22,7 +22,7 @@ public class Imagen {
     public void pintarPos(ColorP color, int x, int y){
         for (Component component : panel.getComponents()) {
             Cell cell = (Cell) component;
-            if(cell.getDx()==x && cell.getDy()==y){
+            if(cell.getDx()==y && cell.getDy()==x){
                 cell.setColor(color);
             }
         }

@@ -364,6 +364,7 @@ public class LexerPintar implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
+    private int pasada;
     private List<String> errorsList;
     private List<Token> tokens;
 
@@ -379,7 +380,7 @@ public class LexerPintar implements java_cup.runtime.Scanner {
     }
 
     private void error(String lexeme) {
-        errorsList.add("Se encontro un caracter/simbolo desconocido en la linea: "+yyline+", columna: "+yycolumn+" con el simbolo "+lexeme);
+        if(pasada == 2 )errorsList.add("Se encontro un caracter/simbolo desconocido en la linea: "+yyline+", columna: "+yycolumn+" con el simbolo "+lexeme);
     }
 
     public List<Token> getTokensList(){
@@ -388,6 +389,10 @@ public class LexerPintar implements java_cup.runtime.Scanner {
 
     public List<String> getErrorsList() {
         return errorsList;
+    }
+    
+    public void setPasada(int a){
+        pasada = a;
     }
 
 

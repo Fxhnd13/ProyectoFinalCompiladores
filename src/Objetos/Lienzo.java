@@ -171,7 +171,7 @@ public class Lienzo {
     public ColorP getColor(String idColor) {
         ColorP valor = null;
         for (ColorP color : colores) {
-            if(idColor.equals(color)) valor = color;
+            if(idColor.equals(color.getId())) valor = color;
         }
         return valor;
     }

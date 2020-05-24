@@ -293,12 +293,14 @@ public class ParserPintar extends java_cup.runtime.lr_parser {
         private List<String> listErrores;
         private List<Lienzo> lienzos;
         private TablaDeSimbolos variables;
+        int pasada;
 
-        public ParserPintar(LexerPintar lex, List<Lienzo> a) { 
+        public ParserPintar(LexerPintar lex, List<Lienzo> a, int paso) { 
             super(lex);   
             listErrores = lex.getErrorsList();
             variables = new TablaDeSimbolos();
             lienzos = a;
+            pasada = paso;
 	}
         
         public void setAccion(String tipo, String mensaje, String accion){
@@ -310,14 +312,16 @@ public class ParserPintar extends java_cup.runtime.lr_parser {
         }
 
         public void syntax_error(Symbol s){
-            String message = "";
-            StringBuilder m = new StringBuilder("Error:");
-            String cadena = ((Token)s.value).getLexema();
-            int linea = (((Token)s.value).getLinea());
-            int columna = (((Token)s.value).getColumna());
-            switch(s.toString()){
+            if(pasada == 2){
+                String message = "";
+                StringBuilder m = new StringBuilder("Error:");
+                String cadena = ((Token)s.value).getLexema();
+                int linea = (((Token)s.value).getLinea());
+                int columna = (((Token)s.value).getColumna());
+                switch(s.toString()){
+                }
+                listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
             }
-            listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
         }
 
         public List<String> getErrores(){
@@ -326,6 +330,14 @@ public class ParserPintar extends java_cup.runtime.lr_parser {
         
         public TablaDeSimbolos getVariables(){
             return variables;
+        }
+        
+        public void setVariables(TablaDeSimbolos a){
+            variables = a;
+        }
+        
+        public void setPasada(int a){
+            pasada = a;
         }
         
 
@@ -506,10 +518,12 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		String nodo = (String)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(idVariable != null){
-                                                        Variable variable = new Variable("String", nodo);
-                                                        variable.setId(idVariable.getLexema());
-                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                    if(pasada == 1){
+                                                        if(idVariable != null){
+                                                            Variable variable = new Variable("String", nodo);
+                                                            variable.setId(idVariable.getLexema());
+                                                            if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("varListString",3, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-3)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -527,10 +541,12 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		String nodo = (String)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(idVariable != null){
-                                                        Variable variable = new Variable("String", nodo);
-                                                        variable.setId(idVariable.getLexema());
-                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                    if(pasada == 1){
+                                                        if(idVariable != null){
+                                                            Variable variable = new Variable("String", nodo);
+                                                            variable.setId(idVariable.getLexema());
+                                                            if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("varListString",3, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -545,8 +561,10 @@ class CUP$ParserPintar$actions {
 		int derecharight = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo derecha = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(derecha != null){
-                                                        RESULT =  derecha.evaluar(variables).toString();
+                                                    if(pasada == 1){
+                                                        if(derecha != null){
+                                                            RESULT =  derecha.evaluar(variables).toString();
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("asigString",8, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -573,10 +591,12 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Integer nodo = (Integer)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(idVariable != null){
-                                                        Variable variable = new Variable("Entero", nodo);
-                                                        variable.setId(idVariable.getLexema());
-                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
+                                                    if(pasada == 1){
+                                                        if(idVariable != null){
+                                                            Variable variable = new Variable("Entero", nodo);
+                                                            variable.setId(idVariable.getLexema());
+                                                            if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("varListInt",4, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-3)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -594,10 +614,12 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Integer nodo = (Integer)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(idVariable != null){
-                                                        Variable variable = new Variable("Entero", nodo);
-                                                        variable.setId(idVariable.getLexema());
-                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                    if(pasada == 1){
+                                                        if(idVariable != null){
+                                                            Variable variable = new Variable("Entero", nodo);
+                                                            variable.setId(idVariable.getLexema());
+                                                            if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("varListInt",4, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -612,9 +634,11 @@ class CUP$ParserPintar$actions {
 		int derecharight = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo derecha = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(derecha != null){
-                                                        if(derecha.getTipoRetorno().equals("Entero")){
-                                                            RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
+                                                    if(pasada == 1){
+                                                        if(derecha != null){
+                                                            if(derecha.getTipoRetorno().equals("Entero")){
+                                                                RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
+                                                            }
                                                         }
                                                     }
                                                 
@@ -642,10 +666,12 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Boolean nodo = (Boolean)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(idVariable != null){
-                                                        Variable variable = new Variable("Boolean", nodo);
-                                                        variable.setId(idVariable.getLexema());
-                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
+                                                    if(pasada == 1){
+                                                        if(idVariable != null){
+                                                            Variable variable = new Variable("Boolean", nodo);
+                                                            variable.setId(idVariable.getLexema());
+                                                            if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("varListBoolean",5, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-3)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -663,10 +689,12 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Boolean nodo = (Boolean)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(idVariable != null){
-                                                        Variable variable = new Variable("Boolean", nodo);
-                                                        variable.setId(idVariable.getLexema());
-                                                        if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                    if(pasada == 1){
+                                                        if(idVariable != null){
+                                                            Variable variable = new Variable("Boolean", nodo);
+                                                            variable.setId(idVariable.getLexema());
+                                                            if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("varListBoolean",5, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -681,9 +709,11 @@ class CUP$ParserPintar$actions {
 		int derecharight = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo derecha = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(derecha != null){
-                                                        if(derecha.getTipoRetorno().equals("Boolean")){
-                                                            RESULT = (boolean) derecha.evaluar(variables);
+                                                    if(pasada == 1){
+                                                        if(derecha != null){
+                                                            if(derecha.getTipoRetorno().equals("Boolean")){
+                                                                RESULT = (boolean) derecha.evaluar(variables);
+                                                            }
                                                         }
                                                     }
                                                 
@@ -729,11 +759,13 @@ class CUP$ParserPintar$actions {
 		int instruccionesright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).right;
 		List<Instruccion> instrucciones = (List<Instruccion>)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).value;
 		
-                                                    if(id != null && instrucciones != null){
-                                                        if(getLienzo(id.getLexema())!= null){
-                                                            getLienzo(id.getLexema()).setInstrucciones(instrucciones);
-                                                        }else{
-                                                            listErrores.add("No existe el lienzo especificiado en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                    if(pasada == 2){
+                                                        if(id != null && instrucciones != null){
+                                                            if(getLienzo(id.getLexema())!= null){
+                                                                getLienzo(id.getLexema()).setInstrucciones(instrucciones);
+                                                            }else{
+                                                                listErrores.add("No existe el lienzo especificiado en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                            }
                                                         }
                                                     }
                                                 
@@ -770,9 +802,11 @@ class CUP$ParserPintar$actions {
 		int instruccionright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Instruccion instruccion = (Instruccion)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(instrucciones == null) instrucciones = new ArrayList<Instruccion>();
-                                                    if(instruccion != null) instrucciones.add(instruccion);
-                                                    RESULT = instrucciones;
+                                                    if(pasada == 2){
+                                                        if(instrucciones == null) instrucciones = new ArrayList<Instruccion>();
+                                                        if(instruccion != null) instrucciones.add(instruccion);
+                                                        RESULT = instrucciones;
+                                                    }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("instrs",13, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
             }
@@ -786,9 +820,11 @@ class CUP$ParserPintar$actions {
 		int instruccionright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Instruccion instruccion = (Instruccion)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
-                                                    if(instruccion != null) instrucciones.add(instruccion);
-                                                    RESULT = instrucciones;
+                                                    if(pasada == 2){
+                                                        ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
+                                                        if(instruccion != null) instrucciones.add(instruccion);
+                                                        RESULT = instrucciones;
+                                                    }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("instrs",13, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
             }
@@ -814,21 +850,24 @@ class CUP$ParserPintar$actions {
 		int valorDerecharight = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).right;
 		Nodo valorDerecha = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).value;
 		
-                                                    if(id != null && valorDerecha != null){
-                                                        if(variables.verificarDisponibilidad(id.getLexema())){
-                                                            if(valorDerecha.getTipoRetorno().equals(variables.getVariable(id.getLexema()).getTipo())){
-                                                                AsignacionInstruccion instruccion = new AsignacionInstruccion();
-                                                                instruccion.setId(id.getLexema());
-                                                                instruccion.setDerecha(valorDerecha);
-                                                                Instruccion retorno = new Instruccion("Asignacion", instruccion);
-                                                                RESULT = retorno;
+                                                    if(pasada == 2){
+                                                        if(id != null && valorDerecha != null){
+                                                            if(variables.verificarDisponibilidad(id.getLexema())){
+                                                                if(valorDerecha.getTipoRetorno().equals(variables.getVariable(id.getLexema()).getTipo())){
+                                                                    AsignacionInstruccion instruccion = new AsignacionInstruccion();
+                                                                    instruccion.setId(id.getLexema());
+                                                                    instruccion.setDerecha(valorDerecha);
+                                                                    Instruccion retorno = new Instruccion("Asignacion", instruccion);
+                                                                    retorno.setLinea(id.getLinea()); retorno.setColumna(id.getColumna());
+                                                                    RESULT = retorno;
+                                                                }else{
+                                                                    listErrores.add("No se puede asignar a una variable tipo: "+variables.getVariable(id.getLexema()).getTipo()+" un valor tipo: "+valorDerecha.getTipoRetorno()+
+                                                                        ", error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                                }
                                                             }else{
-                                                                listErrores.add("No se puede asignar a una variable tipo: "+variables.getVariable(id.getLexema()).getTipo()+" un valor tipo: "+valorDerecha.getTipoRetorno()+
-                                                                    ", error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
-                                                            }
-                                                        }else{
-                                                            listErrores.add("No existe la variable utilizada, error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
-                                                        }   
+                                                                listErrores.add("No existe la variable utilizada, error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
+                                                            }   
+                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("instr",15, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-3)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -855,17 +894,20 @@ class CUP$ParserPintar$actions {
 		int posYright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)).right;
 		Nodo posY = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)).value;
 		
-                                                    if(valor != null && idColor != null && idImagen != null && posX != null && posY != null){
-                                                        if((posX.getTipoRetorno().equals("Entero") || posX.getTipoRetorno().equals("Rango"))&&(posY.getTipoRetorno().equals("Entero") || posY.getTipoRetorno().equals("Rango"))){
-                                                            PintarInstruccion instruccion = new PintarInstruccion();
-                                                            instruccion.setIdColor(idColor);
-                                                            instruccion.setIdImagen(idImagen);
-                                                            instruccion.setPosX(posX);
-                                                            instruccion.setPosY(posY);
-                                                            Instruccion retorno = new Instruccion("PINTAR", instruccion);
-                                                            RESULT = retorno;
-                                                        }else{
-                                                            listErrores.add("Error en la instruccion pintar en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"las posiciones en x o y, no son enteros o rangos");
+                                                    if(pasada == 2){
+                                                        if(valor != null && idColor != null && idImagen != null && posX != null && posY != null){
+                                                            if((posX.getTipoRetorno().equals("Entero") || posX.getTipoRetorno().equals("Rango"))&&(posY.getTipoRetorno().equals("Entero") || posY.getTipoRetorno().equals("Rango"))){
+                                                                PintarInstruccion instruccion = new PintarInstruccion();
+                                                                instruccion.setIdColor(idColor);
+                                                                instruccion.setIdImagen(idImagen);
+                                                                instruccion.setPosX(posX);
+                                                                instruccion.setPosY(posY);
+                                                                Instruccion retorno = new Instruccion("PINTAR", instruccion);
+                                                                retorno.setLinea(valor.getLinea()); retorno.setColumna(valor.getColumna());
+                                                                RESULT = retorno;
+                                                            }else{
+                                                                listErrores.add("Error en la instruccion pintar en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"las posiciones en x o y, no son enteros o rangos");
+                                                            }
                                                         }
                                                     }
                                                 
@@ -887,15 +929,18 @@ class CUP$ParserPintar$actions {
 		int instruccionesright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).right;
 		List<Instruccion> instrucciones = (List<Instruccion>)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).value;
 		
-                                                    if(valor != null && condiciones != null && instrucciones != null){
-                                                        if(condiciones.getTipoRetorno().equals("Boolean")){
-                                                            MientrasInstruccion instruccion = new MientrasInstruccion();
-                                                            instruccion.setCondiciones(condiciones);
-                                                            instruccion.setInstrucciones(instrucciones);
-                                                            Instruccion retorno = new Instruccion("WHILE", instruccion);
-                                                            RESULT = retorno;
-                                                        }else{
-                                                            listErrores.add("Error en la instruccion while en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"no es una condicion válida");
+                                                    if(pasada == 2){
+                                                        if(valor != null && condiciones != null && instrucciones != null){
+                                                            if(condiciones.getTipoRetorno().equals("Boolean")){
+                                                                MientrasInstruccion instruccion = new MientrasInstruccion();
+                                                                instruccion.setCondiciones(condiciones);
+                                                                instruccion.setInstrucciones(instrucciones);
+                                                                Instruccion retorno = new Instruccion("WHILE", instruccion);
+                                                                retorno.setLinea(valor.getLinea()); retorno.setColumna(valor.getColumna());
+                                                                RESULT = retorno;
+                                                            }else{
+                                                                listErrores.add("Error en la instruccion while en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"no es una condicion válida");
+                                                            }
                                                         }
                                                     }
                                                 
@@ -920,17 +965,20 @@ class CUP$ParserPintar$actions {
 		int instruccionesSiNoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		List<Instruccion> instruccionesSiNo = (List<Instruccion>)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(valor != null && condiciones != null && instruccionesSi != null){
-                                                        if(condiciones.getTipoRetorno().equals("Boolean")){
-                                                            SiInstruccion instruccion = new SiInstruccion();
-                                                            instruccion.setCondiciones(condiciones);
-                                                            instruccion.setInstruccionesSi(instruccionesSi);
-                                                            instruccion.setInstruccionesSiNo(instruccionesSiNo);
-                                                            Instruccion retorno = new Instruccion("IF", instruccion);
-                                                            RESULT = retorno;
-                                                        }else{
-                                                            listErrores.add("Error en la instruccion if en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"no es una condicion válida");
-                                                        }
+                                                    if(pasada == 2){
+                                                        if(valor != null && condiciones != null && instruccionesSi != null){
+                                                            if(condiciones.getTipoRetorno().equals("Boolean")){
+                                                                SiInstruccion instruccion = new SiInstruccion();
+                                                                instruccion.setCondiciones(condiciones);
+                                                                instruccion.setInstruccionesSi(instruccionesSi);
+                                                                instruccion.setInstruccionesSiNo(instruccionesSiNo);
+                                                                Instruccion retorno = new Instruccion("IF", instruccion);
+                                                                retorno.setLinea(valor.getLinea()); retorno.setColumna(valor.getColumna());
+                                                                RESULT = retorno;
+                                                            }else{
+                                                                listErrores.add("Error en la instruccion if en la linea: "+valor.getLinea()+", columna: "+valor.getColumna()+"no es una condicion válida");
+                                                            }
+                                                        }  
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("instr",15, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-7)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -945,8 +993,10 @@ class CUP$ParserPintar$actions {
 		int instruccionesright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).right;
 		List<Instruccion> instrucciones = (List<Instruccion>)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).value;
 		
-                                                    if(instrucciones == null) instrucciones = new ArrayList<Instruccion>();
-                                                    RESULT = instrucciones;
+                                                    if(pasada == 2){
+                                                        if(instrucciones == null) instrucciones = new ArrayList<Instruccion>();
+                                                        RESULT = instrucciones;
+                                                    }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("restoIf",14, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-3)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
             }
@@ -957,8 +1007,10 @@ class CUP$ParserPintar$actions {
             {
               List<Instruccion> RESULT =null;
 		
-                                                    ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
-                                                    RESULT = instrucciones;
+                                                    if(pasada == 2){
+                                                        ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
+                                                        RESULT = instrucciones;
+                                                    }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("restoIf",14, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
             }
@@ -972,9 +1024,11 @@ class CUP$ParserPintar$actions {
 		int nodoright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo nodo = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(nodo != null){
-                                                        if(nodo.getTipoRetorno().equals("Entero")){
-                                                            RESULT = nodo;
+                                                    if(pasada == 2){
+                                                        if(nodo != null){
+                                                            if(nodo.getTipoRetorno().equals("Entero")){
+                                                                RESULT = nodo;
+                                                            }
                                                         }
                                                     }
                                                 
@@ -996,11 +1050,13 @@ class CUP$ParserPintar$actions {
 		int derright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
-                                                    if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
-                                                            Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
+                                                    if(pasada == 2){
+                                                        if(operador != null && izq != null && der != null){
+                                                            if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
+                                                                Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }
                                                         }
                                                     }
                                                 
@@ -1263,13 +1319,9 @@ class CUP$ParserPintar$actions {
 		
                                                     if(valor != null){
                                                         if(variables.getVariable(valor.getLexema())!=null){
-                                                            if(variables.getVariable(valor.getLexema()).getValor()!=null){
-                                                                Variable variable = new Variable("Id", valor.getLexema());
-                                                                Nodo nodo = new Nodo(variable, variables);
-                                                                RESULT = nodo;
-                                                            }else{
-                                                                listErrores.add("No se puede usar una variable sin inicializar como expresion, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
-                                                            }
+                                                            Variable variable = new Variable("Id", valor.getLexema());
+                                                            Nodo nodo = new Nodo(variable, variables);
+                                                            RESULT = nodo;
                                                         }else{
                                                             listErrores.add("No existe la variable utilizada, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                         }

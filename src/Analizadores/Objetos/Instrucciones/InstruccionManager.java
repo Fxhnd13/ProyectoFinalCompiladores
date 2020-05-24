@@ -17,66 +17,80 @@ import java.util.List;
  */
 public class InstruccionManager {
     
-    public void ejecutarInstrucciones(String lienzo, List<Instruccion> instrucciones, TablaDeSimbolos variables, List<InstruccionPintar> pinturas){
+    public void ejecutarInstrucciones(String lienzo, List<Instruccion> instrucciones, TablaDeSimbolos variables, List<InstruccionPintar> pinturas, List<String> errores){
         for (Instruccion instruccion : instrucciones) {
             instruccion.setLienzo(lienzo);
             switch(instruccion.getTipo()){
                 case "IF":{
                     SiInstruccion temporal = (SiInstruccion) instruccion.getInstruccion();
-                    if((boolean) temporal.getCondiciones().evaluar(variables)){
-                        ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSi(), variables, pinturas);
-                    }else{
-                        if(temporal.getInstruccionesSiNo() != null){
-                            ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSiNo(), variables, pinturas);
+                    if(temporal.getCondiciones().evaluar(variables) != null){
+                        if((Boolean) temporal.getCondiciones().evaluar(variables)){
+                            ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSi(), variables, pinturas, errores);
+                        }else{
+                            if(temporal.getInstruccionesSiNo() != null){
+                                ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstruccionesSiNo(), variables, pinturas, errores);
+                            }
                         }
+                    }else{
+                        errores.add("Error durante la ejecucion con la expresion condicional usada en la instruccion IF de la linea: "+instruccion.getLinea()+", columna: "+instruccion.getColumna());
                     }
                     break;
                 }
                 case "WHILE":{
                     MientrasInstruccion temporal = (MientrasInstruccion) instruccion.getInstruccion();
-                    while((boolean)temporal.getCondiciones().evaluar(variables)){
-                        ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstrucciones(), variables, pinturas);
+                    if(temporal.getCondiciones().evaluar(variables) != null){
+                        while((Boolean)temporal.getCondiciones().evaluar(variables)){
+                            ejecutarInstrucciones(instruccion.getLienzo(), temporal.getInstrucciones(), variables, pinturas, errores);
+                        }
+                    }else{
+                        errores.add("Error durante la ejecucion con la expresion condicional usada en la instruccion while en la linea: "+instruccion.getLinea()+", columna: "+instruccion.getColumna());
                     }
                     break;
                 }
                 case "PINTAR":{
                     PintarInstruccion temporal = (PintarInstruccion) instruccion.getInstruccion();
-                    temporal.getPosX().evaluar(variables);
-                    temporal.getPosY().evaluar(variables);
-                    if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Entero")){
-                        InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables), 
-                                (Integer) temporal.getPosX().evaluar(variables), 
-                                (Integer) temporal.getPosY().evaluar(variables));
-                        pinturas.add(pintar);
-                    }else{
-                        if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Entero")){ // si hay rango en x pero expresion en y
-                            int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
-                            int indiceEnY = (Integer) temporal.getPosY().evaluar(variables);
-                            for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX<=indiceFinalX; indiceInicialX++){
-                                InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
-                                    indiceInicialX, indiceEnY);
+                    if(temporal.getPosY().evaluar(variables) != null && temporal.getPosX().evaluar(variables) != null){
+                        if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Entero")){
+                                InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables), 
+                                        (Integer) temporal.getPosX().evaluar(variables), 
+                                        (Integer) temporal.getPosY().evaluar(variables));
                                 pinturas.add(pintar);
-                            }
-                        }
-                        if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Rango")){ // si hay rango en x pero expresion en y
-                            int indiceEnX = (Integer) temporal.getPosX().evaluar(variables);
-                            int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
-                            for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY<=indiceFinalY; indiceInicialY++){
-                                InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
-                                    indiceEnX, indiceInicialY);
-                                pinturas.add(pintar);
-                            }
-                        }
-                        if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Rango")){ // si hay rango en x y
-                            int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
-                            int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
-                            for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX <= indiceFinalX; indiceInicialX++){
-                                for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY <= indiceFinalY; indiceInicialY++){
+                        }else{
+                            if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Entero")){ // si hay rango en x pero expresion en y
+                                int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
+                                int indiceEnY = (Integer) temporal.getPosY().evaluar(variables);
+                                for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX<=indiceFinalX; indiceInicialX++){
                                     InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
-                                        indiceInicialX, indiceInicialY);
+                                        indiceInicialX, indiceEnY);
                                     pinturas.add(pintar);
                                 }
                             }
+                            if(temporal.getPosX().getTipoRetorno().equals("Entero") && temporal.getPosY().getTipoRetorno().equals("Rango")){ // si hay rango en x pero expresion en y
+                                int indiceEnX = (Integer) temporal.getPosX().evaluar(variables);
+                                int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
+                                for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY<=indiceFinalY; indiceInicialY++){
+                                    InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
+                                        indiceEnX, indiceInicialY);
+                                    pinturas.add(pintar);
+                                }
+                            }
+                            if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Rango")){ // si hay rango en x y
+                                int indiceFinalX = ((Rango)temporal.getPosX().evaluar(variables)).getFin();
+                                int indiceFinalY = ((Rango)temporal.getPosY().evaluar(variables)).getFin();
+                                for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX <= indiceFinalX; indiceInicialX++){
+                                    for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY <= indiceFinalY; indiceInicialY++){
+                                        InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
+                                            indiceInicialX, indiceInicialY);
+                                        pinturas.add(pintar);
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        if(temporal.getPosX().evaluar(variables) == null){
+                            errores.add("Error en la expresion para la posicion en x, de la instruccion PINTAR en la linea: "+instruccion.getLinea()+", columna: "+instruccion.getColumna());
+                        }else{
+                            errores.add("Error en la expresion para la posicion en y, de la instruccion PINTAR en la linea: "+instruccion.getLinea()+", columna: "+instruccion.getColumna());
                         }
                     }
                     break;
@@ -91,8 +105,13 @@ public class InstruccionManager {
     }
 
     public void ejecutarPintura(InstruccionPintar pintura, Lienzo lienzo) {
-        ColorP color = lienzo.getColor(pintura.getIdColor());
-        lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
+        if(lienzo.existeColor(pintura.getIdColor()) && lienzo.existeImagen(pintura.getIdImagen())){
+            ColorP color = lienzo.getColor(pintura.getIdColor());
+            color.CargarColorP();
+            lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
+        }else{
+            System.out.println("No existe el color o la imagen");
+        }
     }
     
 }

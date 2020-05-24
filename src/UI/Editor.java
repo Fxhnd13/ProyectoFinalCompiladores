@@ -537,7 +537,16 @@ public class Editor extends javax.swing.JFrame {
                 }
                 if(strPintar != null){
                     lexerPintar = new LexerPintar(new StringReader(strPintar));
-                    parserPintar = new ParserPintar(lexerPintar, lienzos);
+                    lexerPintar.setPasada(1);
+                    parserPintar = new ParserPintar(lexerPintar, lienzos, 1);
+                    parserPintar.parse();
+                    
+                    
+                    lexerPintar = new LexerPintar(new StringReader(strPintar));
+                    lexerPintar.setPasada(2);
+                    TablaDeSimbolos variables = parserPintar.getVariables();
+                    parserPintar = new ParserPintar(lexerPintar, lienzos, 2);
+                    parserPintar.setVariables(variables);
                     parserPintar.parse();
                 }
                 for (Lienzo lienzo : lienzos) {

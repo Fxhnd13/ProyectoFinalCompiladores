@@ -62,5 +62,10 @@ public class InstruccionPintar {
     public void setPosY(int posY) {
         this.posY = posY;
     }
+
+    @Override
+    public String toString() {
+        return "InstruccionPintar{" + "idLienzo=" + idLienzo + ", idColor=" + idColor + ", idImagen=" + idImagen + ", posX=" + posX + ", posY=" + posY + '}';
+    }
     
 }
