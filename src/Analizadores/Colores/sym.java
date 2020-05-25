@@ -8,20 +8,20 @@ package Analizadores.Colores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int EOF = 0;
-  public static final int error = 1;
-  public static final int PR_RED = 2;
-  public static final int PR_BLUE = 3;
-  public static final int PR_GREEN = 4;
-  public static final int PR_HEX = 5;
-  public static final int PR_COLORES = 6;
-  public static final int ENTERO = 7;
-  public static final int HEX = 8;
-  public static final int ID = 9;
   public static final int COMA = 10;
-  public static final int LLAVE_A = 11;
+  public static final int PR_BLUE = 3;
+  public static final int ENTERO = 7;
+  public static final int PR_GREEN = 4;
   public static final int LLAVE_C = 12;
+  public static final int EOF = 0;
+  public static final int PR_HEX = 5;
+  public static final int LLAVE_A = 11;
+  public static final int PR_RED = 2;
+  public static final int ID = 9;
   public static final int ASIGNACION = 13;
+  public static final int error = 1;
+  public static final int HEX = 8;
+  public static final int PR_COLORES = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",

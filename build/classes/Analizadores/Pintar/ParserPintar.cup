@@ -158,7 +158,7 @@ dcl ::=                                     PR_STRING varListString FINAL
 
 varListString ::=                            varListString COMA ID:idVariable asigString:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -167,7 +167,7 @@ varListString ::=                            varListString COMA ID:idVariable as
                                                 :}
                                             |ID:idVariable asigString:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -188,7 +188,7 @@ asigString ::=                              ASIGNACION expresion:derecha {:
 
 varListInt ::=                              varListInt COMA ID:idVariable asigInt:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
@@ -197,7 +197,7 @@ varListInt ::=                              varListInt COMA ID:idVariable asigIn
                                                 :}
                                             |ID:idVariable asigInt:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -220,7 +220,7 @@ asigInt ::=                                 ASIGNACION expresion:derecha {:
 
 varListBoolean ::=                          varListBoolean COMA ID:idVariable varBoolean:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
@@ -229,7 +229,7 @@ varListBoolean ::=                          varListBoolean COMA ID:idVariable va
                                                 :}
                                             |ID:idVariable varBoolean:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());

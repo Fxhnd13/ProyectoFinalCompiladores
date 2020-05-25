@@ -11,7 +11,7 @@
    		 tamaño:{
    			 cuadro: 50,
    			 dimension_x: 12,
-                         dimension_y: 10
+                                    dimension_y: 10
    		 }
    	 },
    otroLienzo:{
@@ -19,7 +19,7 @@
    		 tamaño:{
    			 cuadro: 100,
    			 dimension_x: 12,
-                         dimension_y: 12
+                                    dimension_y: 12
    		 },
    		 nombre:"lienzo2",
    		 Fondo:{

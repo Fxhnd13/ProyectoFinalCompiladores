@@ -149,6 +149,7 @@ S ::=                       LLAVE_A PR_COLORES ASIGNACION LLAVE_A listadoLienzos
 
 listadoLienzos ::=          listadoLienzos COMA strColoresLienzo
                             |strColoresLienzo
+                            |error COMA strColoresLienzo
                             ;
 
 strColoresLienzo ::=        ID:idLienzo ASIGNACION LLAVE_A strColores:listColores LLAVE_C {:
@@ -170,6 +171,7 @@ strColores ::=              strColores:listColores COMA inicioColor:color {:
                                     if(color != null) colores.add(color);
                                     RESULT = colores;
                                 :}
+                            |error COMA inicioColor
                             ;
 
 inicioColor ::=             ID:idColor ASIGNACION LLAVE_A paramsColor:listAtributos LLAVE_C {:
@@ -194,6 +196,7 @@ paramsColor ::=             paramsColor:listAtributos COMA paramColor:atributo {
                                     if(atributo != null) listAtributos.add(atributo);
                                     RESULT = listAtributos;
                                 :}
+                            |error COMA paramColor
                             ;
 
 paramColor ::=              PR_RED:dcl ASIGNACION ENTERO:valor {:

@@ -519,7 +519,7 @@ class CUP$ParserPintar$actions {
 		String nodo = (String)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -542,7 +542,7 @@ class CUP$ParserPintar$actions {
 		String nodo = (String)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -592,7 +592,7 @@ class CUP$ParserPintar$actions {
 		Integer nodo = (Integer)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
@@ -615,7 +615,7 @@ class CUP$ParserPintar$actions {
 		Integer nodo = (Integer)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -667,7 +667,7 @@ class CUP$ParserPintar$actions {
 		Boolean nodo = (Boolean)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
@@ -690,7 +690,7 @@ class CUP$ParserPintar$actions {
 		Boolean nodo = (Boolean)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null){
+                                                        if(idVariable != null && nodo != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());

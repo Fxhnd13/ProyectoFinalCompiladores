@@ -6,8 +6,8 @@
 package Analizadores.Colores;
 
 import Analizadores.Objetos.Atributo;
-import Objetos.ColorP;
 import Analizadores.Objetos.Token;
+import Objetos.ColorP;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +38,12 @@ public class ParserColores extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\016\000\002\002\004\000\002\002\011\000\002\003" +
-    "\005\000\002\003\003\000\002\004\007\000\002\005\005" +
-    "\000\002\005\003\000\002\006\007\000\002\007\005\000" +
-    "\002\007\003\000\002\010\005\000\002\010\005\000\002" +
-    "\010\005\000\002\010\005" });
+    "\000\021\000\002\002\004\000\002\002\011\000\002\003" +
+    "\005\000\002\003\003\000\002\003\005\000\002\004\007" +
+    "\000\002\005\005\000\002\005\003\000\002\005\005\000" +
+    "\002\006\007\000\002\007\005\000\002\007\003\000\002" +
+    "\007\005\000\002\010\005\000\002\010\005\000\002\010" +
+    "\005\000\002\010\005" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -50,29 +51,34 @@ public class ParserColores extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\051\000\004\015\005\001\002\000\004\002\053\001" +
+    "\000\062\000\004\015\005\001\002\000\004\002\064\001" +
     "\002\000\004\010\006\001\002\000\004\017\007\001\002" +
-    "\000\004\015\010\001\002\000\004\013\011\001\002\000" +
-    "\004\017\020\001\002\000\006\014\ufffe\016\ufffe\001\002" +
-    "\000\006\014\014\016\015\001\002\000\004\013\011\001" +
-    "\002\000\004\016\016\001\002\000\004\002\000\001\002" +
-    "\000\006\014\uffff\016\uffff\001\002\000\004\015\021\001" +
-    "\002\000\004\013\022\001\002\000\004\017\030\001\002" +
-    "\000\006\014\ufffb\016\ufffb\001\002\000\006\014\025\016" +
-    "\026\001\002\000\004\013\022\001\002\000\006\014\ufffd" +
-    "\016\ufffd\001\002\000\006\014\ufffc\016\ufffc\001\002\000" +
-    "\004\015\031\001\002\000\012\004\034\005\036\006\037" +
-    "\007\032\001\002\000\004\017\051\001\002\000\006\014" +
-    "\046\016\047\001\002\000\004\017\044\001\002\000\006" +
-    "\014\ufff8\016\ufff8\001\002\000\004\017\042\001\002\000" +
-    "\004\017\040\001\002\000\004\011\041\001\002\000\006" +
-    "\014\ufff5\016\ufff5\001\002\000\004\011\043\001\002\000" +
-    "\006\014\ufff6\016\ufff6\001\002\000\004\011\045\001\002" +
-    "\000\006\014\ufff7\016\ufff7\001\002\000\012\004\034\005" +
-    "\036\006\037\007\032\001\002\000\006\014\ufffa\016\ufffa" +
-    "\001\002\000\006\014\ufff9\016\ufff9\001\002\000\004\012" +
-    "\052\001\002\000\006\014\ufff4\016\ufff4\001\002\000\004" +
-    "\002\001\001\002" });
+    "\000\004\015\010\001\002\000\006\003\013\013\011\001" +
+    "\002\000\004\017\023\001\002\000\006\014\ufffe\016\ufffe" +
+    "\001\002\000\004\014\021\001\002\000\006\014\015\016" +
+    "\016\001\002\000\004\013\011\001\002\000\004\016\017" +
+    "\001\002\000\004\002\000\001\002\000\006\014\uffff\016" +
+    "\uffff\001\002\000\004\013\011\001\002\000\006\014\ufffd" +
+    "\016\ufffd\001\002\000\004\015\024\001\002\000\006\003" +
+    "\026\013\025\001\002\000\004\017\036\001\002\000\004" +
+    "\014\034\001\002\000\006\014\031\016\032\001\002\000" +
+    "\006\014\ufffa\016\ufffa\001\002\000\004\013\025\001\002" +
+    "\000\006\014\ufffc\016\ufffc\001\002\000\006\014\ufffb\016" +
+    "\ufffb\001\002\000\004\013\025\001\002\000\006\014\ufff9" +
+    "\016\ufff9\001\002\000\004\015\037\001\002\000\014\003" +
+    "\043\004\042\005\045\006\046\007\040\001\002\000\004" +
+    "\017\062\001\002\000\006\014\057\016\060\001\002\000" +
+    "\004\017\055\001\002\000\004\014\053\001\002\000\006" +
+    "\014\ufff6\016\ufff6\001\002\000\004\017\051\001\002\000" +
+    "\004\017\047\001\002\000\004\011\050\001\002\000\006" +
+    "\014\ufff2\016\ufff2\001\002\000\004\011\052\001\002\000" +
+    "\006\014\ufff3\016\ufff3\001\002\000\012\004\042\005\045" +
+    "\006\046\007\040\001\002\000\006\014\ufff5\016\ufff5\001" +
+    "\002\000\004\011\056\001\002\000\006\014\ufff4\016\ufff4" +
+    "\001\002\000\012\004\042\005\045\006\046\007\040\001" +
+    "\002\000\006\014\ufff8\016\ufff8\001\002\000\006\014\ufff7" +
+    "\016\ufff7\001\002\000\004\012\063\001\002\000\006\014" +
+    "\ufff1\016\ufff1\001\002\000\004\002\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -80,21 +86,24 @@ public class ParserColores extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\051\000\004\002\003\001\001\000\002\001\001\000" +
+    "\000\062\000\004\002\003\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
-    "\003\012\004\011\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\004\016\001\001\000\002" +
+    "\003\013\004\011\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\004\017" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\006\005\023\006\022\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\006\026\001" +
+    "\001\000\004\004\021\001\001\000\002\001\001\000\002" +
+    "\001\001\000\006\005\026\006\027\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\006\007\032\010\034\001\001\000\002\001\001\000" +
+    "\000\004\006\032\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\006\034\001\001\000\002\001\001\000\002" +
+    "\001\001\000\006\007\040\010\043\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\010\047\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001" });
+    "\001\001\000\004\010\053\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\010\060\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -320,7 +329,16 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // strColoresLienzo ::= ID ASIGNACION LLAVE_A strColores LLAVE_C 
+          case 4: // listadoLienzos ::= error COMA strColoresLienzo 
+            {
+              Object RESULT =null;
+
+              CUP$ParserColores$result = parser.getSymbolFactory().newSymbol("listadoLienzos",1, ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)), ((java_cup.runtime.Symbol)CUP$ParserColores$stack.peek()), RESULT);
+            }
+          return CUP$ParserColores$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // strColoresLienzo ::= ID ASIGNACION LLAVE_A strColores LLAVE_C 
             {
               Object RESULT =null;
 		int idLienzoleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-4)).left;
@@ -341,7 +359,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // strColores ::= strColores COMA inicioColor 
+          case 6: // strColores ::= strColores COMA inicioColor 
             {
               List<ColorP> RESULT =null;
 		int listColoresleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)).left;
@@ -360,7 +378,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // strColores ::= inicioColor 
+          case 7: // strColores ::= inicioColor 
             {
               List<ColorP> RESULT =null;
 		int colorleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.peek()).left;
@@ -376,7 +394,16 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // inicioColor ::= ID ASIGNACION LLAVE_A paramsColor LLAVE_C 
+          case 8: // strColores ::= error COMA inicioColor 
+            {
+              List<ColorP> RESULT =null;
+
+              CUP$ParserColores$result = parser.getSymbolFactory().newSymbol("strColores",3, ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)), ((java_cup.runtime.Symbol)CUP$ParserColores$stack.peek()), RESULT);
+            }
+          return CUP$ParserColores$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // inicioColor ::= ID ASIGNACION LLAVE_A paramsColor LLAVE_C 
             {
               ColorP RESULT =null;
 		int idColorleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-4)).left;
@@ -400,7 +427,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // paramsColor ::= paramsColor COMA paramColor 
+          case 10: // paramsColor ::= paramsColor COMA paramColor 
             {
               List<Atributo> RESULT =null;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)).left;
@@ -419,7 +446,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // paramsColor ::= paramColor 
+          case 11: // paramsColor ::= paramColor 
             {
               List<Atributo> RESULT =null;
 		int atributoleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.peek()).left;
@@ -435,7 +462,16 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // paramColor ::= PR_RED ASIGNACION ENTERO 
+          case 12: // paramsColor ::= error COMA paramColor 
+            {
+              List<Atributo> RESULT =null;
+
+              CUP$ParserColores$result = parser.getSymbolFactory().newSymbol("paramsColor",5, ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)), ((java_cup.runtime.Symbol)CUP$ParserColores$stack.peek()), RESULT);
+            }
+          return CUP$ParserColores$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // paramColor ::= PR_RED ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)).left;
@@ -455,7 +491,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // paramColor ::= PR_BLUE ASIGNACION ENTERO 
+          case 14: // paramColor ::= PR_BLUE ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)).left;
@@ -475,7 +511,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // paramColor ::= PR_GREEN ASIGNACION ENTERO 
+          case 15: // paramColor ::= PR_GREEN ASIGNACION ENTERO 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)).left;
@@ -495,7 +531,7 @@ class CUP$ParserColores$actions {
           return CUP$ParserColores$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // paramColor ::= PR_HEX ASIGNACION HEX 
+          case 16: // paramColor ::= PR_HEX ASIGNACION HEX 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserColores$stack.elementAt(CUP$ParserColores$top-2)).left;

@@ -226,6 +226,7 @@ non terminal Atributo                   paramFondoSolo, paramTamanoSolo;
 non terminal List<String>               strSalida;
 non terminal String                     paramSalidaSolo;
 
+precedence left         COMA;
 /* The grammar */
 
 start with S;
@@ -283,6 +284,8 @@ strLienzo ::=       strLienzo:listAtributos COMA paramLienzo:listAtributosDerech
                             if(listAtributosDerecha == null) listAtributosDerecha = new ArrayList<Atributo>();
                             RESULT = listAtributosDerecha;
                         :}
+                    |error COMA paramLienzo
+                    |error LLAVE_C strLienzos
                     ;
 
 paramFondo ::=      paramFondo:listAtributos COMA paramFondoSolo:atributo {:
@@ -295,6 +298,8 @@ paramFondo ::=      paramFondo:listAtributos COMA paramFondoSolo:atributo {:
                             if(atributo != null) atributos.add(atributo);
                             RESULT = atributos;
                         :}
+                    |error COMA paramFondoSolo
+                    |error LLAVE_C paramLienzo
                     ;
 
 paramFondoSolo ::=  PR_RED:dcl ASIGNACION ENTERO:valor {:
@@ -353,6 +358,8 @@ paramTamano::=      paramTamano:listAtributos COMA paramTamanoSolo:atributo {:
                             if(atributo != null) atributos.add(atributo);
                             RESULT = atributos;
                         :}
+                    |error COMA paramTamanoSolo
+                    |error LLAVE_C paramLienzo
                     ;
   
 paramLienzo ::=     PR_NOMBRE:dcl ASIGNACION COMILLA strSalida:listNombre COMILLA{:
@@ -369,7 +376,7 @@ paramLienzo ::=     PR_NOMBRE:dcl ASIGNACION COMILLA strSalida:listNombre COMILL
                         :}
                     |PR_TIPO:dcl ASIGNACION COMILLA EXTENSION:extension COMILLA{:
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
-                            if(dcl != null) atributos.add(new Atributo("Tipo", extension.getLexema(), dcl.getLinea(), dcl.getColumna()));
+                            if(dcl != null && extension != null) atributos.add(new Atributo("Tipo", extension.getLexema(), dcl.getLinea(), dcl.getColumna()));
                             RESULT = atributos;
                         :}
                     |PR_FONDO:dcl ASIGNACION LLAVE_A paramFondo:listAtributosFondo LLAVE_C{:

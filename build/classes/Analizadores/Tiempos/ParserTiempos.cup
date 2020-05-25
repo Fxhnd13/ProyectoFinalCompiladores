@@ -188,6 +188,7 @@ non terminal Atributo           paramTiempo, paramImagen;
 non terminal Imagen             strImagen;
 non terminal List<Imagen>       listImagenes;
 
+precedence left                 COMA;
 /* The grammar */
 
 start with S;
@@ -197,6 +198,7 @@ S::=                                LLAVE_A PR_TIEMPOS ASIGNACION LLAVE_A strTie
 
 strTiempos::=                       strTiempos COMA inicioTiemposLienzo
                                     |inicioTiemposLienzo
+                                    |error COMA inicioTiemposLienzo
                                     ;
 
 inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listAtributos LLAVE_C {:
@@ -205,10 +207,12 @@ inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listA
                                                 inicializarTiempo(tiempo, listAtributos);
                                                 tiempo.setLineaT(lienzo.getLinea());
                                                 tiempo.setColumnaT(lienzo.getColumna());
-                                                if(getLienzoPorId(lienzo.getLexema()) != null){
-                                                    if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
-                                                }else{
-                                                    listErrores.add("No existe el lienzo escrito, en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
+                                                if(lienzo != null){
+                                                    if(getLienzoPorId(lienzo.getLexema()) != null){
+                                                        if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                    }else{
+                                                        listErrores.add("No existe el lienzo escrito, en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
+                                                    }
                                                 }
                                             }
                                         :}
@@ -224,6 +228,8 @@ strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atr
                                             if(atributo != null) atributos.add(atributo);
                                             RESULT = atributos;
                                         :}
+                                    |error COMA paramTiempo
+                                    |error LLAVE_C strTiempos
                                     ;
 
 paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMILLA {:
@@ -266,6 +272,7 @@ listImagenes::=                     listImagenes:imagenes COMA strImagen:imagen 
                                             }
                                             RESULT = imagenes;
                                         :}
+                                    |error COMA strImagen
                                     ;
 
 strImagen::=                        LLAVE_A:dcl paramsImagen:listAtributos LLAVE_C {:
@@ -289,6 +296,8 @@ paramsImagen::=                     paramsImagen:listAtributos COMA paramImagen:
                                             if(atributo != null) listAtributos.add(atributo);
                                             RESULT = listAtributos;
                                         :}
+                                    |error COMA paramImagen
+                                    |error LLAVE_C listImagenes
                                     ;
 
 paramImagen::=                      PR_ID:dcl ASIGNACION COMILLA ID:id COMILLA {:
