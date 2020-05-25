@@ -786,7 +786,7 @@ public class Editor extends javax.swing.JFrame {
                     //hay que verificar antes si deseamos guardar cambios
                     int index = 0;//indece del componente que vamos a cerrar
                     for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
-                        if(((InputTab)PanelArchivos.getComponentAt(i)).getExtension()=="lnz") index = i;
+                        if(((InputTab)PanelArchivos.getComponentAt(i)).getExtension().equals(extension)) index = i;
                     }
                     try {
                         if (PanelArchivos.getTabCount() - 1 == 0) {
