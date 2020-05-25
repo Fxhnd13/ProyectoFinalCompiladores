@@ -13,7 +13,7 @@ public class InstruccionPintar {
     
     String idLienzo;
     String idColor, idImagen;
-    int posX, posY;
+    int posX, posY, linea, columna;
 
     public InstruccionPintar(String idLienzo, String idColor, String idImagen, int posX, int posY) {
         this.idLienzo = idLienzo;
@@ -66,6 +66,27 @@ public class InstruccionPintar {
     @Override
     public String toString() {
         return "InstruccionPintar{" + "idLienzo=" + idLienzo + ", idColor=" + idColor + ", idImagen=" + idImagen + ", posX=" + posX + ", posY=" + posY + '}';
+    }
+
+    void setPosicion(int linea, int columna) {
+        this.linea = linea;
+        this.columna = columna;
+    }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
     
 }

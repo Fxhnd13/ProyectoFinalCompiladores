@@ -54,6 +54,7 @@ public class InstruccionManager {
                                 InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables), 
                                         (Integer) temporal.getPosX().evaluar(variables), 
                                         (Integer) temporal.getPosY().evaluar(variables));
+                                pintar.setPosicion(instruccion.getLinea(), instruccion.getColumna());
                                 pinturas.add(pintar);
                         }else{
                             if(temporal.getPosX().getTipoRetorno().equals("Rango") && temporal.getPosY().getTipoRetorno().equals("Entero")){ // si hay rango en x pero expresion en y
@@ -62,6 +63,7 @@ public class InstruccionManager {
                                 for(int indiceInicialX = ((Rango)temporal.getPosX().evaluar(variables)).getInicio(); indiceInicialX<=indiceFinalX; indiceInicialX++){
                                     InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
                                         indiceInicialX, indiceEnY);
+                                    pintar.setPosicion(instruccion.getLinea(), instruccion.getColumna());
                                     pinturas.add(pintar);
                                 }
                             }
@@ -71,6 +73,7 @@ public class InstruccionManager {
                                 for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY<=indiceFinalY; indiceInicialY++){
                                     InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
                                         indiceEnX, indiceInicialY);
+                                    pintar.setPosicion(instruccion.getLinea(), instruccion.getColumna());
                                     pinturas.add(pintar);
                                 }
                             }
@@ -81,6 +84,7 @@ public class InstruccionManager {
                                     for(int indiceInicialY = ((Rango)temporal.getPosY().evaluar(variables)).getInicio(); indiceInicialY <= indiceFinalY; indiceInicialY++){
                                         InstruccionPintar pintar = new InstruccionPintar(lienzo, (String) temporal.getIdColor().evaluar(variables), (String) temporal.getIdImagen().evaluar(variables),
                                             indiceInicialX, indiceInicialY);
+                                        pintar.setPosicion(instruccion.getLinea(), instruccion.getColumna());
                                         pinturas.add(pintar);
                                     }
                                 }
@@ -104,13 +108,14 @@ public class InstruccionManager {
         }
     }
 
-    public void ejecutarPintura(InstruccionPintar pintura, Lienzo lienzo) {
+    public void ejecutarPintura(InstruccionPintar pintura, Lienzo lienzo, List<String> errores) {
         if(lienzo.existeColor(pintura.getIdColor()) && lienzo.existeImagen(pintura.getIdImagen())){
             ColorP color = lienzo.getColor(pintura.getIdColor());
             color.CargarColorP();
             lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
         }else{
-            System.out.println("No existe el color o la imagen");
+            if(lienzo.existeColor(pintura.getIdColor())) errores.add("No existe el color utilizado al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());
+            if(lienzo.existeImagen(pintura.getIdImagen())) errores.add("No existe la imagen utilizada al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());
         }
     }
     

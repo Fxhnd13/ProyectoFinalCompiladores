@@ -106,7 +106,7 @@ public class PanelLienzo extends javax.swing.JPanel {
             List<String> errores = new ArrayList<String>();
             manager.ejecutarInstrucciones(lienzo.getId(), lienzo.getInstrucciones(), variables, pinturas, errores);
                 for (InstruccionPintar pintura : pinturas) {
-                    manager.ejecutarPintura(pintura, lienzo);
+                    manager.ejecutarPintura(pintura, lienzo, errores);
                 }
             if(!errores.isEmpty()){
                 String cadena = "";
