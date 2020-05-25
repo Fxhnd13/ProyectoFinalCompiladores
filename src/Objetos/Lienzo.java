@@ -153,19 +153,20 @@ public class Lienzo {
     }
 
     public String getEstructuraLienzo() {
-        return id+":{ \n  nombre:\"" + idSalida + "\", \n  tipo:\"" + extension + "\", \n  Fondo:{" + fondo.getEstructura() +"\n  },\n  tamaño:{\n    cuadros:" + cuadros + ", \n    dimension_x:" + dX + ", \n    dimension_y:" + dY + "\n  }\n}\n";
+        return id+":{ \n  nombre:\"" + idSalida + "\", \n  tipo:\"" + extension + "\", \n  Fondo:{" + fondo.getEstructura() +"\n  },\n  tamaño:{\n    cuadro:" + cuadros + ", \n    dimension_x:" + dX + ", \n    dimension_y:" + dY + "\n  }\n}";
     }
 
     public String getEstructuraColores() {
         String cadena = "";
-        for (ColorP color : colores) {
-            cadena+="  "+color.getId()+":{\n    "+color.getValue()+"\n  }\n";
+        for (int i = 0; i < colores.size(); i++) {
+            cadena+="  "+colores.get(i).getId()+":{\n    "+colores.get(i).getValue()+"\n  }\n";
+            if((i+1)<colores.size()) cadena+=",\n";
         }
-        return id+":{\n"+cadena+"}\n";
+        return id+":{\n"+cadena+"}";
     }
 
     public String getEstructuraTiempos() {
-        return id+":{"+tiempos.getEstructura()+"\n}\n";
+        return id+":{"+tiempos.getEstructura()+"\n}";
     }
 
     public ColorP getColor(String idColor) {

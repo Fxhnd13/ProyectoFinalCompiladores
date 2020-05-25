@@ -237,23 +237,22 @@ public class Pintor extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         String cadenaLienzo = "{\nLIENZOS:{\n";
-        for (Lienzo lienzo : lienzos) {
-            cadenaLienzo += lienzo.getEstructuraLienzo();
-        }
-        cadenaLienzo+="\n}\n}";
         String cadenaColores = "{\nCOLORES:{\n";
-        for (Lienzo lienzo : lienzos) {
-            cadenaColores+= lienzo.getEstructuraColores();
-        }
-        cadenaColores += "\n}\n}";
         String cadenaTiempos = "{\nTIEMPOS:{\n";
-        for (Lienzo lienzo : lienzos) {
-            cadenaTiempos+= lienzo.getEstructuraTiempos();
+        for (int i = 0; i < lienzos.size(); i++) {
+            cadenaLienzo += lienzos.get(i).getEstructuraLienzo();
+            cadenaColores += lienzos.get(i).getEstructuraColores();
+            cadenaTiempos += lienzos.get(i).getEstructuraTiempos();
+            if((i+1)< lienzos.size()){
+                cadenaLienzo+=",\n";
+                cadenaColores+=",\n";
+                cadenaTiempos+=",\n";
+            }
         }
-        cadenaTiempos+="\n}\n}";
+        cadenaLienzo+="\n}\n}"; cadenaColores+="\n}\n}"; cadenaTiempos+="\n}\n}";
         String cadenaPintar = "";
         for (Lienzo lienzo : lienzos) {
-            if(!lienzo.instrucciones().isEmpty()) cadenaPintar+= "INSTRUCCIONES("+lienzo.getId()+"){\n"+lienzo.instrucciones()+"}";
+            if(!lienzo.instrucciones().isEmpty()) cadenaPintar+= "INSTRUCCIONES("+lienzo.getId()+")[\n"+lienzo.instrucciones()+"]";
             cadenaPintar+="\n";
         }
         RegistroArchivos.guardarCambiosEditor(this.fileLienzo, cadenaLienzo);
