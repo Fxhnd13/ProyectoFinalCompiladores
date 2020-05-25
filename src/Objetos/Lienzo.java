@@ -176,4 +176,12 @@ public class Lienzo {
         }
         return valor;
     }
+
+    public boolean existePosicion(int posX, int posY) {
+        if(dX >= posX && dY >= posY){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

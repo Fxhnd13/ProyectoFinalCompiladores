@@ -112,10 +112,14 @@ public class InstruccionManager {
         if(lienzo.existeColor(pintura.getIdColor()) && lienzo.existeImagen(pintura.getIdImagen())){
             ColorP color = lienzo.getColor(pintura.getIdColor());
             color.CargarColorP();
-            lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
+            if(lienzo.existePosicion(pintura.getPosX(), pintura.getPosY())){
+                lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
+            }else{
+                errores.add("No existe la posicion ("+pintura.getPosX()+","+pintura.getPosY()+") en el lienzo definido");
+            }
         }else{
-            if(lienzo.existeColor(pintura.getIdColor())) errores.add("No existe el color utilizado al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());
-            if(lienzo.existeImagen(pintura.getIdImagen())) errores.add("No existe la imagen utilizada al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());
+            if(!lienzo.existeColor(pintura.getIdColor())) errores.add("No existe el color utilizado al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());
+            if(!lienzo.existeImagen(pintura.getIdImagen())) errores.add("No existe la imagen utilizada al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());
         }
     }
     
