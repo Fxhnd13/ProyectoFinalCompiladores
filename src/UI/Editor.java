@@ -572,6 +572,7 @@ public class Editor extends javax.swing.JFrame {
                     parserPintar = new ParserPintar(lexerPintar, lienzos, 1);
                     parserPintar.parse();
                     
+                    List<String> errores = parserPintar.getErrores();
                     
                     lexerPintar = new LexerPintar(new StringReader(strPintar));
                     lexerPintar.setPasada(2);
@@ -579,9 +580,9 @@ public class Editor extends javax.swing.JFrame {
                     parserPintar = new ParserPintar(lexerPintar, lienzos, 2);
                     parserPintar.setVariables(variables);
                     parserPintar.parse();
-                }
-                for (Lienzo lienzo : lienzos) {
-                    reporteFinal += lienzo.toString();
+                    
+                    eliminarDuplicados(errores, parserPintar.getErrores());
+                    parserPintar.setErrores(errores);
                 }
             }
             String reporteErrores = "";
@@ -872,16 +873,18 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     // End of variables declaration//GEN-END:variables
 
-//    private void escribirAtributo(Atributo atributo) {
-//        try{
-//            List<Atributo> atributos = (List<Atributo>) atributo.getValor();
-//            System.out.println(atributo.getTipo()+": {");
-//            for (Atributo temp : atributos) {
-//                escribirAtributo(temp);
-//            }
-//            System.out.println("}");
-//        }catch(Exception e){
-//            System.out.println(atributo.getTipo()+"|||"+atributo.getValor());
-//        }
-//    }
+    private void eliminarDuplicados(List<String> errores, List<String> finales) {
+        for (String error : finales) {
+            if(!existe(error, errores)) errores.add(error);
+        }
+    }
+
+    private boolean existe(String error, List<String> errores) {
+        boolean valor = false;
+        for (String errorT : errores) {
+            if(errorT.equals(error)) valor = true;
+        }
+        return valor;
+    }
+    
 }

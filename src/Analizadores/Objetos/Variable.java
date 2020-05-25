@@ -13,6 +13,7 @@ public class Variable {
     
     String id, tipo;
     Object valor;
+    int linea, columna;
 
     public Variable(String tipo, Object valor){
         this.tipo = tipo;
@@ -41,6 +42,22 @@ public class Variable {
 
     public void setValor(Object valor) {
         this.valor = valor;
+    }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
     
 }

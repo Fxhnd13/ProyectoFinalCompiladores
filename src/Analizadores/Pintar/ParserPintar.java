@@ -328,6 +328,10 @@ public class ParserPintar extends java_cup.runtime.lr_parser {
             return listErrores;
         }
         
+        public void setErrores(List<String> errores){
+            listErrores = errores;
+        }
+        
         public TablaDeSimbolos getVariables(){
             return variables;
         }
@@ -519,7 +523,7 @@ class CUP$ParserPintar$actions {
 		String nodo = (String)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -542,7 +546,7 @@ class CUP$ParserPintar$actions {
 		String nodo = (String)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -563,7 +567,9 @@ class CUP$ParserPintar$actions {
 		
                                                     if(pasada == 1){
                                                         if(derecha != null){
-                                                            RESULT =  derecha.evaluar(variables).toString();
+                                                            if(derecha.evaluarVariables(variables, listErrores)){
+                                                                if(derecha.evaluar(variables)!= null) RESULT =  derecha.evaluar(variables).toString();
+                                                            }
                                                         }
                                                     }
                                                 
@@ -592,7 +598,7 @@ class CUP$ParserPintar$actions {
 		Integer nodo = (Integer)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
@@ -615,7 +621,7 @@ class CUP$ParserPintar$actions {
 		Integer nodo = (Integer)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -630,6 +636,9 @@ class CUP$ParserPintar$actions {
           case 16: // asigInt ::= ASIGNACION expresion 
             {
               Integer RESULT =null;
+		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).left;
+		int valorright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).right;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).value;
 		int derechaleft = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).left;
 		int derecharight = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo derecha = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
@@ -637,7 +646,11 @@ class CUP$ParserPintar$actions {
                                                     if(pasada == 1){
                                                         if(derecha != null){
                                                             if(derecha.getTipoRetorno().equals("Entero")){
-                                                                RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
+                                                                if(derecha.evaluarVariables(variables, listErrores)){
+                                                                    if(derecha.evaluar(variables) != null) RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
+                                                                }
+                                                            }else{
+                                                                if(valor != null) listErrores.add("No se puede asignar un valor "+derecha.getTipoRetorno()+" a una variable tipo Entera, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                             }
                                                         }
                                                     }
@@ -667,7 +680,7 @@ class CUP$ParserPintar$actions {
 		Boolean nodo = (Boolean)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
@@ -690,7 +703,7 @@ class CUP$ParserPintar$actions {
 		Boolean nodo = (Boolean)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -705,6 +718,9 @@ class CUP$ParserPintar$actions {
           case 20: // varBoolean ::= ASIGNACION expresion 
             {
               Boolean RESULT =null;
+		int valorleft = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).left;
+		int valorright = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).right;
+		Token valor = (Token)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-1)).value;
 		int derechaleft = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).left;
 		int derecharight = ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()).right;
 		Nodo derecha = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
@@ -712,7 +728,11 @@ class CUP$ParserPintar$actions {
                                                     if(pasada == 1){
                                                         if(derecha != null){
                                                             if(derecha.getTipoRetorno().equals("Boolean")){
-                                                                RESULT = (boolean) derecha.evaluar(variables);
+                                                                if(derecha.evaluarVariables(variables, listErrores)){
+                                                                    if(derecha.evaluar(variables)!= null) RESULT = (boolean) derecha.evaluar(variables);
+                                                                }
+                                                            }else{
+                                                                if(valor != null) listErrores.add("No se puede asignar un valor "+derecha.getTipoRetorno()+" a una variable tipo Boolean, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                             }
                                                         }
                                                     }
@@ -854,12 +874,14 @@ class CUP$ParserPintar$actions {
                                                         if(id != null && valorDerecha != null){
                                                             if(variables.verificarDisponibilidad(id.getLexema())){
                                                                 if(valorDerecha.getTipoRetorno().equals(variables.getVariable(id.getLexema()).getTipo())){
-                                                                    AsignacionInstruccion instruccion = new AsignacionInstruccion();
-                                                                    instruccion.setId(id.getLexema());
-                                                                    instruccion.setDerecha(valorDerecha);
-                                                                    Instruccion retorno = new Instruccion("Asignacion", instruccion);
-                                                                    retorno.setLinea(id.getLinea()); retorno.setColumna(id.getColumna());
-                                                                    RESULT = retorno;
+                                                                    if(valorDerecha.evaluarVariables(variables, listErrores)){
+                                                                        AsignacionInstruccion instruccion = new AsignacionInstruccion();
+                                                                        instruccion.setId(id.getLexema());
+                                                                        instruccion.setDerecha(valorDerecha);
+                                                                        Instruccion retorno = new Instruccion("Asignacion", instruccion);
+                                                                        retorno.setLinea(id.getLinea()); retorno.setColumna(id.getColumna());
+                                                                        RESULT = retorno;
+                                                                    }
                                                                 }else{
                                                                     listErrores.add("No se puede asignar a una variable tipo: "+variables.getVariable(id.getLexema()).getTipo()+" un valor tipo: "+valorDerecha.getTipoRetorno()+
                                                                         ", error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
@@ -1052,11 +1074,11 @@ class CUP$ParserPintar$actions {
 		
                                                     if(pasada == 2){
                                                         if(operador != null && izq != null && der != null){
-                                                            if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
-                                                                Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
-                                                                nodo.evaluar(variables);
-                                                                RESULT = nodo;
-                                                            }
+                                                                if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
+                                                                    Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar(variables);
+                                                                    RESULT = nodo;
+                                                                }
                                                         }
                                                     }
                                                 
@@ -1079,13 +1101,13 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
-                                                            Nodo nodo = new Nodo(null, operador.getLexema(), izq, der); 
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No se pueden sumar dos valores booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                        }
+                                                            if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                Nodo nodo = new Nodo(null, operador.getLexema(), izq, der); 
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se pueden sumar dos valores de distinto tipo o booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1107,13 +1129,13 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
-                                                            Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der); 
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No se pueden restar dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                        }
+                                                            if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
+                                                                Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der); 
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se pueden restar dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1135,13 +1157,13 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
-                                                            Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der);
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No se pueden multiplicar dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                        }
+                                                            if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
+                                                                Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der);
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se pueden multiplicar dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1163,13 +1185,13 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
-                                                            Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der);
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No se pueden dividir dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                        }
+                                                            if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
+                                                                Nodo nodo = new Nodo("Entero", operador.getLexema(), izq, der);
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se pueden dividir dos valores que no sean enteros, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1191,13 +1213,13 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals("Boolean") && der.getTipoRetorno().equals("Boolean")){
-                                                            Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No se pueden comparar dos valores que no sean booleanos con AND, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                        }
+                                                            if(izq.getTipoRetorno().equals("Boolean") && der.getTipoRetorno().equals("Boolean")){
+                                                                Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se pueden comparar dos valores que no sean booleanos con AND, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1219,13 +1241,13 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        if(izq.getTipoRetorno().equals("Boolean") && der.getTipoRetorno().equals("Boolean")){
-                                                            Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                            nodo.evaluar(variables);
-                                                            RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No se pueden comparar dos valores que no sean booleanos con OR, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                        }
+                                                            if(izq.getTipoRetorno().equals("Boolean") && der.getTipoRetorno().equals("Boolean")){
+                                                                Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                nodo.evaluar(variables);
+                                                                RESULT = nodo;
+                                                            }else{
+                                                                listErrores.add("No se pueden comparar dos valores que no sean booleanos con OR, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1247,62 +1269,62 @@ class CUP$ParserPintar$actions {
 		Nodo der = (Nodo)((java_cup.runtime.Symbol) CUP$ParserPintar$stack.peek()).value;
 		
                                                     if(operador != null && izq != null && der != null){
-                                                        switch(operador.getLexema()){
-                                                            case "<":{
-                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
-                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                                    nodo.evaluar(variables);
-                                                                    RESULT = nodo;
-                                                                }else{
-                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            switch(operador.getLexema()){
+                                                                case "<":{
+                                                                    if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                        Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                        nodo.evaluar(variables);
+                                                                        RESULT = nodo;
+                                                                    }else{
+                                                                        listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                    }
+                                                                }
+                                                                case ">":{
+                                                                    if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                        Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                        nodo.evaluar(variables);
+                                                                        RESULT = nodo;
+                                                                    }else{
+                                                                        listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                    }
+                                                                }
+                                                                case "<=":{
+                                                                    if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                        Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                        nodo.evaluar(variables);
+                                                                        RESULT = nodo;
+                                                                    }else{
+                                                                        listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                    }
+                                                                }
+                                                                case ">=":{
+                                                                    if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                        Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                        nodo.evaluar(variables);
+                                                                        RESULT = nodo;
+                                                                    }else{
+                                                                        listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                    }
+                                                                }
+                                                                case "==":{
+                                                                    if(izq.getTipoRetorno().equals(der.getTipoRetorno())){
+                                                                        Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                        nodo.evaluar(variables);
+                                                                        RESULT = nodo;
+                                                                    }else{
+                                                                        listErrores.add("Los tipos de los valores a comparar no coinciden, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                    }
+                                                                }
+                                                                case "<>":{
+                                                                    if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
+                                                                        Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
+                                                                        nodo.evaluar(variables);
+                                                                        RESULT = nodo;
+                                                                    }else{
+                                                                        listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                                    }
                                                                 }
                                                             }
-                                                            case ">":{
-                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
-                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                                    nodo.evaluar(variables);
-                                                                    RESULT = nodo;
-                                                                }else{
-                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                                }
-                                                            }
-                                                            case "<=":{
-                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
-                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                                    nodo.evaluar(variables);
-                                                                    RESULT = nodo;
-                                                                }else{
-                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                                }
-                                                            }
-                                                            case ">=":{
-                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
-                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                                    nodo.evaluar(variables);
-                                                                    RESULT = nodo;
-                                                                }else{
-                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                                }
-                                                            }
-                                                            case "==":{
-                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno())){
-                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                                    nodo.evaluar(variables);
-                                                                    RESULT = nodo;
-                                                                }else{
-                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                                }
-                                                            }
-                                                            case "<>":{
-                                                                if(izq.getTipoRetorno().equals(der.getTipoRetorno()) && !izq.getTipoRetorno().equals("Boolean")){
-                                                                    Nodo nodo = new Nodo("Boolean", operador.getLexema(), izq, der);
-                                                                    nodo.evaluar(variables);
-                                                                    RESULT = nodo;
-                                                                }else{
-                                                                    listErrores.add("Los tipos de los valores a comparar no coinciden, o son booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
-                                                                }
-                                                            }
-                                                        }
                                                     }
                                                 
               CUP$ParserPintar$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.elementAt(CUP$ParserPintar$top-2)), ((java_cup.runtime.Symbol)CUP$ParserPintar$stack.peek()), RESULT);
@@ -1322,8 +1344,6 @@ class CUP$ParserPintar$actions {
                                                             Variable variable = new Variable("Id", valor.getLexema());
                                                             Nodo nodo = new Nodo(variable, variables);
                                                             RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No existe la variable utilizada, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                         }
                                                     }
                                                 

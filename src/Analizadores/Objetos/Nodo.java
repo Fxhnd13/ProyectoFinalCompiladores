@@ -5,6 +5,8 @@
  */
 package Analizadores.Objetos;
 
+import java.util.List;
+
 /**
  *
  * @author fxhnd
@@ -138,10 +140,10 @@ public class Nodo {
                             valor = ((Integer)this.izq.evaluar(variables)) <= ((Integer)this.der.evaluar(variables));
                         }
                         if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                            //podemos agregar un error semantico
+                            valor = null;
                         }
                     }else{
-                        
+                        valor = null;
                     }
                     break;
                 }
@@ -155,10 +157,10 @@ public class Nodo {
                             valor = ((Integer)this.izq.evaluar(variables)) >= ((Integer)this.der.evaluar(variables));
                         }
                         if(this.izq.getTipoRetorno().equals("Boolean") && this.der.getTipoRetorno().equals("Boolean")){
-                            //podemos agregar un error semantico
+                            valor = null;
                         }
                     }else{
-                        
+                        valor = null;
                     }
                     break;
                 }
@@ -175,7 +177,7 @@ public class Nodo {
                             valor = null;
                         }
                     }else{
-                    
+                        valor = null;
                     }
                     break;
                 }
@@ -192,7 +194,7 @@ public class Nodo {
                             valor = null;
                         }
                     }else{
-                        
+                        valor = null;
                     }
                     break;
                 }
@@ -227,7 +229,7 @@ public class Nodo {
                             valor = null;
                         }
                     }else{
-                        
+                        valor = null;
                     }
                     break;
                 }
@@ -240,7 +242,7 @@ public class Nodo {
                             valor = null;
                         }
                     }else{
-                        
+                        valor = null;
                     }
                     break;
                 }
@@ -325,6 +327,29 @@ public class Nodo {
                     this.tipoRetorno = "Rango";
                     valor = (Rango) variable.getValor();
                     break;
+                }
+            }
+        }
+        return valor;
+    }
+
+    public boolean evaluarVariables(TablaDeSimbolos variables, List<String> listErrores) {
+        boolean valor = true;
+        if(this.operador != null){
+            if(valor){
+                boolean izq = this.izq.evaluarVariables(variables, listErrores);
+                boolean der = this.der.evaluarVariables(variables, listErrores);
+                valor = izq && der;
+            }else{
+                this.izq.evaluarVariables(variables, listErrores);
+                this.der.evaluarVariables(variables, listErrores);
+            }
+        }else{
+            Variable variable = this.valor;
+            if(variable.getTipo().equals("Id")){
+                if(variables.getVariable((String) variable.getValor()) == null){
+                    listErrores.add("No existe la variable "+variable.getValor()+" utilizada en la linea: "+variable.getLinea()+", columna: "+variable.getColumna());
+                    valor = false;
                 }
             }
         }

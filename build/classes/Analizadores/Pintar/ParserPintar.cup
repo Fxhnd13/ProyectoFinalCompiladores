@@ -158,7 +158,7 @@ dcl ::=                                     PR_STRING varListString FINAL
 
 varListString ::=                            varListString COMA ID:idVariable asigString:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -167,7 +167,7 @@ varListString ::=                            varListString COMA ID:idVariable as
                                                 :}
                                             |ID:idVariable asigString:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("String", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -179,7 +179,9 @@ varListString ::=                            varListString COMA ID:idVariable as
 asigString ::=                              ASIGNACION expresion:derecha {:
                                                     if(pasada == 1){
                                                         if(derecha != null){
-                                                            RESULT =  derecha.evaluar(variables).toString();
+                                                            if(derecha.evaluarVariables(variables, listErrores)){
+                                                                if(derecha.evaluar(variables)!= null) RESULT =  derecha.evaluar(variables).toString();
+                                                            }
                                                         }
                                                     }
                                                 :}
@@ -188,7 +190,7 @@ asigString ::=                              ASIGNACION expresion:derecha {:
 
 varListInt ::=                              varListInt COMA ID:idVariable asigInt:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna()); 
@@ -197,7 +199,7 @@ varListInt ::=                              varListInt COMA ID:idVariable asigIn
                                                 :}
                                             |ID:idVariable asigInt:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Entero", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -206,11 +208,15 @@ varListInt ::=                              varListInt COMA ID:idVariable asigIn
                                                 :}
                                             ;
 
-asigInt ::=                                 ASIGNACION expresion:derecha {:
+asigInt ::=                                 ASIGNACION:valor expresion:derecha {:
                                                     if(pasada == 1){
                                                         if(derecha != null){
                                                             if(derecha.getTipoRetorno().equals("Entero")){
-                                                                RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
+                                                                if(derecha.evaluarVariables(variables, listErrores)){
+                                                                    if(derecha.evaluar(variables) != null) RESULT = Integer.parseInt(derecha.evaluar(variables).toString());
+                                                                }
+                                                            }else{
+                                                                if(valor != null) listErrores.add("No se puede asignar un valor "+derecha.getTipoRetorno()+" a una variable tipo Entera, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                             }
                                                         }
                                                     }
@@ -220,7 +226,7 @@ asigInt ::=                                 ASIGNACION expresion:derecha {:
 
 varListBoolean ::=                          varListBoolean COMA ID:idVariable varBoolean:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());  
@@ -229,7 +235,7 @@ varListBoolean ::=                          varListBoolean COMA ID:idVariable va
                                                 :}
                                             |ID:idVariable varBoolean:nodo {:
                                                     if(pasada == 1){
-                                                        if(idVariable != null && nodo != null){
+                                                        if(idVariable != null){
                                                             Variable variable = new Variable("Boolean", nodo);
                                                             variable.setId(idVariable.getLexema());
                                                             if(!variables.addVariable(variable)) listErrores.add("Ya se encuentra una variable declarada con el id: "+idVariable.getLexema()+", error en la Linea: "+idVariable.getLinea()+", columna: "+idVariable.getColumna());
@@ -238,11 +244,15 @@ varListBoolean ::=                          varListBoolean COMA ID:idVariable va
                                                 :}
                                             ;
                                  
-varBoolean ::=                              ASIGNACION expresion:derecha {:
+varBoolean ::=                              ASIGNACION:valor expresion:derecha {:
                                                     if(pasada == 1){
                                                         if(derecha != null){
                                                             if(derecha.getTipoRetorno().equals("Boolean")){
-                                                                RESULT = (boolean) derecha.evaluar(variables);
+                                                                if(derecha.evaluarVariables(variables, listErrores)){
+                                                                    if(derecha.evaluar(variables)!= null) RESULT = (boolean) derecha.evaluar(variables);
+                                                                }
+                                                            }else{
+                                                                if(valor != null) listErrores.add("No se puede asignar un valor "+derecha.getTipoRetorno()+" a una variable tipo Boolean, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                             }
                                                         }
                                                     }
@@ -291,12 +301,14 @@ instr ::=                                  ID:id ASIGNACION expresion:valorDerec
                                                         if(id != null && valorDerecha != null){
                                                             if(variables.verificarDisponibilidad(id.getLexema())){
                                                                 if(valorDerecha.getTipoRetorno().equals(variables.getVariable(id.getLexema()).getTipo())){
-                                                                    AsignacionInstruccion instruccion = new AsignacionInstruccion();
-                                                                    instruccion.setId(id.getLexema());
-                                                                    instruccion.setDerecha(valorDerecha);
-                                                                    Instruccion retorno = new Instruccion("Asignacion", instruccion);
-                                                                    retorno.setLinea(id.getLinea()); retorno.setColumna(id.getColumna());
-                                                                    RESULT = retorno;
+                                                                    if(valorDerecha.evaluarVariables(variables, listErrores)){
+                                                                        AsignacionInstruccion instruccion = new AsignacionInstruccion();
+                                                                        instruccion.setId(id.getLexema());
+                                                                        instruccion.setDerecha(valorDerecha);
+                                                                        Instruccion retorno = new Instruccion("Asignacion", instruccion);
+                                                                        retorno.setLinea(id.getLinea()); retorno.setColumna(id.getColumna());
+                                                                        RESULT = retorno;
+                                                                    }
                                                                 }else{
                                                                     listErrores.add("No se puede asignar a una variable tipo: "+variables.getVariable(id.getLexema()).getTipo()+" un valor tipo: "+valorDerecha.getTipoRetorno()+
                                                                         ", error en la linea: "+id.getLinea()+", columna: "+id.getColumna());
@@ -386,11 +398,11 @@ posicion ::=                                expresion:nodo {:
                                             |expresion:izq PR_RANGE:operador expresion:der {:
                                                     if(pasada == 2){
                                                         if(operador != null && izq != null && der != null){
-                                                            if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
-                                                                Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
-                                                                nodo.evaluar(variables);
-                                                                RESULT = nodo;
-                                                            }
+                                                                if(izq.getTipoRetorno().equals("Entero") && der.getTipoRetorno().equals("Entero")){
+                                                                    Nodo nodo = new Nodo("Rango", operador.getLexema(), izq, der);
+                                                                    nodo.evaluar(variables);
+                                                                    RESULT = nodo;
+                                                                }
                                                         }
                                                     }
                                                 :}
@@ -403,7 +415,7 @@ expresion ::=                               expresion:izq S_SUMA:operador expres
                                                             nodo.evaluar(variables);
                                                             RESULT = nodo;
                                                         }else{
-                                                            listErrores.add("No se pueden sumar dos valores booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
+                                                            listErrores.add("No se pueden sumar dos valores de distinto tipo o booleanos, error en la Linea: "+operador.getLinea()+", columna: "+operador.getColumna());
                                                         }
                                                     }
                                                 :}
@@ -528,8 +540,6 @@ expresion ::=                               expresion:izq S_SUMA:operador expres
                                                             Variable variable = new Variable("Id", valor.getLexema());
                                                             Nodo nodo = new Nodo(variable, variables);
                                                             RESULT = nodo;
-                                                        }else{
-                                                            listErrores.add("No existe la variable utilizada, error en la linea: "+valor.getLinea()+", columna: "+valor.getColumna());
                                                         }
                                                     }
                                                 :}
