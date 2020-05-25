@@ -20,9 +20,11 @@ import Analizadores.Objetos.Token;
 import Analizadores.Pintar.LexerPintar;
 import Analizadores.Pintar.ParserPintar;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -467,10 +469,22 @@ public class Editor extends javax.swing.JFrame {
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         //Se muestra el manual de usuario
+        File objetofile = new File ("Documentacion/Manual_De_Usuario.pdf");
+        try {
+            Desktop.getDesktop().open(objetofile);
+        } catch (IOException ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         //Se muestra el manual tecnico
+        File objetofile = new File ("Documentacion/Manual_Tecnico.pdf");
+        try {
+            Desktop.getDesktop().open(objetofile);
+        } catch (IOException ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void GenerarOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarOptionActionPerformed
