@@ -319,6 +319,28 @@ public class ParserPintar extends java_cup.runtime.lr_parser {
                 int linea = (((Token)s.value).getLinea());
                 int columna = (((Token)s.value).getColumna());
                 switch(s.toString()){
+                    case "#9": case "#10": case "#11": case "#19": case "#20": case "#24": case "#25": case "#26": case "#27": case "#28": case "#29": {
+                        message = "No se esperaba una palabra reservada, probablemente hace falta una coma en la linea anterior o una llave";
+                        break;
+                    }
+                    case "#3": message = "No se esperaba un corchete abierto"; break;
+                    case "#4": message = "No se esperaba un corchete cerrado"; break;
+                    case "#5": message = "No se esperaba una llave abierta"; break;
+                    case "#6": message = "No se esperaba una llave cerrada"; break;
+                    case "#7": message = "No se esperaba un parentesis abierto"; break;
+                    case "#8": message = "No se esperaba un parentesis cerrado"; break;
+                    case "#12": message = "No se esperaba una coma"; break;
+                    case "#13": message = "No se esperaba un Id"; break;
+                    case "#14": message = "No se esperaba una asignacion, verifique que antes se encuentre un Id o una palabra reservada"; break;
+                    case "#15": message = "No se esperaba el operador + verifique que sus operandos sean id's o datos"; break;
+                    case "#16": message = "No se esperaba el operador - verifique que sus operandos sean id's o datos"; break;
+                    case "#17": message = "No se esperaba el operador / verifique que sus operandos sean id's o datos"; break;
+                    case "#18": message = "No se esperaba el operador * verifique que sus operandos sean id's o datos"; break;
+                    case "#21": message = "No se esperaba un comparador, verifique que los valores a comparar sean id's o datos"; break;
+                    case "#22": message = "No se esperaba un valor entero"; break;
+                    case "#23": message = "No se esperaba un valor booleano"; break;
+                    case "#31": message = "No se esperaba un valor de tipo cadena"; break;
+                    case "#30": message = "No se esperaba un fin de linea"; break;
                 }
                 listErrores.add("Se ha encontrado un error en la linea: "+linea+", columna: "+columna+" con la cadena "+cadena+"|Descripcion: "+message);
             }

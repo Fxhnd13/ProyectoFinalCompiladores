@@ -19,6 +19,7 @@ import Objetos.Lienzo;
 import Analizadores.Objetos.Token;
 import Analizadores.Pintar.LexerPintar;
 import Analizadores.Pintar.ParserPintar;
+import Objetos.Tiempo;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.event.KeyEvent;
@@ -513,7 +514,7 @@ public class Editor extends javax.swing.JFrame {
                     }
                 }
             }
-            if(strLienzos == null || strColores == null || strTiempos == null){
+            if(strLienzos == null){
                 JOptionPane.showMessageDialog(null, "No se han cargado todos los archivos minimos necesarios", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
                 Pintor pintor = new Pintor();
@@ -587,34 +588,34 @@ public class Editor extends javax.swing.JFrame {
             }
             String reporteErrores = "";
             if(strLienzos != null){
+                addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
                 reporteErrores = "\n\n*******************Errores Archivo Lienzos********************\n\n";
                 for (String error : parserLienzo.getErrores()) {
                     reporteErrores+=(error+"\n");
                 }
             }
             if(strColores != null){
+                addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());
                 reporteErrores += "\n\n*******************Errores Archivo Colores********************\n\n";
                 for (String error : parserColores.getErrores()) {
                     reporteErrores+=(error+"\n");
                 }
             }
             if(strTiempos != null){
+                addTokensToTable(2, this.TablaTokensTiempos, lexerTiempos.getTokensList());
                 reporteErrores += "\n\n*******************Errores Archivo Tiempos********************\n\n";
                 for (String error : parserTiempos.getErrores()) {
                     reporteErrores+=(error+"\n");
                 }
             }
             if(strPintar != null){
+                addTokensToTable(3, this.TablaTokensPintar, lexerPintar.getTokensList());
                 reporteErrores += "\n\n*******************Errores Archivo Pintar********************\n\n";
                 for (String error : parserPintar.getErrores()) {
                     reporteErrores+=(error+"\n");
                 }
                 variables = parserPintar.getVariables();
             }
-            if(lexerLienzo != null) addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
-            if(lexerColores != null) addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());
-            if(lexerTiempos != null) addTokensToTable(2, this.TablaTokensTiempos, lexerTiempos.getTokensList());
-            if(lexerPintar != null) addTokensToTable(3, this.TablaTokensPintar, lexerPintar.getTokensList());
             String finalSintactico = reporteFinal+reporteErrores;
             TextAreaReporteSintactico.setText(finalSintactico);
             DialogoReporteAnalisis.setVisible(true);
@@ -627,7 +628,21 @@ public class Editor extends javax.swing.JFrame {
                     this.EditorGrafico.setEnabled(false);
                 }
             }else{
-                if(parserLienzo.getErrores().isEmpty()&&parserColores.getErrores().isEmpty()&&parserTiempos.getErrores().isEmpty()){
+                boolean erroresColores = false, erroresTiempo = false;
+                if(strColores != null){
+                    if(parserColores.getErrores().isEmpty()) erroresColores = true;
+                }else{
+                    erroresColores = true;
+                }
+                if(strTiempos!= null){
+                    if(parserTiempos.getErrores().isEmpty()) erroresTiempo = true;
+                }else{
+                    for (Lienzo lienzo : lienzos) {
+                        lienzo.setTiempos(new Tiempo());
+                    }
+                    erroresTiempo = true;
+                }
+                if(parserLienzo.getErrores().isEmpty()&&erroresColores&&erroresTiempo){
                     this.GenerarOption.setEnabled(true);
                     this.EditorGrafico.setEnabled(true);
                 }else{

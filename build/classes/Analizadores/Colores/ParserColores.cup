@@ -145,7 +145,9 @@ non terminal Atributo       paramColor;
 
 start with S;
 
-S ::=                       LLAVE_A PR_COLORES ASIGNACION LLAVE_A listadoLienzos LLAVE_C LLAVE_C ;
+S ::=                       LLAVE_A PR_COLORES ASIGNACION LLAVE_A listadoLienzos LLAVE_C LLAVE_C 
+                            |error LLAVE_A listadoLienzos LLAVE_C LLAVE_C
+                            ;
 
 listadoLienzos ::=          listadoLienzos COMA strColoresLienzo
                             |strColoresLienzo
@@ -159,6 +161,7 @@ strColoresLienzo ::=        ID:idLienzo ASIGNACION LLAVE_A strColores:listColore
                                         }
                                     }
                                 :}
+                            |error LLAVE_A strColores LLAVE_C
                             ;
 
 strColores ::=              strColores:listColores COMA inicioColor:color {:
@@ -179,11 +182,14 @@ inicioColor ::=             ID:idColor ASIGNACION LLAVE_A paramsColor:listAtribu
                                     if(idColor != null){
                                         color.setId(idColor.getLexema());
                                         if(listAtributos != null) inicializarColor(color, listAtributos);
-                                    }
-                                    if(isValido(color)){
-                                        RESULT = color;
+                                        if(isValido(color)){
+                                            RESULT = color;
+                                        }else{
+                                            listErrores.add("Error encontrado en la declaracion del color: "+idColor.getLexema()+" en la linea: "+idColor.getLinea()+", columna: "+idColor.getColumna()+" no posee los atributos necesarios falta("+((color.getHex()==null&&color.getRed()==(-1))?"Red":"")+" "+((color.getHex()==null&&color.getBlue()==(-1))?"Blue":"")+" "+((color.getHex()==null&&color.getGreen()==(-1))?"Green":"")+")");
+                                        }
                                     }
                                 :}
+                            |error LLAVE_A paramsColor LLAVE_C
                             ;
 
 paramsColor ::=             paramsColor:listAtributos COMA paramColor:atributo {:

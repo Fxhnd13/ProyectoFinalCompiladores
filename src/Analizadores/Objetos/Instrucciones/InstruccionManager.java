@@ -115,7 +115,7 @@ public class InstruccionManager {
             if(lienzo.existePosicion(pintura.getPosX(), pintura.getPosY())){
                 lienzo.getTiempos().getImagen(pintura.getIdImagen()).pintarPos(color, pintura.getPosX(), pintura.getPosY());
             }else{
-                errores.add("No existe la posicion ("+pintura.getPosX()+","+pintura.getPosY()+") en el lienzo definido");
+                errores.add("No existe la posicion ("+pintura.getPosX()+","+pintura.getPosY()+") en el lienzo "+pintura.getIdLienzo()+"definido");
             }
         }else{
             if(!lienzo.existeColor(pintura.getIdColor())) errores.add("No existe el color utilizado al ejecutar la instruccion pintar declarada en la linea: "+pintura.getLinea()+", columna: "+pintura.getColumna());

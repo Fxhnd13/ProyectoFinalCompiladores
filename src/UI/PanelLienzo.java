@@ -109,7 +109,7 @@ public class PanelLienzo extends javax.swing.JPanel {
                     manager.ejecutarPintura(pintura, lienzo, errores);
                 }
             if(!errores.isEmpty()){
-                String cadena = "";
+                String cadena = "Errores sobre el lienzo: "+lienzo.getId()+"\n";
                 for (String error : errores) {
                     cadena+=error+"\n";
                 }
@@ -121,10 +121,10 @@ public class PanelLienzo extends javax.swing.JPanel {
             if(this.lienzo.getTiempos().getImagenes().get(i).getId().equals(this.lienzo.getTiempos().getIdInicio())) indiceInicio = i;
             if(this.lienzo.getTiempos().getImagenes().get(i).getId().equals(this.lienzo.getTiempos().getIdFin())) indiceFinal = i;
         }
-        this.InicioImagenesComboBox.setSelectedIndex(indiceInicio);
-        this.FinImagensComboBox.setSelectedIndex(indiceFinal);
-        this.ImagenActivaComboBox.setSelectedIndex(0);
-        this.LienzoPane.add(this.lienzo.getTiempos().getImagenes().get(0).getPanel());
+        if(InicioImagenesComboBox.getItemCount() != 0) this.InicioImagenesComboBox.setSelectedIndex(indiceInicio);
+        if(FinImagensComboBox.getItemCount() != 0) this.FinImagensComboBox.setSelectedIndex(indiceFinal);
+        if(ImagenActivaComboBox.getItemCount() != 0) this.ImagenActivaComboBox.setSelectedIndex(0);
+        if(!this.lienzo.getTiempos().getImagenes().isEmpty()) this.LienzoPane.add(this.lienzo.getTiempos().getImagenes().get(0).getPanel());
     }
 
     private void cargarColores() {
@@ -132,8 +132,12 @@ public class PanelLienzo extends javax.swing.JPanel {
         for (ColorP color : this.lienzo.getColores()) {
             this.ColoresComboBox.addItem(color.getId());
         }
-        this.ColoresComboBox.setSelectedIndex(0);
-        this.colorActivo = this.lienzo.getColores().get(0);
+        if(ColoresComboBox.getItemCount() != 0){
+            this.ColoresComboBox.setSelectedIndex(0);
+            this.colorActivo = this.lienzo.getColores().get(0);
+        }else{
+            this.colorActivo = this.lienzo.getFondo();
+        }
         this.ColorActivoLabel.setText("Color Activo: "+this.ColoresComboBox.getSelectedItem());
     }
     
@@ -617,22 +621,21 @@ public class PanelLienzo extends javax.swing.JPanel {
     }
     
     public void exportacion(){
-        int indiceInicio = this.InicioImagenesComboBox.getSelectedIndex();
-        int indiceFinal = this.FinImagensComboBox.getSelectedIndex();
-        if(this.lienzo.getExtension().equals("gif")){
-            if(indiceInicio == indiceFinal){
-                JOptionPane.showMessageDialog(null, "Al crear un gif, debe haber por lo menos dos imagenes", "Error", JOptionPane.ERROR_MESSAGE);
-            }else{
-                if(indiceInicio < indiceFinal){
-                    this.exportarGif(indiceInicio, indiceFinal);
-                }else{
-                    JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        if(this.InicioImagenesComboBox.getItemCount()==0 || this.FinImagensComboBox.getItemCount()==0){
+            JOptionPane.showMessageDialog(null, "No hay imagenes cargadas, no se puede exportar", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(this.FinImagensComboBox.getItemCount()==0){
-                Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.InicioImagenesComboBox.getSelectedIndex()); //obtenemos la imagen que contiene las celdas a agregar
-                imprimirImagen(imagen);
+            int indiceInicio = this.InicioImagenesComboBox.getSelectedIndex();
+            int indiceFinal = this.FinImagensComboBox.getSelectedIndex();
+            if(this.lienzo.getExtension().equals("gif")){
+                if(indiceInicio == indiceFinal){
+                    JOptionPane.showMessageDialog(null, "Al crear un gif, debe haber por lo menos dos imagenes", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    if(indiceInicio < indiceFinal){
+                        this.exportarGif(indiceInicio, indiceFinal);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "En el orden de impresion", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }else{
                 if(indiceInicio != indiceFinal){
                     if(indiceInicio < indiceFinal){

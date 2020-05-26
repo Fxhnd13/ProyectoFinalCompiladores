@@ -1,7 +1,8 @@
+package Analizadores.Lienzos; 
 
-import Objetos.Atributo;
+import Analizadores.Objetos.Atributo;
 import Objetos.ColorP;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -235,6 +236,7 @@ S ::=               LLAVE_A PR_LIENZOS ASIGNACION LLAVE_A strLienzos:listLienzos
                         if(listLienzos == null) listLienzos = new ArrayList<Lienzo>();
                         RESULT = listLienzos;
                     :}
+                    |error LLAVE_A strLienzos LLAVE_C LLAVE_C
                     ;
 
 strLienzos ::=      strLienzos:listLienzos COMA inicioLienzo:lienzo {:
@@ -257,6 +259,7 @@ strLienzos ::=      strLienzos:listLienzos COMA inicioLienzo:lienzo {:
                             }
                             RESULT = listLienzos;
                         :}
+                    |error COMA inicioLienzo
                     ;
 
 inicioLienzo ::=    ID:id ASIGNACION LLAVE_A strLienzo:listAtributos LLAVE_C {:
@@ -269,6 +272,7 @@ inicioLienzo ::=    ID:id ASIGNACION LLAVE_A strLienzo:listAtributos LLAVE_C {:
                             }
                             RESULT = lienzo;
                         :}
+                    |error LLAVE_A strLienzo LLAVE_C
                     ;
 
 strLienzo ::=       strLienzo:listAtributos COMA paramLienzo:listAtributosDerecha {:
@@ -386,6 +390,8 @@ paramLienzo ::=     PR_NOMBRE:dcl ASIGNACION COMILLA strSalida:listNombre COMILL
                                 inicializarColor(color, listAtributosFondo);
                                 if(isValido(color)){
                                     if(dcl != null) atributos.add(new Atributo("Fondo", color, dcl.getLinea(), dcl.getColumna()));
+                                }else{
+                                    listErrores.add("Error encontrado en la declaracion del fondo en la linea: "+dcl.getLinea()+", columna: "+dcl.getColumna()+" no posee los atributos necesarios falta("+((color.getHex()==null&&color.getRed()==(-1))?"Red":"")+" "+((color.getHex()==null&&color.getBlue()==(-1))?"Blue":"")+" "+((color.getHex()==null&&color.getGreen()==(-1))?"Green":"")+")");
                                 }
                             }
                             RESULT = atributos;
@@ -406,6 +412,7 @@ strSalida ::=       strSalida:listSalida paramSalidaSolo:parametro {:
                             if(parametro != null) listSalida.add(parametro);
                             RESULT = listSalida;
                         :}
+                    |error COMA paramLienzo
                     ;
 
 paramSalidaSolo ::=  ENTERO:valor {: if(valor != null) RESULT = valor.getLexema(); :}

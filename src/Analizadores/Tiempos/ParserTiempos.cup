@@ -194,6 +194,7 @@ precedence left                 COMA;
 start with S;
 
 S::=                                LLAVE_A PR_TIEMPOS ASIGNACION LLAVE_A strTiempos LLAVE_C LLAVE_C
+                                    |error LLAVE_A strTiempos LLAVE_C LLAVE_C
                                     ;
 
 strTiempos::=                       strTiempos COMA inicioTiemposLienzo
@@ -216,6 +217,7 @@ inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listA
                                                 }
                                             }
                                         :}
+                                    |error LLAVE_A strTiempo LLAVE_C
                                     ;
 
 strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atributo {:

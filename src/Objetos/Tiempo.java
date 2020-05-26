@@ -19,7 +19,7 @@ public class Tiempo {
     int lineaT, columanT;
 
     public Tiempo(){
-        this.imagenes = new ArrayList<>();
+        this.imagenes = new ArrayList<Imagen>();
     }
 
     public String getIdInicio() {
