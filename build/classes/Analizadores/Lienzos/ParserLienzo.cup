@@ -237,6 +237,7 @@ S ::=               LLAVE_A PR_LIENZOS ASIGNACION LLAVE_A strLienzos:listLienzos
                         RESULT = listLienzos;
                     :}
                     |error LLAVE_A strLienzos LLAVE_C LLAVE_C
+                    |error strLienzos LLAVE_C LLAVE_C
                     ;
 
 strLienzos ::=      strLienzos:listLienzos COMA inicioLienzo:lienzo {:
@@ -271,8 +272,26 @@ inicioLienzo ::=    ID:id ASIGNACION LLAVE_A strLienzo:listAtributos LLAVE_C {:
                             }
                             RESULT = lienzo;
                         :}
-                    |error COMA strLienzo LLAVE_C
-                    |error LLAVE_A strLienzo LLAVE_C
+                    |error COMA:id strLienzo:listAtributos LLAVE_C {:
+                            Lienzo lienzo = new Lienzo();
+                            if(listAtributos != null) inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
+                            if(id != null){
+                                lienzo.setId(id.getLexema());
+                                lienzo.setLineaT(id.getLinea()+1);
+                                lienzo.setColumnaT(id.getColumna());
+                            }
+                            RESULT = lienzo;
+                        :}
+                    |error LLAVE_A:id strLienzo:listAtributos LLAVE_C {:
+                            Lienzo lienzo = new Lienzo();
+                            if(listAtributos != null) inicializarLienzo(lienzo, (List<Atributo>) listAtributos);
+                            if(id != null){
+                                lienzo.setId(id.getLexema());
+                                lienzo.setLineaT(id.getLinea()+1);
+                                lienzo.setColumnaT(id.getColumna());
+                            }
+                            RESULT = lienzo;
+                        :}
                     ;
 
 strLienzo ::=       strLienzo:listAtributos COMA paramLienzo:listAtributosDerecha {:
@@ -300,7 +319,10 @@ paramFondo ::=      paramFondo:listAtributos COMA paramFondoSolo:atributo {:
                             if(atributo != null) atributos.add(atributo);
                             RESULT = atributos;
                         :}
-                    |error COMA paramFondo 
+                    |error COMA paramFondo:atributos {:
+                            if(atributos == null) atributos = new ArrayList<Atributo>();
+                            RESULT = atributos;
+                        :}
                     ;
 
 paramFondoSolo ::=  PR_RED:dcl ASIGNACION ENTERO:valor {:
@@ -396,7 +418,7 @@ paramLienzo ::=     PR_NOMBRE:dcl ASIGNACION COMILLA strSalida:listNombre COMILL
                             if(listAtributosTamano == null) listAtributosTamano = new ArrayList<Atributo>();
                             RESULT = listAtributosTamano;
                         :}
-                    |error LLAVE_A paramFondo LLAVE_C {:
+                    |error LLAVE_A:dcl paramFondo:listAtributosFondo LLAVE_C {:
                             ColorP color = new ColorP();
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
                             if(listAtributosFondo != null){
@@ -409,24 +431,24 @@ paramLienzo ::=     PR_NOMBRE:dcl ASIGNACION COMILLA strSalida:listNombre COMILL
                             }
                             RESULT = atributos;
                         :}
-                    |error LLAVE_A paramTamano LLAVE_C {:
+                    |error LLAVE_A paramTamano:listAtributosTamano LLAVE_C {:
                             if(listAtributosTamano == null) listAtributosTamano = new ArrayList<Atributo>();
                             RESULT = listAtributosTamano;
                         :}
-                    |error paramFondo LLAVE_C {:
+                    |error paramFondo:listAtributosFondo LLAVE_C {:
                             ColorP color = new ColorP();
                             ArrayList<Atributo> atributos = new ArrayList<Atributo>();
                             if(listAtributosFondo != null){
                                 inicializarColor(color, listAtributosFondo);
                                 if(isValido(color)){
-                                    if(dcl != null) atributos.add(new Atributo("Fondo", color, dcl.getLinea(), dcl.getColumna()));
+                                    atributos.add(new Atributo("Fondo", color, -1, -1));
                                 }else{
                                     listErrores.add("Error encontrado en la declaracion del fondo en la linea: "+dcl.getLinea()+", columna: "+dcl.getColumna()+" no posee los atributos necesarios falta("+((color.getHex()==null&&color.getRed()==(-1))?"Red":"")+" "+((color.getHex()==null&&color.getBlue()==(-1))?"Blue":"")+" "+((color.getHex()==null&&color.getGreen()==(-1))?"Green":"")+")");
                                 }
                             }
                             RESULT = atributos;
                         :}
-                    |error paramTamano LLAVE_C {:
+                    |error paramTamano:listAtributosTamano LLAVE_C {:
                             if(listAtributosTamano == null) listAtributosTamano = new ArrayList<Atributo>();
                             RESULT = listAtributosTamano;
                         :}

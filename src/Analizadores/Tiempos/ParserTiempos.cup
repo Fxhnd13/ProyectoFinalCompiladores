@@ -195,11 +195,11 @@ start with S;
 
 S::=                                LLAVE_A PR_TIEMPOS ASIGNACION LLAVE_A strTiempos LLAVE_C LLAVE_C
                                     |error LLAVE_A strTiempos LLAVE_C LLAVE_C
+                                    |error strTiempos LLAVE_C LLAVE_C
                                     ;
 
 strTiempos::=                       strTiempos COMA inicioTiemposLienzo
                                     |inicioTiemposLienzo
-                                    |error COMA inicioTiemposLienzo
                                     ;
 
 inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listAtributos LLAVE_C {:
@@ -218,6 +218,7 @@ inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listA
                                             }
                                         :}
                                     |error LLAVE_A strTiempo LLAVE_C
+                                    |error strTiempo LLAVE_C
                                     ;
 
 strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atributo {:
@@ -230,8 +231,6 @@ strTiempo::=                        strTiempo:listAtributos COMA paramTiempo:atr
                                             if(atributo != null) atributos.add(atributo);
                                             RESULT = atributos;
                                         :}
-                                    |error COMA paramTiempo
-                                    |error LLAVE_C strTiempos
                                     ;
 
 paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMILLA {:
@@ -258,6 +257,9 @@ paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMIL
                                                 }
                                             }    
                                         :}
+                                    |error COMA strTiempo
+                                    |error CORCHETE_A listImagenes CORCHETE_C
+                                    |error listImagenes CORCHETE_C
                                     ;
 
 listImagenes::=                     listImagenes:imagenes COMA strImagen:imagen {:
@@ -274,7 +276,6 @@ listImagenes::=                     listImagenes:imagenes COMA strImagen:imagen 
                                             }
                                             RESULT = imagenes;
                                         :}
-                                    |error COMA strImagen
                                     ;
 
 strImagen::=                        LLAVE_A:dcl paramsImagen:listAtributos LLAVE_C {:
@@ -286,6 +287,7 @@ strImagen::=                        LLAVE_A:dcl paramsImagen:listAtributos LLAVE
                                                 RESULT = imagen;
                                             }
                                         :}
+                                    |error paramsImagen LLAVE_C
                                     ;
 
 paramsImagen::=                     paramsImagen:listAtributos COMA paramImagen:atributo {:
@@ -298,8 +300,6 @@ paramsImagen::=                     paramsImagen:listAtributos COMA paramImagen:
                                             if(atributo != null) listAtributos.add(atributo);
                                             RESULT = listAtributos;
                                         :}
-                                    |error COMA paramImagen
-                                    |error LLAVE_C listImagenes
                                     ;
 
 paramImagen::=                      PR_ID:dcl ASIGNACION COMILLA ID:id COMILLA {:
@@ -318,4 +318,7 @@ paramImagen::=                      PR_ID:dcl ASIGNACION COMILLA ID:id COMILLA {
                                                 }
                                             }
                                         :}
+                                    |error COMA paramsImagen
+                                    |error LLAVE_C listImagenes
+                                    |error LLAVE_C LLAVE_C strTiempo
                                     ;

@@ -1,8 +1,8 @@
 package Analizadores.Colores;
 
-import Objetos.Atributo;
+import Analizadores.Objetos.Atributo;
 import Objetos.ColorP;
-import Objetos.Token;
+import Analizadores.Objetos.Token;
 import Objetos.Lienzo;
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +140,7 @@ non terminal ColorP         inicioColor;
 non terminal List<Atributo> paramsColor;
 non terminal Atributo       paramColor;
 
+precedence left COMA;
 
 /* The grammar */
 
@@ -147,11 +148,11 @@ start with S;
 
 S ::=                       LLAVE_A PR_COLORES ASIGNACION LLAVE_A listadoLienzos LLAVE_C LLAVE_C 
                             |error LLAVE_A listadoLienzos LLAVE_C LLAVE_C
+                            |error listadoLienzos LLAVE_C LLAVE_C
                             ;
 
 listadoLienzos ::=          listadoLienzos COMA strColoresLienzo
                             |strColoresLienzo
-                            |error COMA strColoresLienzo
                             ;
 
 strColoresLienzo ::=        ID:idLienzo ASIGNACION LLAVE_A strColores:listColores LLAVE_C {:
@@ -162,6 +163,7 @@ strColoresLienzo ::=        ID:idLienzo ASIGNACION LLAVE_A strColores:listColore
                                     }
                                 :}
                             |error LLAVE_A strColores LLAVE_C
+                            |error strColores LLAVE_C
                             ;
 
 strColores ::=              strColores:listColores COMA inicioColor:color {:
@@ -190,6 +192,7 @@ inicioColor ::=             ID:idColor ASIGNACION LLAVE_A paramsColor:listAtribu
                                     }
                                 :}
                             |error LLAVE_A paramsColor LLAVE_C
+                            |error paramsColor LLAVE_C
                             ;
 
 paramsColor ::=             paramsColor:listAtributos COMA paramColor:atributo {:
@@ -202,7 +205,6 @@ paramsColor ::=             paramsColor:listAtributos COMA paramColor:atributo {
                                     if(atributo != null) listAtributos.add(atributo);
                                     RESULT = listAtributos;
                                 :}
-                            |error COMA paramColor
                             ;
 
 paramColor ::=              PR_RED:dcl ASIGNACION ENTERO:valor {:
@@ -229,4 +231,6 @@ paramColor ::=              PR_RED:dcl ASIGNACION ENTERO:valor {:
                                         RESULT = atributo;
                                     }
                                 :}
+                            |error COMA paramsColor
+                            |error LLAVE_C strColores
                             ;

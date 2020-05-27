@@ -94,7 +94,7 @@ parser code {:
                 int columna = (((Token)s.value).getColumna());
                 switch(s.toString()){
                     case "#9": case "#10": case "#11": case "#19": case "#20": case "#24": case "#25": case "#26": case "#27": case "#28": case "#29": {
-                        message = "No se esperaba una palabra reservada, probablemente hace falta una coma en la linea anterior o una llave";
+                        message = "No se esperaba una palabra reservada";
                         break;
                     }
                     case "#3": message = "No se esperaba un corchete abierto"; break;
@@ -135,6 +135,10 @@ parser code {:
         public void setPasada(int a){
             pasada = a;
         }
+
+        public void setErrores(List<String> e){
+            listErrores = e;
+        }
         
 :}
 
@@ -153,6 +157,7 @@ non terminal Instruccion            instr;
 
 /* precedence */
 
+precedence left     COMA, PR_WHILE, PR_IF, PR_PINTAR, ID;
 precedence left     CORCHETE_C;
 precedence left     PR_OR, PR_AND;
 precedence left     COMPARADOR;
@@ -165,12 +170,11 @@ start with S;
 
 S ::=                                       PR_VARS CORCHETE_A dcls CORCHETE_C instrLienzos
                                             |instrLienzos
+                                            |error CORCHETE_C instrLienzos
                                             ;
 
 dcls ::=                                    dcls dcl
                                             |dcl
-                                            |error FINAL dcl
-                                            |error CORCHETE_C instrLienzos
                                             ;
                                      
 dcl ::=                                     PR_STRING varListString FINAL
@@ -207,6 +211,8 @@ asigString ::=                              ASIGNACION expresion:derecha {:
                                                         }
                                                     }
                                                 :}
+                                            |error COMA varListString
+                                            |error FINAL dcls
                                             |
                                             ;
 
@@ -243,6 +249,8 @@ asigInt ::=                                 ASIGNACION:valor expresion:derecha {
                                                         }
                                                     }
                                                 :}
+                                            |error COMA varListInt
+                                            |error FINAL dcls
                                             |
                                             ;
 
@@ -279,7 +287,9 @@ varBoolean ::=                              ASIGNACION:valor expresion:derecha {
                                                         }
                                                     }
                                                 :}
-                                            |   
+                                            |error COMA varListBoolean
+                                            |error FINAL dcls
+                                            |
                                             ;
 
 instrLienzos ::=                             instrLienzos instrLienzo
@@ -297,8 +307,8 @@ instrLienzo ::=                             PR_INSTRUCCIONES PARENTESIS_A ID:id 
                                                         }
                                                     }
                                                 :}
-                                            |error CORCHETE_A instrs
-                                            |error CORCHETE_C instrLienzo
+                                            |error CORCHETE_A instrs CORCHETE_C
+                                            |error instrs CORCHETE_C
                                             ;
 
 instrs ::=                                  instrs:instrucciones instr:instruccion {:
@@ -315,7 +325,9 @@ instrs ::=                                  instrs:instrucciones instr:instrucci
                                                         RESULT = instrucciones;
                                                     }
                                                 :}
-                                            |error FINAL instr
+                                            |error FINAL instrs
+                                            |error CORCHETE_C instrLienzos
+                                            |error LLAVE_A instrs LLAVE_C
                                             ;
 
 instr ::=                                  ID:id ASIGNACION expresion:valorDerecha FINAL {:

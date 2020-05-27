@@ -662,32 +662,56 @@ public class Editor extends javax.swing.JFrame {
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         ArrayList<InputTab> tabs = RegistroArchivos.cargarArchivos();
         for (InputTab newTab : tabs) {
-            int posicionPunto = newTab.getOrigin().getAbsolutePath().lastIndexOf(".")+1;
-            String extension = newTab.getOrigin().getAbsolutePath().substring(posicionPunto, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
-            newTab.setExtension(extension);
-            this.PanelArchivos.addTab(newTab.getName(), newTab);//lo agreamos al TabPanel
-                //this.undoManager = newTab.getManager(); agrega el undoManager
-                newTab.getTextArea().requestFocus();
-                newTab.getTextArea().addCaretListener(new CaretListener() {
-                    public void caretUpdate(CaretEvent e) {
-                        int pos = e.getDot();
-                        try {
-                            int row = newTab.getTextArea().getLineOfOffset(pos) + 1;
-                            int col = pos - newTab.getTextArea().getLineStartOffset(row - 1) + 1;
-                            InformacionLabel.setText("Línea: " + row + " Columna: " + col);
-                        } catch (BadLocationException exc) {
-                            System.out.println(exc);
-                        }
+            boolean abrir = false;
+            if(hayTab(newTab.getExtension())){//si hay un archivo del mismo tipo abierto entonces preguntamos si cerramos
+                int respuesta = JOptionPane.showConfirmDialog(null, "Se encuentra un archivo de lienzo abierto, ¿Desea cerrarlo para crear uno nuevo?", "Consulta", JOptionPane.INFORMATION_MESSAGE);
+                if(respuesta==JOptionPane.YES_OPTION){//de ser respuesta afirmativa
+                    //hay que verificar antes si deseamos guardar cambios
+                    int index = 0;//indece del componente que vamos a cerrar
+                    for (int i = 0; i < PanelArchivos.getComponentCount(); i++) {
+                        if(((InputTab)PanelArchivos.getComponentAt(i)).getExtension().equals(newTab.getExtension())) index = i;
                     }
-                });
-                newTab.getTextArea().addKeyListener(new KeyListener(){
-                    @Override
-                    public void keyPressed(KeyEvent e) {newTab.setModificado(true);}
-                    @Override
-                    public void keyTyped(KeyEvent e) {}
-                    @Override
-                    public void keyReleased(KeyEvent e) {}
-                });
+                    try {
+                        if (PanelArchivos.getTabCount() - 1 == 0) {
+                            PanelArchivos.getComponentAt(0).setVisible(false);
+                        }
+                        PanelArchivos.remove(index);//removemos el tabPanel que tenia una archivo del mismo tipo abierto
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    abrir = true;//sabemos que si vamos a abrir el archivo
+                }
+            }else{
+                abrir = true;
+            }
+            if(abrir){//si abrimos el archivo
+                int posicionPunto = newTab.getOrigin().getAbsolutePath().lastIndexOf(".")+1;
+                String extension = newTab.getOrigin().getAbsolutePath().substring(posicionPunto, newTab.getOrigin().getAbsolutePath().length());//obtenemos la extension
+                newTab.setExtension(extension);
+                this.PanelArchivos.addTab(newTab.getName(), newTab);//lo agreamos al TabPanel
+                    //this.undoManager = newTab.getManager(); agrega el undoManager
+                    newTab.getTextArea().requestFocus();
+                    newTab.getTextArea().addCaretListener(new CaretListener() {
+                        public void caretUpdate(CaretEvent e) {
+                            int pos = e.getDot();
+                            try {
+                                int row = newTab.getTextArea().getLineOfOffset(pos) + 1;
+                                int col = pos - newTab.getTextArea().getLineStartOffset(row - 1) + 1;
+                                InformacionLabel.setText("Línea: " + row + " Columna: " + col);
+                            } catch (BadLocationException exc) {
+                                System.out.println(exc);
+                            }
+                        }
+                    });
+                    newTab.getTextArea().addKeyListener(new KeyListener(){
+                        @Override
+                        public void keyPressed(KeyEvent e) {newTab.setModificado(true);}
+                        @Override
+                        public void keyTyped(KeyEvent e) {}
+                        @Override
+                        public void keyReleased(KeyEvent e) {}
+                    });
+            }
         }
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 

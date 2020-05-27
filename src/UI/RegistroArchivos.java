@@ -56,6 +56,7 @@ public class RegistroArchivos {
                     }
                     int indice =  archivo.getName().lastIndexOf(".");
                     tab = new InputTab(archivo.getName().substring(0, indice), archivo);
+                    tab.setExtension(archivo.getName().substring(indice+1, archivo.getName().length()));
                     tab.getTextArea().setText(contenido);
                     tab.setOrigin(archivo);
                 } catch (FileNotFoundException ex) {
