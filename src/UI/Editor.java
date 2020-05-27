@@ -585,74 +585,76 @@ public class Editor extends javax.swing.JFrame {
                     eliminarDuplicados(errores, parserPintar.getErrores());
                     parserPintar.setErrores(errores);
                 }
-            }
-            String reporteErrores = "";
-            if(strLienzos != null){
-                addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
-                reporteErrores = "\n\n*******************Errores Archivo Lienzos********************\n\n";
-                for (String error : parserLienzo.getErrores()) {
-                    reporteErrores+=(error+"\n");
-                }
-            }
-            if(strColores != null){
-                addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());
-                reporteErrores += "\n\n*******************Errores Archivo Colores********************\n\n";
-                for (String error : parserColores.getErrores()) {
-                    reporteErrores+=(error+"\n");
-                }
-            }
-            if(strTiempos != null){
-                addTokensToTable(2, this.TablaTokensTiempos, lexerTiempos.getTokensList());
-                reporteErrores += "\n\n*******************Errores Archivo Tiempos********************\n\n";
-                for (String error : parserTiempos.getErrores()) {
-                    reporteErrores+=(error+"\n");
-                }
-            }
-            if(strPintar != null){
-                addTokensToTable(3, this.TablaTokensPintar, lexerPintar.getTokensList());
-                reporteErrores += "\n\n*******************Errores Archivo Pintar********************\n\n";
-                for (String error : parserPintar.getErrores()) {
-                    reporteErrores+=(error+"\n");
-                }
-                variables = parserPintar.getVariables();
-            }
-            String finalSintactico = reporteFinal+reporteErrores;
-            TextAreaReporteSintactico.setText(finalSintactico);
-            DialogoReporteAnalisis.setVisible(true);
-            if(strPintar != null){
-                if(parserLienzo.getErrores().isEmpty()&&parserColores.getErrores().isEmpty()&&parserTiempos.getErrores().isEmpty()&&parserPintar.getErrores().isEmpty()){
-                    this.GenerarOption.setEnabled(true);
-                    this.EditorGrafico.setEnabled(true);
-                }else{
-                    this.GenerarOption.setEnabled(false);
-                    this.EditorGrafico.setEnabled(false);
-                }
-            }else{
-                boolean erroresColores = false, erroresTiempo = false;
-                if(strColores != null){
-                    if(parserColores.getErrores().isEmpty()) erroresColores = true;
-                }else{
-                    erroresColores = true;
-                }
-                if(strTiempos!= null){
-                    if(parserTiempos.getErrores().isEmpty()) erroresTiempo = true;
-                }else{
-                    try{
-                        for (Lienzo lienzo : lienzos) {
-                            lienzo.setTiempos(new Tiempo());
-                        }
-                        erroresTiempo = true;
-                    }catch(Exception e){
-                        lienzos = new ArrayList<Lienzo>();
+                String reporteErrores = "";
+                if(strLienzos != null){
+                    addTokensToTable(0, this.TablaTokensLienzo, lexerLienzo.getTokensList());
+                    reporteErrores = "\n\n*******************Errores Archivo Lienzos********************\n\n";
+                    for (String error : parserLienzo.getErrores()) {
+                        reporteErrores+=(error+"\n");
                     }
                 }
-                if(parserLienzo.getErrores().isEmpty()&&erroresColores&&erroresTiempo){
-                    this.GenerarOption.setEnabled(true);
-                    this.EditorGrafico.setEnabled(true);
-                }else{
-                    this.EditorGrafico.setEnabled(false);
-                    this.GenerarOption.setEnabled(false);
+                if(strColores != null){
+                    addTokensToTable(1, this.TablaTokensColores, lexerColores.getTokensList());
+                    reporteErrores += "\n\n*******************Errores Archivo Colores********************\n\n";
+                    for (String error : parserColores.getErrores()) {
+                        reporteErrores+=(error+"\n");
+                    }
                 }
+                if(strTiempos != null){
+                    addTokensToTable(2, this.TablaTokensTiempos, lexerTiempos.getTokensList());
+                    reporteErrores += "\n\n*******************Errores Archivo Tiempos********************\n\n";
+                    for (String error : parserTiempos.getErrores()) {
+                        reporteErrores+=(error+"\n");
+                    }
+                }
+                if(strPintar != null){
+                    addTokensToTable(3, this.TablaTokensPintar, lexerPintar.getTokensList());
+                    reporteErrores += "\n\n*******************Errores Archivo Pintar********************\n\n";
+                    for (String error : parserPintar.getErrores()) {
+                        reporteErrores+=(error+"\n");
+                    }
+                    variables = parserPintar.getVariables();
+                }
+                String finalSintactico = reporteFinal+reporteErrores;
+                TextAreaReporteSintactico.setText(finalSintactico);
+                DialogoReporteAnalisis.setVisible(true);
+                if(strPintar != null){
+                    if(parserLienzo.getErrores().isEmpty()&&parserColores.getErrores().isEmpty()&&parserTiempos.getErrores().isEmpty()&&parserPintar.getErrores().isEmpty()){
+                        this.GenerarOption.setEnabled(true);
+                        this.EditorGrafico.setEnabled(true);
+                    }else{
+                        this.GenerarOption.setEnabled(false);
+                        this.EditorGrafico.setEnabled(false);
+                    }
+                }else{
+                    boolean erroresColores = false, erroresTiempo = false;
+                    if(strColores != null){
+                        if(parserColores.getErrores().isEmpty()) erroresColores = true;
+                    }else{
+                        erroresColores = true;
+                    }
+                    if(strTiempos!= null){
+                        if(parserTiempos.getErrores().isEmpty()) erroresTiempo = true;
+                    }else{
+                        try{
+                            for (Lienzo lienzo : lienzos) {
+                                lienzo.setTiempos(new Tiempo());
+                            }
+                            erroresTiempo = true;
+                        }catch(Exception e){
+                            lienzos = new ArrayList<Lienzo>();
+                        }
+                    }
+                    if(parserLienzo.getErrores().isEmpty()&&erroresColores&&erroresTiempo){
+                        this.GenerarOption.setEnabled(true);
+                        this.EditorGrafico.setEnabled(true);
+                    }else{
+                        this.EditorGrafico.setEnabled(false);
+                        this.GenerarOption.setEnabled(false);
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe cargarse al menos un archivo lienzo", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);

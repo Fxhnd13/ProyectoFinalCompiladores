@@ -326,6 +326,12 @@ public class PanelLienzo extends javax.swing.JPanel {
             }
         });
 
+        FinImagensComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FinImagensComboBoxActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Imagen Activa");
 
         ImagenActivaComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -511,6 +517,7 @@ public class PanelLienzo extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void InicioImagenesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InicioImagenesComboBoxActionPerformed
+        if(this.InicioImagenesComboBox.getItemCount()>0) this.lienzo.getTiempos().setIdInicio(this.InicioImagenesComboBox.getSelectedItem().toString());
     }//GEN-LAST:event_InicioImagenesComboBoxActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -535,6 +542,8 @@ public class PanelLienzo extends javax.swing.JPanel {
                 imagen.setId(IdAgregarImagen.getText());
                 imagen.setDuracion(duracion);
                 this.lienzo.getTiempos().getImagenes().add(imagen);
+                if(this.lienzo.getTiempos().getIdInicio() == null) this.lienzo.getTiempos().setIdInicio(imagen.getId());
+                if(this.lienzo.getTiempos().getIdFin() == null) this.lienzo.getTiempos().setIdFin(imagen.getId());
                 DialogoAgregarImagen.setVisible(false);
                 cargarImagenes(null);
             }catch(NumberFormatException e){
@@ -569,6 +578,10 @@ public class PanelLienzo extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void FinImagensComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinImagensComboBoxActionPerformed
+        if(this.FinImagensComboBox.getItemCount()>0) this.lienzo.getTiempos().setIdFin(this.FinImagensComboBox.getSelectedItem().toString());
+    }//GEN-LAST:event_FinImagensComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
