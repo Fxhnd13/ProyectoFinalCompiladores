@@ -16,6 +16,7 @@ public class ColorP{
     Color color = null;
     int red = -1, blue=-1, green=-1;
     String hex = null, id = null;
+    int linea, columna;
 
     public ColorP(){}
     
@@ -36,6 +37,22 @@ public class ColorP{
         }else{
             this.color = Color.decode(hex);
         }
+    }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public void setLinea(int linea) {
+        this.linea = linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
 
     public String getId() {

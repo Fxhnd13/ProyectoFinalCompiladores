@@ -25,6 +25,17 @@ action code {:
         return valor;
     }
 
+    private void imagenesRepetidas(List<Imagen> imagenes){
+        List<String> ids = new ArrayList<String>();
+        for(Imagen imagen : imagenes){
+            boolean existe = false;
+            for(String id : ids){
+                if(id.equals(imagen.getId())) existe = true;
+            }
+            if(existe) listErrores.add("Ya existe una imagen declarada con el id "+imagen.getId()+", error en la linea "+imagen.getLineaT()+", columna: "+imagen.getColumnaT());
+        }
+    }
+
     private boolean isValido(Tiempo tiempo){
         boolean valor = true;
         if(tiempo.getIdInicio()!= null && tiempo.getIdFin()!=null){
@@ -210,7 +221,11 @@ inicioTiemposLienzo::=              ID:lienzo ASIGNACION LLAVE_A strTiempo:listA
                                                 tiempo.setColumnaT(lienzo.getColumna());
                                                 if(lienzo != null){
                                                     if(getLienzoPorId(lienzo.getLexema()) != null){
-                                                        if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                        if(getLienzoPorId(lienzo.getLexema()).getTiempos() != null){
+                                                            listErrores.add("Ya se declaró la estructura tiempos que tendra el lienzo "+lienzo.getLexema()+" en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
+                                                        }else{
+                                                            if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                        }
                                                     }else{
                                                         listErrores.add("No existe el lienzo escrito, en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
                                                     }
@@ -252,6 +267,7 @@ paramTiempo::=                      PR_INICIO:dcl ASIGNACION COMILLA ID:id COMIL
                                     |PR_IMAGENES:dcl ASIGNACION CORCHETE_A listImagenes:imagenes CORCHETE_C {:
                                             if(imagenes != null){
                                                 if(dcl != null){
+                                                    imagenesRepetidas(imagenes);
                                                     Atributo atributo = new Atributo("imagenes", imagenes, dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }

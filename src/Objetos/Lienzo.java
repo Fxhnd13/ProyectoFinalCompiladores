@@ -111,6 +111,16 @@ public class Lienzo {
         return colores;
     }
 
+    public void addColores(List<ColorP> colores, List<String> errores){
+        for (ColorP color : colores) {
+            if(!this.existeColor(color.getId())){
+                this.colores.add(color);
+            }else{
+                errores.add("Ya existe el color "+color.getId()+"declarado en la linea:"+color.getLinea()+", columna"+color.getColumna());
+            }
+        }
+    }
+    
     public void setColores(List<ColorP> colores) {
         this.colores = colores;
     }

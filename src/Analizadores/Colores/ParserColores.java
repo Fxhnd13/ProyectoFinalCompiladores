@@ -384,7 +384,7 @@ class CUP$ParserColores$actions {
 		
                                     if(idLienzo != null){   
                                         if(listColores != null){
-                                            getLienzoPorId(idLienzo.getLexema()).setColores(listColores);
+                                            getLienzoPorId(idLienzo.getLexema()).addColores(listColores, listErrores);
                                         }
                                     }
                                 
@@ -468,6 +468,8 @@ class CUP$ParserColores$actions {
                                     ColorP color = new ColorP();
                                     if(idColor != null){
                                         color.setId(idColor.getLexema());
+                                        color.setLinea(idColor.getLinea());
+                                        color.setColumna(idColor.getColumna());
                                         if(listAtributos != null) inicializarColor(color, listAtributos);
                                         if(isValido(color)){
                                             RESULT = color;

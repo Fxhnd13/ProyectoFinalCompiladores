@@ -158,7 +158,7 @@ listadoLienzos ::=          listadoLienzos COMA strColoresLienzo
 strColoresLienzo ::=        ID:idLienzo ASIGNACION LLAVE_A strColores:listColores LLAVE_C {:
                                     if(idLienzo != null){   
                                         if(listColores != null){
-                                            getLienzoPorId(idLienzo.getLexema()).setColores(listColores);
+                                            getLienzoPorId(idLienzo.getLexema()).addColores(listColores, listErrores);
                                         }
                                     }
                                 :}
@@ -183,6 +183,8 @@ inicioColor ::=             ID:idColor ASIGNACION LLAVE_A paramsColor:listAtribu
                                     ColorP color = new ColorP();
                                     if(idColor != null){
                                         color.setId(idColor.getLexema());
+                                        color.setLinea(idColor.getLinea());
+                                        color.setColumna(idColor.getColumna());
                                         if(listAtributos != null) inicializarColor(color, listAtributos);
                                         if(isValido(color)){
                                             RESULT = color;

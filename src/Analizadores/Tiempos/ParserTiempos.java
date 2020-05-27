@@ -39,14 +39,15 @@ public class ParserTiempos extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\031\000\002\002\004\000\002\002\011\000\002\002" +
-    "\007\000\002\003\005\000\002\003\003\000\002\003\005" +
-    "\000\002\004\007\000\002\004\006\000\002\005\005\000" +
-    "\002\005\003\000\002\005\005\000\002\005\005\000\002" +
-    "\007\007\000\002\007\007\000\002\007\007\000\002\012" +
-    "\005\000\002\012\003\000\002\012\005\000\002\011\005" +
-    "\000\002\006\005\000\002\006\003\000\002\006\005\000" +
-    "\002\006\005\000\002\010\007\000\002\010\005" });
+    "\000\034\000\002\002\004\000\002\002\011\000\002\002" +
+    "\007\000\002\002\006\000\002\003\005\000\002\003\003" +
+    "\000\002\004\007\000\002\004\006\000\002\004\005\000" +
+    "\002\005\005\000\002\005\003\000\002\007\007\000\002" +
+    "\007\007\000\002\007\007\000\002\007\005\000\002\007" +
+    "\006\000\002\007\005\000\002\012\005\000\002\012\003" +
+    "\000\002\011\005\000\002\011\005\000\002\006\005\000" +
+    "\002\006\003\000\002\010\007\000\002\010\005\000\002" +
+    "\010\005\000\002\010\005\000\002\010\006" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -54,51 +55,58 @@ public class ParserTiempos extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\116\000\006\003\004\015\006\001\002\000\004\015" +
-    "\115\001\002\000\004\002\114\001\002\000\004\011\007" +
-    "\001\002\000\004\021\010\001\002\000\004\015\011\001" +
-    "\002\000\006\003\013\013\012\001\002\000\004\021\110" +
-    "\001\002\000\006\014\106\015\023\001\002\000\006\014" +
-    "\ufffd\016\ufffd\001\002\000\006\014\016\016\017\001\002" +
-    "\000\006\003\021\013\012\001\002\000\004\016\020\001" +
-    "\002\000\004\002\000\001\002\000\004\015\023\001\002" +
-    "\000\006\014\ufffe\016\ufffe\001\002\000\012\003\025\004" +
-    "\026\005\027\006\024\001\002\000\004\021\051\001\002" +
-    "\000\006\014\045\016\046\001\002\000\004\021\041\001" +
-    "\002\000\004\021\035\001\002\000\006\014\ufff8\016\ufff8" +
-    "\001\002\000\006\014\032\016\033\001\002\000\010\004" +
-    "\026\005\027\006\024\001\002\000\006\014\ufffa\016\ufffa" +
-    "\001\002\000\006\014\ufff9\016\ufff9\001\002\000\004\022" +
-    "\036\001\002\000\004\013\037\001\002\000\004\022\040" +
-    "\001\002\000\006\014\ufff4\016\ufff4\001\002\000\004\022" +
-    "\042\001\002\000\004\013\043\001\002\000\004\022\044" +
-    "\001\002\000\006\014\ufff5\016\ufff5\001\002\000\010\004" +
-    "\026\005\027\006\024\001\002\000\006\003\013\013\012" +
-    "\001\002\000\006\014\016\016\ufff6\001\002\000\006\014" +
-    "\ufff7\016\ufff7\001\002\000\004\017\052\001\002\000\006" +
-    "\003\053\015\056\001\002\000\004\014\104\001\002\000" +
-    "\010\014\ufff1\016\ufff1\020\ufff1\001\002\000\006\014\100" +
-    "\020\103\001\002\000\010\003\060\007\062\010\061\001" +
-    "\002\000\006\014\uffed\016\uffed\001\002\000\006\014\075" +
-    "\016\076\001\002\000\004\021\073\001\002\000\004\021" +
-    "\067\001\002\000\006\014\064\016\065\001\002\000\006" +
-    "\007\062\010\061\001\002\000\010\014\uffef\016\uffef\020" +
-    "\uffef\001\002\000\006\014\uffee\016\uffee\001\002\000\004" +
-    "\022\070\001\002\000\004\013\071\001\002\000\004\022" +
-    "\072\001\002\000\006\014\uffea\016\uffea\001\002\000\004" +
-    "\012\074\001\002\000\006\014\uffe9\016\uffe9\001\002\000" +
-    "\006\007\062\010\061\001\002\000\006\003\053\015\056" +
-    "\001\002\000\006\014\100\016\uffeb\001\002\000\004\015" +
-    "\056\001\002\000\010\014\ufff2\016\ufff2\020\ufff2\001\002" +
-    "\000\006\014\uffec\016\uffec\001\002\000\006\014\ufff3\016" +
-    "\ufff3\001\002\000\004\015\056\001\002\000\010\014\ufff0" +
-    "\016\ufff0\020\ufff0\001\002\000\006\003\021\013\012\001" +
-    "\002\000\006\014\ufffc\016\ufffc\001\002\000\004\015\111" +
-    "\001\002\000\012\003\025\004\026\005\027\006\024\001" +
-    "\002\000\006\014\032\016\113\001\002\000\006\014\ufffb" +
-    "\016\ufffb\001\002\000\004\002\001\001\002\000\006\003" +
-    "\013\013\012\001\002\000\006\014\016\016\117\001\002" +
-    "\000\004\016\120\001\002\000\004\002\uffff\001\002" });
+    "\000\125\000\006\003\004\015\006\001\002\000\010\003" +
+    "\013\013\012\015\122\001\002\000\004\002\120\001\002" +
+    "\000\004\011\007\001\002\000\004\021\010\001\002\000" +
+    "\004\015\011\001\002\000\006\003\013\013\012\001\002" +
+    "\000\004\021\114\001\002\000\014\003\023\004\025\005" +
+    "\024\006\022\015\027\001\002\000\006\014\ufffc\016\ufffc" +
+    "\001\002\000\006\014\016\016\017\001\002\000\006\003" +
+    "\013\013\012\001\002\000\004\016\020\001\002\000\004" +
+    "\002\000\001\002\000\006\014\ufffd\016\ufffd\001\002\000" +
+    "\004\021\110\001\002\000\012\003\047\014\046\015\053" +
+    "\017\051\001\002\000\004\021\042\001\002\000\004\021" +
+    "\036\001\002\000\006\014\ufff7\016\ufff7\001\002\000\012" +
+    "\003\023\004\025\005\024\006\022\001\002\000\006\014" +
+    "\031\016\032\001\002\000\012\003\023\004\025\005\024" +
+    "\006\022\001\002\000\006\014\ufff9\016\ufff9\001\002\000" +
+    "\006\014\ufff8\016\ufff8\001\002\000\006\014\031\016\035" +
+    "\001\002\000\006\014\ufffa\016\ufffa\001\002\000\004\022" +
+    "\037\001\002\000\004\013\040\001\002\000\004\022\041" +
+    "\001\002\000\006\014\ufff6\016\ufff6\001\002\000\004\022" +
+    "\043\001\002\000\004\013\044\001\002\000\004\022\045" +
+    "\001\002\000\006\014\ufff5\016\ufff5\001\002\000\012\003" +
+    "\023\004\025\005\024\006\022\001\002\000\010\003\055" +
+    "\007\057\010\056\001\002\000\010\014\uffef\016\uffef\020" +
+    "\uffef\001\002\000\006\003\047\015\053\001\002\000\006" +
+    "\014\076\020\102\001\002\000\010\003\055\007\057\010" +
+    "\056\001\002\000\006\014\uffeb\016\uffeb\001\002\000\006" +
+    "\014\072\016\073\001\002\000\004\021\070\001\002\000" +
+    "\004\021\064\001\002\000\006\014\061\016\062\001\002" +
+    "\000\010\003\055\007\057\010\056\001\002\000\010\014" +
+    "\uffee\016\uffee\020\uffee\001\002\000\006\014\uffec\016\uffec" +
+    "\001\002\000\004\022\065\001\002\000\004\013\066\001" +
+    "\002\000\004\022\067\001\002\000\006\014\uffea\016\uffea" +
+    "\001\002\000\004\012\071\001\002\000\006\014\uffe9\016" +
+    "\uffe9\001\002\000\010\003\055\007\057\010\056\001\002" +
+    "\000\010\003\047\015\053\016\074\001\002\000\012\003" +
+    "\023\004\025\005\024\006\022\001\002\000\006\014\076" +
+    "\016\uffe7\001\002\000\006\003\047\015\053\001\002\000" +
+    "\010\014\ufff0\016\ufff0\020\ufff0\001\002\000\006\014\031" +
+    "\016\uffe6\001\002\000\006\014\uffe8\016\uffe8\001\002\000" +
+    "\006\014\ufff1\016\ufff1\001\002\000\006\014\076\020\104" +
+    "\001\002\000\006\014\ufff2\016\ufff2\001\002\000\006\014" +
+    "\061\016\106\001\002\000\010\014\uffed\016\uffed\020\uffed" +
+    "\001\002\000\006\014\ufff3\016\ufff3\001\002\000\004\017" +
+    "\111\001\002\000\006\003\047\015\053\001\002\000\006" +
+    "\014\076\020\113\001\002\000\006\014\ufff4\016\ufff4\001" +
+    "\002\000\004\015\115\001\002\000\012\003\023\004\025" +
+    "\005\024\006\022\001\002\000\006\014\031\016\117\001" +
+    "\002\000\006\014\ufffb\016\ufffb\001\002\000\004\002\001" +
+    "\001\002\000\006\014\016\016\126\001\002\000\006\003" +
+    "\013\013\012\001\002\000\006\014\016\016\124\001\002" +
+    "\000\004\016\125\001\002\000\004\002\uffff\001\002\000" +
+    "\004\016\127\001\002\000\004\002\ufffe\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -106,35 +114,38 @@ public class ParserTiempos extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\116\000\004\002\004\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\006\003\014\004\013\001\001\000\002\001" +
+    "\000\125\000\004\002\004\001\001\000\006\003\120\004" +
+    "\013\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\006\003\014\004\013\001" +
+    "\001\000\002\001\001\000\006\005\027\007\025\001\001" +
+    "\000\002\001\001\000\002\001\001\000\004\004\020\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\004\004\021\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\006\005\030" +
-    "\007\027\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\007\033\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\007\047" +
-    "\001\001\000\006\003\046\004\013\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\006\011\053" +
-    "\012\054\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\006\006\062\010\056\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\010\065\001\001\000\002" +
+    "\000\002\001\001\000\006\011\047\012\051\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\006" +
+    "\005\033\007\025\001\001\000\002\001\001\000\004\007" +
+    "\032\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\010\101\001\001\000\006\011" +
-    "\053\012\076\001\001\000\002\001\001\000\004\011\100" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\011\104\001\001\000\002\001\001\000\004" +
-    "\004\106\001\001\000\002\001\001\000\002\001\001\000" +
-    "\006\005\111\007\027\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\006\003\115\004\013\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\006\005\106\007\025\001\001\000\006\006\104\010\053" +
+    "\001\001\000\002\001\001\000\006\011\047\012\102\001" +
+    "\001\000\002\001\001\000\006\006\057\010\053\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\010\062\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\006\006\100\010\053\001" +
+    "\001\000\006\011\047\012\074\001\001\000\006\005\077" +
+    "\007\025\001\001\000\002\001\001\000\004\011\076\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "" });
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\006\011\047\012\111\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\006\005\115" +
+    "\007\025\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\006\003\122\004\013" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -238,6 +249,18 @@ class CUP$ParserTiempos$actions {
             valor = false;
         }
         return valor;
+    }
+
+    private void imagenesRepetidas(List<Imagen> imagenes){
+        List<String> ids = new ArrayList<String>();
+        for(Imagen imagen : imagenes){
+            boolean existe = false;
+            for(String id : ids){
+                if(id.equals(imagen.getId())) existe = true;
+            }
+            ids.add(imagen.getId());
+            if(existe) listErrores.add("Ya existe una imagen declarada con el id "+imagen.getId()+", error en la linea "+imagen.getLineaT()+", columna: "+imagen.getColumnaT());
+        }
     }
 
     private boolean isValido(Tiempo tiempo){
@@ -398,7 +421,16 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // strTiempos ::= strTiempos COMA inicioTiemposLienzo 
+          case 3: // S ::= error strTiempos LLAVE_C LLAVE_C 
+            {
+              Object RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-3)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // strTiempos ::= strTiempos COMA inicioTiemposLienzo 
             {
               Object RESULT =null;
 
@@ -407,20 +439,11 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // strTiempos ::= inicioTiemposLienzo 
+          case 5: // strTiempos ::= inicioTiemposLienzo 
             {
               Object RESULT =null;
 
               CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("strTiempos",1, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
-            }
-          return CUP$ParserTiempos$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // strTiempos ::= error COMA inicioTiemposLienzo 
-            {
-              Object RESULT =null;
-
-              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("strTiempos",1, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
             }
           return CUP$ParserTiempos$result;
 
@@ -442,7 +465,11 @@ class CUP$ParserTiempos$actions {
                                                 tiempo.setColumnaT(lienzo.getColumna());
                                                 if(lienzo != null){
                                                     if(getLienzoPorId(lienzo.getLexema()) != null){
-                                                        if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                        if(getLienzoPorId(lienzo.getLexema()).getTiempos() != null){
+                                                            listErrores.add("Ya se declaró la estructura tiempos que tendra el lienzo "+lienzo.getLexema()+" en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
+                                                        }else{
+                                                            if(isValido(tiempo)) getLienzoPorId(lienzo.getLexema()).setTiempos(tiempo);
+                                                        }
                                                     }else{
                                                         listErrores.add("No existe el lienzo escrito, en la linea: "+lienzo.getLinea()+", columna: "+lienzo.getColumna());
                                                     }
@@ -463,7 +490,16 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // strTiempo ::= strTiempo COMA paramTiempo 
+          case 8: // inicioTiemposLienzo ::= error strTiempo LLAVE_C 
+            {
+              Object RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("inicioTiemposLienzo",2, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // strTiempo ::= strTiempo COMA paramTiempo 
             {
               List<Atributo> RESULT =null;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)).left;
@@ -482,7 +518,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // strTiempo ::= paramTiempo 
+          case 10: // strTiempo ::= paramTiempo 
             {
               List<Atributo> RESULT =null;
 		int atributoleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()).left;
@@ -498,25 +534,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // strTiempo ::= error COMA paramTiempo 
-            {
-              List<Atributo> RESULT =null;
-
-              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("strTiempo",3, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
-            }
-          return CUP$ParserTiempos$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // strTiempo ::= error LLAVE_C strTiempos 
-            {
-              List<Atributo> RESULT =null;
-
-              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("strTiempo",3, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
-            }
-          return CUP$ParserTiempos$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // paramTiempo ::= PR_INICIO ASIGNACION COMILLA ID COMILLA 
+          case 11: // paramTiempo ::= PR_INICIO ASIGNACION COMILLA ID COMILLA 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-4)).left;
@@ -538,7 +556,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // paramTiempo ::= PR_FIN ASIGNACION COMILLA ID COMILLA 
+          case 12: // paramTiempo ::= PR_FIN ASIGNACION COMILLA ID COMILLA 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-4)).left;
@@ -560,7 +578,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // paramTiempo ::= PR_IMAGENES ASIGNACION CORCHETE_A listImagenes CORCHETE_C 
+          case 13: // paramTiempo ::= PR_IMAGENES ASIGNACION CORCHETE_A listImagenes CORCHETE_C 
             {
               Atributo RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-4)).left;
@@ -572,6 +590,7 @@ class CUP$ParserTiempos$actions {
 		
                                             if(imagenes != null){
                                                 if(dcl != null){
+                                                    imagenesRepetidas(imagenes);
                                                     Atributo atributo = new Atributo("imagenes", imagenes, dcl.getLinea(), dcl.getColumna());
                                                     RESULT = atributo;
                                                 }
@@ -582,7 +601,34 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // listImagenes ::= listImagenes COMA strImagen 
+          case 14: // paramTiempo ::= error COMA strTiempo 
+            {
+              Atributo RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramTiempo",5, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // paramTiempo ::= error CORCHETE_A listImagenes CORCHETE_C 
+            {
+              Atributo RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramTiempo",5, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-3)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // paramTiempo ::= error listImagenes CORCHETE_C 
+            {
+              Atributo RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramTiempo",5, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // listImagenes ::= listImagenes COMA strImagen 
             {
               List<Imagen> RESULT =null;
 		int imagenesleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)).left;
@@ -603,7 +649,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // listImagenes ::= strImagen 
+          case 18: // listImagenes ::= strImagen 
             {
               List<Imagen> RESULT =null;
 		int imagenleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()).left;
@@ -621,16 +667,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // listImagenes ::= error COMA strImagen 
-            {
-              List<Imagen> RESULT =null;
-
-              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("listImagenes",8, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
-            }
-          return CUP$ParserTiempos$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // strImagen ::= LLAVE_A paramsImagen LLAVE_C 
+          case 19: // strImagen ::= LLAVE_A paramsImagen LLAVE_C 
             {
               Imagen RESULT =null;
 		int dclleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)).left;
@@ -653,7 +690,16 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // paramsImagen ::= paramsImagen COMA paramImagen 
+          case 20: // strImagen ::= error paramsImagen LLAVE_C 
+            {
+              Imagen RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("strImagen",7, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 21: // paramsImagen ::= paramsImagen COMA paramImagen 
             {
               List<Atributo> RESULT =null;
 		int listAtributosleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)).left;
@@ -672,7 +718,7 @@ class CUP$ParserTiempos$actions {
           return CUP$ParserTiempos$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // paramsImagen ::= paramImagen 
+          case 22: // paramsImagen ::= paramImagen 
             {
               List<Atributo> RESULT =null;
 		int atributoleft = ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()).left;
@@ -684,24 +730,6 @@ class CUP$ParserTiempos$actions {
                                             RESULT = listAtributos;
                                         
               CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramsImagen",4, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
-            }
-          return CUP$ParserTiempos$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // paramsImagen ::= error COMA paramImagen 
-            {
-              List<Atributo> RESULT =null;
-
-              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramsImagen",4, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
-            }
-          return CUP$ParserTiempos$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // paramsImagen ::= error LLAVE_C listImagenes 
-            {
-              List<Atributo> RESULT =null;
-
-              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramsImagen",4, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
             }
           return CUP$ParserTiempos$result;
 
@@ -746,6 +774,33 @@ class CUP$ParserTiempos$actions {
                                             }
                                         
               CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramImagen",6, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 25: // paramImagen ::= error COMA paramsImagen 
+            {
+              Atributo RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramImagen",6, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 26: // paramImagen ::= error LLAVE_C listImagenes 
+            {
+              Atributo RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramImagen",6, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-2)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
+            }
+          return CUP$ParserTiempos$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 27: // paramImagen ::= error LLAVE_C LLAVE_C strTiempo 
+            {
+              Atributo RESULT =null;
+
+              CUP$ParserTiempos$result = parser.getSymbolFactory().newSymbol("paramImagen",6, ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.elementAt(CUP$ParserTiempos$top-3)), ((java_cup.runtime.Symbol)CUP$ParserTiempos$stack.peek()), RESULT);
             }
           return CUP$ParserTiempos$result;
 
