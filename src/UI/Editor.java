@@ -637,10 +637,14 @@ public class Editor extends javax.swing.JFrame {
                 if(strTiempos!= null){
                     if(parserTiempos.getErrores().isEmpty()) erroresTiempo = true;
                 }else{
-                    for (Lienzo lienzo : lienzos) {
-                        lienzo.setTiempos(new Tiempo());
+                    try{
+                        for (Lienzo lienzo : lienzos) {
+                            lienzo.setTiempos(new Tiempo());
+                        }
+                        erroresTiempo = true;
+                    }catch(Exception e){
+                        lienzos = new ArrayList<Lienzo>();
                     }
-                    erroresTiempo = true;
                 }
                 if(parserLienzo.getErrores().isEmpty()&&erroresColores&&erroresTiempo){
                     this.GenerarOption.setEnabled(true);

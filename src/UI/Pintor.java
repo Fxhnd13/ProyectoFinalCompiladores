@@ -292,28 +292,30 @@ public class Pintor extends javax.swing.JFrame {
             if(!lienzo.instrucciones().isEmpty()) cadenaPintar+= "INSTRUCCIONES("+lienzo.getId()+")[\n"+lienzo.instrucciones()+"]";
             cadenaPintar+="\n";
         }
-        RegistroArchivos.guardarCambiosEditor(this.fileLienzo, cadenaLienzo);
-        RegistroArchivos.guardarCambiosEditor(this.fileColores, cadenaColores);
-        RegistroArchivos.guardarCambiosEditor(this.fileTiempos, cadenaTiempos);
-        RegistroArchivos.guardarCambiosEditor(this.filePintar, cadenaPintar);
+        RegistroArchivos.guardarCambiosEditor(this.fileLienzo, cadenaLienzo, "lnz");
+        RegistroArchivos.guardarCambiosEditor(this.fileColores, cadenaColores, "clrs");
+        RegistroArchivos.guardarCambiosEditor(this.fileTiempos, cadenaTiempos, "tmp");
+        RegistroArchivos.guardarCambiosEditor(this.filePintar, cadenaPintar, "pnt");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        String cadenaLienzo = "";
-        for (Lienzo lienzo : lienzos) {
-            cadenaLienzo += lienzo.getEstructuraLienzo();
+        String cadenaLienzo = "{\nLIENZOS:{\n";
+        String cadenaColores = "{\nCOLORES:{\n";
+        String cadenaTiempos = "{\nTIEMPOS:{\n";
+        for (int i = 0; i < lienzos.size(); i++) {
+            cadenaLienzo += lienzos.get(i).getEstructuraLienzo();
+            cadenaColores += lienzos.get(i).getEstructuraColores();
+            cadenaTiempos += lienzos.get(i).getEstructuraTiempos();
+            if((i+1)< lienzos.size()){
+                cadenaLienzo+=",\n";
+                cadenaColores+=",\n";
+                cadenaTiempos+=",\n";
+            }
         }
-        String cadenaColores = "";
-        for (Lienzo lienzo : lienzos) {
-            cadenaColores+= lienzo.getEstructuraColores();
-        }
-        String cadenaTiempos = "";
-        for (Lienzo lienzo : lienzos) {
-            cadenaTiempos+= lienzo.getEstructuraTiempos();
-        }
+        cadenaLienzo+="\n}\n}"; cadenaColores+="\n}\n}"; cadenaTiempos+="\n}\n}";
         String cadenaPintar = "";
         for (Lienzo lienzo : lienzos) {
-            if(!lienzo.instrucciones().isEmpty()) cadenaPintar+= "INSTRUCCIONES("+lienzo.getId()+"){\n"+lienzo.instrucciones()+"}";
+            if(!lienzo.instrucciones().isEmpty()) cadenaPintar+= "INSTRUCCIONES("+lienzo.getId()+")[\n"+lienzo.instrucciones()+"]";
             cadenaPintar+="\n";
         }
         this.TextoLienzo.setText(cadenaLienzo);

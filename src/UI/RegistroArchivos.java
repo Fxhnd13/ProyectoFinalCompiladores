@@ -144,7 +144,7 @@ public class RegistroArchivos {
         
     }
 
-    static void guardarCambiosEditor(File file, String cadena) {
+    static void guardarCambiosEditor(File file, String cadena, String extension) {
         if(file == null){
             JFileChooser filechooser = new JFileChooser();
             filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -153,7 +153,7 @@ public class RegistroArchivos {
                 File temp = filechooser.getSelectedFile();
                 if(temp != null){
                     String nombre = JOptionPane.showInputDialog("Por favor ingrese el nombre del archivo:");
-                    file = new File(temp+"/"+nombre+".pnt");
+                    file = new File(temp+"/"+nombre+"."+extension);
                 }
             }
         }
