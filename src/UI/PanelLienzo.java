@@ -138,7 +138,9 @@ public class PanelLienzo extends javax.swing.JPanel {
         }else{
             this.colorActivo = this.lienzo.getFondo();
         }
-        this.ColorActivoLabel.setText("Color Activo: "+this.ColoresComboBox.getSelectedItem());
+        this.ColorActivoLabel.setText("Color Activo: ");
+        this.colorActivo.CargarColorP();
+        this.ColorLabel.setBackground(colorActivo.getColor());
     }
     
     /**
@@ -183,8 +185,9 @@ public class PanelLienzo extends javax.swing.JPanel {
         ImagenActivaComboBox = new javax.swing.JComboBox<>();
         DuracionImagenActivaLabel = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        DuracionActiva = new javax.swing.JFormattedTextField();
         jButton6 = new javax.swing.JButton();
+        DuracionActiva = new javax.swing.JTextField();
+        ColorLabel = new javax.swing.JLabel();
         LienzoPane = new java.awt.ScrollPane();
 
         DialogoAgregarImagen.setSize(new java.awt.Dimension(420, 190));
@@ -290,7 +293,7 @@ public class PanelLienzo extends javax.swing.JPanel {
 
         jLabel1.setText("Colores:");
 
-        ColorActivoLabel.setText("Color Activo: -------------------------------------------");
+        ColorActivoLabel.setText("Color Activo: ");
 
         BorradorCheckBox.setText("Borrador");
         BorradorCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -340,8 +343,6 @@ public class PanelLienzo extends javax.swing.JPanel {
             }
         });
 
-        DuracionActiva.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
-
         jButton6.setText("Modificar Duracion");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,57 +350,51 @@ public class PanelLienzo extends javax.swing.JPanel {
             }
         });
 
+        ColorLabel.setOpaque(true);
+
         javax.swing.GroupLayout ToolLienzoPaneLayout = new javax.swing.GroupLayout(ToolLienzoPane);
         ToolLienzoPane.setLayout(ToolLienzoPaneLayout);
         ToolLienzoPaneLayout.setHorizontalGroup(
             ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
-                                        .addComponent(BorradorCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1))
-                                    .addComponent(ColorActivoLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(BorradorCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel1)
+                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ColoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
                                         .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(ColoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                                                        .addGap(1, 1, 1)
-                                                        .addComponent(jLabel3))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jLabel4)))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(InicioImagenesComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(FinImagensComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(ImagenActivaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(DuracionImagenActivaLabel)
+                                                .addGap(1, 1, 1)
+                                                .addComponent(jLabel3))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel4)))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(InicioImagenesComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(FinImagensComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(DuracionActiva)))
+                        .addComponent(ImagenActivaComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                        .addComponent(DuracionImagenActivaLabel)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(DuracionActiva, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolLienzoPaneLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton2)
@@ -408,6 +403,18 @@ public class PanelLienzo extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
+            .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(ToolLienzoPaneLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ColorActivoLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(ColorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         ToolLienzoPaneLayout.setVerticalGroup(
             ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,13 +441,15 @@ public class PanelLienzo extends javax.swing.JPanel {
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(ColoresComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(ColorActivoLabel)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ColorActivoLabel)
+                    .addComponent(ColorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ToolLienzoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BorradorCheckBox)
                     .addComponent(jButton1))
@@ -480,7 +489,8 @@ public class PanelLienzo extends javax.swing.JPanel {
     private void ColoresComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoresComboBoxActionPerformed
         if(this.ColoresComboBox.getSelectedIndex()!=(-1)){
             this.colorActivo = this.lienzo.getColores().get(this.ColoresComboBox.getSelectedIndex());
-            this.ColorActivoLabel.setText("Color Activo: "+this.colorActivo.getId());
+            this.colorActivo.CargarColorP();
+            this.ColorLabel.setBackground(colorActivo.getColor());
         }
     }//GEN-LAST:event_ColoresComboBoxActionPerformed
 
@@ -552,7 +562,11 @@ public class PanelLienzo extends javax.swing.JPanel {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if(this.ImagenActivaComboBox.getSelectedIndex()!=(-1)){
             Imagen imagen = this.lienzo.getTiempos().getImagenes().get(this.ImagenActivaComboBox.getSelectedIndex());
-            imagen.setDuracion(Integer.parseInt(DuracionActiva.getText()));
+            try{
+                imagen.setDuracion(Integer.parseInt(DuracionActiva.getText().trim()));
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "No se ingreso un valor valido","Error",JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -561,10 +575,11 @@ public class PanelLienzo extends javax.swing.JPanel {
     private javax.swing.JCheckBox BorradorCheckBox;
     private javax.swing.JLabel ColorActivoLabel;
     private javax.swing.JColorChooser ColorAgregarColor;
+    private javax.swing.JLabel ColorLabel;
     private javax.swing.JComboBox<String> ColoresComboBox;
     private javax.swing.JDialog DialogoAgregarColor;
     private javax.swing.JDialog DialogoAgregarImagen;
-    private javax.swing.JFormattedTextField DuracionActiva;
+    private javax.swing.JTextField DuracionActiva;
     private javax.swing.JTextField DuracionAgregarImagen;
     private javax.swing.JLabel DuracionImagenActivaLabel;
     private javax.swing.JComboBox<String> FinImagensComboBox;
